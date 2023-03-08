@@ -23,11 +23,6 @@ function NavBar() {
                 Home
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/">
-                Link
-              </a>
-            </li>
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -36,7 +31,7 @@ function NavBar() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Dropdown
+                categories
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -59,11 +54,7 @@ function NavBar() {
                 </li>
               </ul>
             </li>
-            <li className="nav-item">
-              <a className="nav-link disabled">Disabled</a>
-            </li>
-          </ul>
-          <form className="d-flex" role="search">
+            <form className="d-flex" role="search" >
             <input
               className="form-control me-2"
               type="search"
@@ -74,6 +65,11 @@ function NavBar() {
               Search
             </button>
           </form>
+            <li className="nav-item">
+              <a className="nav-link disabled" href="/">Disabled</a>
+            </li>
+          </ul>
+          
         </div>
       </div>
     </nav>

@@ -4,8 +4,8 @@ import NavBar from "./components/NavBar";
 
 const imgSrcList = [
   "https://source.unsplash.com/random/300×300/?lamp,clay",
-  "https://source.unsplash.com/random/300×300/?lamp,clay",
-  "https://source.unsplash.com/random/300×300/?lamp,clay",
+  "https://source.unsplash.com/random/300×300/?embroidery",
+  "https://source.unsplash.com/random/300×300/?sketch",
 ];
 
 function App() {
