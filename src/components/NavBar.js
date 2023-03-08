@@ -34,7 +34,7 @@ function NavBar() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                categories
+                Categories
               </a>
               <ul className="dropdown-menu">
                 <li>
