@@ -1,3 +1,6 @@
+import CartSvg from "../assets/cart.svg";
+import WishlistSvg from "../assets/Heart.svg";
+
 function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -54,22 +57,25 @@ function NavBar() {
                 </li>
               </ul>
             </li>
-            <form className="d-flex" role="search" >
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
+            <form className="d-flex" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button className="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+
+            <button type="button" class="btn btn-danger">
+              <img src={WishlistSvg} alt="Wishlist" />
             </button>
-          </form>
-            <li className="nav-item">
-              <a className="nav-link disabled" href="/">Disabled</a>
-            </li>
+            <button type="button" class="btn btn-success">
+              <img src={CartSvg} alt="cart" />
+            </button>
           </ul>
-          
         </div>
       </div>
     </nav>
