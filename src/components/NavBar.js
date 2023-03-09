@@ -1,5 +1,6 @@
 import CartSvg from "../assets/cart.svg";
 import WishlistSvg from "../assets/Heart.svg";
+import ProfileSvg from "../assets/person-circle.svg";
 
 function NavBar() {
   return (
@@ -81,12 +82,18 @@ function NavBar() {
               </li>
               <li class="nav-item">
                 <button type="button" class="btn btn-outline-warning me-2">
-                  <img src={CartSvg} alt="cart" />
+                  <img src={CartSvg} alt="Cart" />
                 </button>
               </li>
               <li class="nav-item">
-                <button type="button" class="btn btn-outline-success">
+                <button type="button" class="btn btn-outline-success me-2">
                   My Orders
+                </button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-secondary me-2">
+                  <img src={ProfileSvg} alt="Profile" />
+                  Profile
                 </button>
               </li>
             </ul>
