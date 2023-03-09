@@ -75,6 +75,9 @@ function NavBar() {
             <button type="button" class="btn btn-success">
               <img src={CartSvg} alt="cart" />
             </button>
+            <button type="button" class="btn btn-primary">
+             My Orders
+            </button>
           </ul>
         </div>
       </div>
