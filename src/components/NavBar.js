@@ -64,21 +64,33 @@ function NavBar() {
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button className="btn btn-outline-success" type="submit">
+              <button className="btn btn-outline-primary" type="submit">
                 Search
               </button>
             </form>
-
-            <button type="button" class="btn btn-danger">
-              <img src={WishlistSvg} alt="Wishlist" />
-            </button>
-            <button type="button" class="btn btn-success">
-              <img src={CartSvg} alt="cart" />
-            </button>
-            <button type="button" class="btn btn-primary">
-             My Orders
-            </button>
           </ul>
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarSupportedContent"
+          >
+            <ul class="navbar-nav ">
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-danger">
+                  <img src={WishlistSvg} alt="Wishlist" />
+                </button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-warning">
+                  <img src={CartSvg} alt="cart" />
+                </button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-success">
+                  My Orders
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
