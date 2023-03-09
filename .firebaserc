@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "kalakriti-app"
-  }
+    "default": "kalakriti-app",
+    "dev": "kalakriti-app-dev"
+  },
+  "targets": {},
+  "etags": {}
 }
