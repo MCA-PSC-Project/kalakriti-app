@@ -75,12 +75,12 @@ function NavBar() {
           >
             <ul class="navbar-nav ">
               <li class="nav-item">
-                <button type="button" class="btn btn-outline-danger">
+                <button type="button" class="btn btn-outline-danger me-2">
                   <img src={WishlistSvg} alt="Wishlist" />
                 </button>
               </li>
               <li class="nav-item">
-                <button type="button" class="btn btn-outline-warning">
+                <button type="button" class="btn btn-outline-warning me-2">
                   <img src={CartSvg} alt="cart" />
                 </button>
               </li>
