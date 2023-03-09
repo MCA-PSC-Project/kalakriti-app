@@ -71,27 +71,27 @@ function NavBar() {
             </form>
           </ul>
           <div
-            class="collapse navbar-collapse justify-content-end"
+            className="collapse navbar-collapse justify-content-end"
             id="navbarSupportedContent"
           >
-            <ul class="navbar-nav ">
-              <li class="nav-item">
-                <button type="button" class="btn btn-outline-danger me-2">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <button type="button" className="btn btn-outline-danger me-2">
                   <img src={WishlistSvg} alt="Wishlist" />
                 </button>
               </li>
-              <li class="nav-item">
-                <button type="button" class="btn btn-outline-warning me-2">
+              <li className="nav-item">
+                <button type="button" className="btn btn-outline-warning me-2">
                   <img src={CartSvg} alt="Cart" />
                 </button>
               </li>
-              <li class="nav-item">
-                <button type="button" class="btn btn-outline-success me-2">
+              <li className="nav-item">
+                <button type="button" className="btn btn-outline-success me-2">
                   My Orders
                 </button>
               </li>
-              <li class="nav-item">
-                <button type="button" class="btn btn-outline-secondary me-2">
+              <li className="nav-item">
+                <button type="button" className="btn btn-outline-secondary me-2">
                   <img src={ProfileSvg} alt="Profile" />
                   Profile
                 </button>
