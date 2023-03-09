@@ -13,6 +13,7 @@ function App() {
   return (
     <>
       <NavBar />
+      <h1>kalakriti</h1>
       <div class="container text-center">
         <div class="row">
           <div class="col">
