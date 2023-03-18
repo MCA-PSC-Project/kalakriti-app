@@ -1,4 +1,4 @@
-function Card({imgSrc, cardTitle}) {
+function Card({ imgSrc, cardTitle }) {
   return (
     <div className="card">
       <img src={imgSrc} className="card-img-top" alt="..." />

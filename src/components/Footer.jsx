@@ -11,7 +11,9 @@ function Footer({ year, companyName }) {
               <use xlinkHref="#bootstrap" />
             </svg>
           </a>
-          <span className="mb-3 mb-md-0 text-muted">© {year} {companyName} Inc</span>
+          <span className="mb-3 mb-md-0 text-muted">
+            © {year} {companyName} Inc
+          </span>
         </div>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
           <li className="ms-3">

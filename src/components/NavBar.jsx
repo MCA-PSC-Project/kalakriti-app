@@ -91,7 +91,10 @@ function NavBar() {
                 </button>
               </li>
               <li className="nav-item">
-                <button type="button" className="btn btn-outline-secondary me-2">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary me-2"
+                >
                   <img src={ProfileSvg} alt="Profile" />
                   Profile
                 </button>
