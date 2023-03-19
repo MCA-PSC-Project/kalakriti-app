@@ -22,7 +22,8 @@ function Home() {
       </div>
 
       <br />
-      <Section />
+      <Section sectionTitle="Recommended Products"/>
+      <Section sectionTitle="New Products"/>
       <Footer year="2010-22" companyName="KalaKriti" />
     </>
   );
