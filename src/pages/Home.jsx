@@ -1,12 +1,12 @@
-import Card from "../components/Card";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
+import Section from "../components/Section";
 
 const imgSrcList = [
-  "https://source.unsplash.com/random/300×300/?car",
-  "https://source.unsplash.com/random/300×300/?mobile",
-  "https://source.unsplash.com/random/300×300/?sketch",
+  "https://source.unsplash.com/random/300×300/?handloom",
+  "https://source.unsplash.com/random/300×300/?lightlamp",
+  "https://source.unsplash.com/random/300×300/?painting",
 ];
 
 function Home() {
@@ -22,44 +22,7 @@ function Home() {
       </div>
 
       <br />
-
-      <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
-              cardTitle="Painting"
-            />
-          </div>
-          <div class="col">
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
-              cardTitle="madhubani painting"
-            />
-          </div>
-          <div class="col">
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
-              cardTitle="diya"
-            />
-          </div>
-        </div>
-
-        <br />
-
-        <div class="row">
-          <div class="col">
-            <Card imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay" />
-          </div>
-          <div class="col">
-            <Card imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay" />
-          </div>
-          <div class="col">
-            <Card imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay" />
-          </div>
-        </div>
-      </div>
-
+      <Section />
       <Footer year="2010-22" companyName="KalaKriti" />
     </>
   );
