@@ -1,4 +1,5 @@
 import WishlistSvg from "../assets/Heart.svg";
+import { Link } from "react-router-dom";
 
 function Card({ imgSrc, cardTitle, originalPrice, offerPrice }) {
   return (
@@ -18,18 +19,18 @@ function Card({ imgSrc, cardTitle, originalPrice, offerPrice }) {
             {offerPrice}
           </p>
           <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-            <a href="#!" className="btn btn-primary shadow-0 me-1">
+            <Link to="" className="btn btn-primary shadow-0 me-1">
               Add to cart
-            </a>
-            <a
-              href="#!"
+            </Link>
+            <Link
+              to=""
               // className="btn btn-light border px-2 pt-2 icon-hover"
               className="btn btn-outline-danger border px-2 pt-2 icon-hover"
             >
               {/* <i className="fas fa-heart fa-lg text-secondary px-1" /> */}
 
               <img src={WishlistSvg} alt="Wishlist" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -13,16 +13,16 @@ function Home() {
   return (
     <>
       <NavBar />
-      <div class="container text-center">
-        <div class="row">
-          <div class="col">
+      <div className="container text-center">
+        <div className="row">
+          <div className="col">
             <Carousel imgSrcList={imgSrcList} />
           </div>
         </div>
       </div>
-      <Section sectionTitle="Recommended Products"/>
+      <Section sectionTitle="Recommended For you"/>
       <Section sectionTitle="New Products"/>
-      <Footer year="2010-22" companyName="KalaKriti" />
+      <Footer year="2022-23" companyName="KalaKriti" />
     </>
   );
 }
