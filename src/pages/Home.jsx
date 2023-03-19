@@ -20,8 +20,6 @@ function Home() {
           </div>
         </div>
       </div>
-
-      <br />
       <Section sectionTitle="Recommended Products"/>
       <Section sectionTitle="New Products"/>
       <Footer year="2010-22" companyName="KalaKriti" />
