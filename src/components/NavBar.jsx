@@ -77,28 +77,42 @@ function NavBar() {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <button type="button" className="btn btn-outline-danger me-2">
-                  <img src={WishlistSvg} alt="Wishlist" />
-                </button>
+                <Link to="/wishlist">
+                  <button type="button" className="btn btn-outline-danger me-2">
+                    <img src={WishlistSvg} alt="Wishlist" />
+                  </button>
+                </Link>
               </li>
               <li className="nav-item">
-                <button type="button" className="btn btn-outline-warning me-2">
-                  <img src={CartSvg} alt="Cart" />
-                </button>
+                <Link to="/cart">
+                  <button
+                    type="button"
+                    className="btn btn-outline-warning me-2"
+                  >
+                    <img src={CartSvg} alt="Cart" />
+                  </button>
+                </Link>
               </li>
               <li className="nav-item">
-                <button type="button" className="btn btn-outline-success me-2">
-                  My Orders
-                </button>
+                <Link to="/orders">
+                  <button
+                    type="button"
+                    className="btn btn-outline-success me-2"
+                  >
+                    My Orders
+                  </button>
+                </Link>
               </li>
               <li className="nav-item">
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary me-2"
-                >
-                  <img src={ProfileSvg} alt="Profile" />
-                  Profile
-                </button>
+                <Link to="">
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary me-2"
+                  >
+                    <img src={ProfileSvg} alt="Profile" />
+                    Profile
+                  </button>
+                </Link>
               </li>
             </ul>
           </div>
