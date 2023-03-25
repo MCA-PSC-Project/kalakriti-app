@@ -90,6 +90,9 @@ function NavBar() {
                     className="btn btn-outline-warning me-2"
                   >
                     <img src={CartSvg} alt="Cart" />
+                    <span className="badge bg-dark text-white ms-1 rounded-pill">
+                      2
+                    </span>
                   </button>
                 </Link>
               </li>
