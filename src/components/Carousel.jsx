@@ -1,87 +1,115 @@
 function Carousel({ imgSrcList }) {
   return (
-    <div
-      id="carouselExampleIndicatorsAutoplaying"
-      className="carousel slide"
-      data-bs-ride="carousel"
-    >
-      <div className="carousel-indicators">
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
         <button
           type="button"
-          data-bs-target="#carouselExampleIndicatorsAutoplaying"
+          data-bs-target="#myCarousel"
           data-bs-slide-to="0"
-          className="active"
-          aria-current="true"
+          class=""
           aria-label="Slide 1"
         ></button>
         <button
           type="button"
-          data-bs-target="#carouselExampleIndicatorsAutoplaying"
+          data-bs-target="#myCarousel"
           data-bs-slide-to="1"
           aria-label="Slide 2"
+          class="active"
+          aria-current="true"
         ></button>
         <button
           type="button"
-          data-bs-target="#carouselExampleIndicatorsAutoplaying"
+          data-bs-target="#myCarousel"
           data-bs-slide-to="2"
           aria-label="Slide 3"
+          class=""
         ></button>
       </div>
-      <div className="carousel-inner">
-        <div
-          className="carousel-item active"
-          data-bs-interval="2000"
-          style={{ width: "100%", height: "400px" }}
-        >
+      <div class="carousel-inner">
+        <div class="carousel-item">
           <img
             src={imgSrcList[0]}
             className="d-block w-100"
             alt="..."
             style={{ width: "100%", height: "400px" }}
           />
+          <div class="container">
+            <div class="carousel-caption text-start">
+              <h1>Example headline.</h1>
+              <p>
+                Some representative placeholder content for the first slide of
+                the carousel.
+              </p>
+              <p>
+                <a class="btn btn-lg btn-primary" href="#">
+                  Sign up today
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
-        <div
-          className="carousel-item"
-          data-bs-interval="2000"
-          style={{ width: "100%", height: "400px" }}
-        >
+        <div class="carousel-item active">
           <img
             src={imgSrcList[1]}
             className="d-block w-100"
             alt="..."
             style={{ width: "100%", height: "400px" }}
           />
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Another example headline.</h1>
+              <p>
+                Some representative placeholder content for the second slide of
+                the carousel.
+              </p>
+              <p>
+                <a class="btn btn-lg btn-primary" href="#">
+                  Learn more
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
-        <div
-          className="carousel-item"
-          data-bs-interval="2000"
-          style={{ width: "100%", height: "400px" }}
-        >
+        <div class="carousel-item">
           <img
             src={imgSrcList[2]}
             className="d-block w-100"
             alt="..."
             style={{ width: "100%", height: "400px" }}
           />
+          <div class="container">
+            <div class="carousel-caption text-end">
+              <h1>One more for good measure.</h1>
+              <p>
+                Some representative placeholder content for the third slide of
+                this carousel.
+              </p>
+              <p>
+                <a class="btn btn-lg btn-primary" href="#">
+                  Browse gallery
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <button
-        className="carousel-control-prev"
+        class="carousel-control-prev"
         type="button"
-        data-bs-target="#carouselExampleIndicatorsAutoplaying"
+        data-bs-target="#myCarousel"
         data-bs-slide="prev"
       >
-        <span className="carousel-control-prev-icon" aria-hidden="true" />
-        <span className="visually-hidden">Previous</span>
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
       </button>
       <button
-        className="carousel-control-next"
+        class="carousel-control-next"
         type="button"
-        data-bs-target="#carouselExampleIndicatorsAutoplaying"
+        data-bs-target="#myCarousel"
         data-bs-slide="next"
       >
-        <span className="carousel-control-next-icon" aria-hidden="true" />
-        <span className="visually-hidden">Next</span>
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
       </button>
     </div>
   );
