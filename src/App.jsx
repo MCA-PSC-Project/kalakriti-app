@@ -17,6 +17,9 @@ const App = () => {
           <Route exact path="/wishlist" element={<Wishlist />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/orders" element={<Orders />} />
+          <Route exact path="/recommended-products" element={<Orders />} />
+          <Route exact path="/popular-products" element={<Orders />} />
+          <Route exact path="/new-products" element={<Orders />} />
         </Routes>
       </BrowserRouter>
     </div>

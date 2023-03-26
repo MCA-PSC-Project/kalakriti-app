@@ -1,10 +1,14 @@
 import Card from "../components/Card";
-function Section({ sectionTitle }) {
+import { Link } from "react-router-dom";
+
+function Section({ sectionTitle, linkPath }) {
   return (
     <section>
       <div className="container my-5">
         <header className="mb-4">
-          <h3>{sectionTitle}</h3>
+          <h3>
+            <Link to={linkPath}>{sectionTitle}</Link>
+          </h3>
         </header>
 
         <div className="row">

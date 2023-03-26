@@ -14,8 +14,12 @@ function Home() {
     <>
       <NavBar />
       <Carousel imgSrcList={imgSrcList} />
-      <Section sectionTitle="Recommended For you"/>
-      <Section sectionTitle="New Products"/>
+      <Section
+        sectionTitle="Recommended For You"
+        linkPath="/recommended-products"
+      />
+      <Section sectionTitle="Popular Products" linkPath="/popular-products" />
+      <Section sectionTitle="New Products" linkPath="/new-products" />
       <Footer year="2022-23" companyName="KalaKriti" />
     </>
   );
