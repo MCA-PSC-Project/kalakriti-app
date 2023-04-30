@@ -17,30 +17,35 @@ function Section({ sectionTitle, linkPath }) {
             cardTitle="Painting"
             originalPrice={500}
             offerPrice={100}
+            rating={5}
           />
           <Card
             imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
             cardTitle="Painting"
             originalPrice={500}
             offerPrice={100}
+            rating={3.6}
           />
           <Card
             imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
             cardTitle="Painting"
             originalPrice={500}
             offerPrice={100}
+            rating={2.5}
           />
           <Card
             imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
             cardTitle="Painting"
             originalPrice={500}
             offerPrice={100}
+            rating={2}
           />
           <Card
             imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
             cardTitle="Painting"
             originalPrice={500}
             offerPrice={100}
+            rating={1}
           />
         </div>
       </div>

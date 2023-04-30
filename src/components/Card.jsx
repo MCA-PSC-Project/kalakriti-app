@@ -2,7 +2,7 @@ import WishlistSvg from "../assets/Heart.svg";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 
-function Card({ imgSrc, cardTitle, originalPrice, offerPrice }) {
+function Card({ imgSrc, cardTitle, originalPrice, offerPrice, rating }) {
   return (
     <div className="col-lg-3 col-md-6 col-sm-6 d-flex">
       <div className="card w-100 my-2 shadow-2-strong">
@@ -13,7 +13,7 @@ function Card({ imgSrc, cardTitle, originalPrice, offerPrice }) {
         />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">{cardTitle}</h5>
-          <Rating />
+          <Rating ratingValue={rating}/>
           <p className="card-text">
             <span>&#8377;</span>
             <del>{originalPrice}</del>&nbsp;
