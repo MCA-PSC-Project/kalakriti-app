@@ -1,4 +1,13 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faGithub,
+  faInstagram,
+  faTelegram,
+  faTwitter,
+  faWhatsapp,
+} from "@fortawesome/free-brands-svg-icons";
 
 function Footer({ year, companyName }) {
   return (
@@ -20,23 +29,32 @@ function Footer({ year, companyName }) {
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
           <li className="ms-3">
             <Link className="text-muted" to="/login">
-              <svg className="bi" width={24} height={24}>
-                <use xlinkHref="#twitter" />
-              </svg>
+              <FontAwesomeIcon icon={faGithub} size="xl" />
             </Link>
           </li>
           <li className="ms-3">
             <Link className="text-muted" to="/login">
-              <svg className="bi" width={24} height={24}>
-                <use xlinkHref="#instagram" />
-              </svg>
+              <FontAwesomeIcon icon={faInstagram} size="xl" />{" "}
             </Link>
           </li>
           <li className="ms-3">
             <Link className="text-muted" to="/login">
-              <svg className="bi" width={24} height={24}>
-                <use xlinkHref="#facebook" />
-              </svg>
+              <FontAwesomeIcon icon={faFacebook} size="xl" />{" "}
+            </Link>
+          </li>
+          <li className="ms-3">
+            <Link className="text-muted" to="/login">
+              <FontAwesomeIcon icon={faTwitter} size="xl" />{" "}
+            </Link>
+          </li>
+          <li className="ms-3">
+            <Link className="text-muted" to="/login">
+              <FontAwesomeIcon icon={faWhatsapp} size="xl" />{" "}
+            </Link>
+          </li>
+          <li className="ms-3">
+            <Link className="text-muted" to="/login">
+              <FontAwesomeIcon icon={faTelegram} size="xl" />{" "}
             </Link>
           </li>
         </ul>
