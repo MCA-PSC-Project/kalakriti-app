@@ -1,6 +1,8 @@
 import WishlistSvg from "../assets/Heart.svg";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeartCirclePlus, faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
 function Card({ imgSrc, cardTitle, originalPrice, offerPrice, rating }) {
   return (
@@ -13,7 +15,7 @@ function Card({ imgSrc, cardTitle, originalPrice, offerPrice, rating }) {
         />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">{cardTitle}</h5>
-          <Rating ratingValue={rating}/>
+          <Rating ratingValue={rating} />
           <p className="card-text">
             <span>&#8377;</span>
             <del>{originalPrice}</del>&nbsp;
@@ -21,17 +23,23 @@ function Card({ imgSrc, cardTitle, originalPrice, offerPrice, rating }) {
             {offerPrice}
           </p>
           <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-            <Link to="" className="btn btn-primary shadow-0 me-1">
-              Add to cart
+            <Link to="" className="btn border px-2 shadow-0 me-1">
+              {/* Add to cart */}
+              <FontAwesomeIcon icon={faCartPlus} size="xl" style={{color: "#006eff",}} />
             </Link>
             <Link
               to=""
               // className="btn btn-light border px-2 pt-2 icon-hover"
-              className="btn btn-outline-danger border px-2 pt-2 icon-hover"
+              className="btn border px-2 pt-2 icon-hover"
             >
               {/* <i className="fas fa-heart fa-lg text-secondary px-1" /> */}
 
-              <img src={WishlistSvg} alt="Wishlist" />
+              {/* <img src={WishlistSvg} alt="Wishlist" /> */}
+              <FontAwesomeIcon
+                icon={faHeartCirclePlus}
+                size="xl"
+                style={{ color: "#ff0000" }}
+              />
             </Link>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {
   faTwitter,
   faWhatsapp,
 } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 function Footer({ year, companyName }) {
   return (
@@ -34,27 +35,32 @@ function Footer({ year, companyName }) {
           </li>
           <li className="ms-3">
             <Link className="text-muted" to="/login">
-              <FontAwesomeIcon icon={faInstagram} size="xl" />{" "}
+              <FontAwesomeIcon icon={faInstagram} size="xl" />
             </Link>
           </li>
           <li className="ms-3">
             <Link className="text-muted" to="/login">
-              <FontAwesomeIcon icon={faFacebook} size="xl" />{" "}
+              <FontAwesomeIcon icon={faFacebook} size="xl" />
             </Link>
           </li>
           <li className="ms-3">
             <Link className="text-muted" to="/login">
-              <FontAwesomeIcon icon={faTwitter} size="xl" />{" "}
+              <FontAwesomeIcon icon={faTwitter} size="xl" />
             </Link>
           </li>
           <li className="ms-3">
             <Link className="text-muted" to="/login">
-              <FontAwesomeIcon icon={faWhatsapp} size="xl" />{" "}
+              <FontAwesomeIcon icon={faWhatsapp} size="xl" />
             </Link>
           </li>
           <li className="ms-3">
             <Link className="text-muted" to="/login">
-              <FontAwesomeIcon icon={faTelegram} size="xl" />{" "}
+              <FontAwesomeIcon icon={faTelegram} size="xl" />
+            </Link>
+          </li>
+          <li className="ms-3">
+            <Link className="text-muted" to="/login">
+              <FontAwesomeIcon icon={faEnvelope} size="xl" />
             </Link>
           </li>
         </ul>

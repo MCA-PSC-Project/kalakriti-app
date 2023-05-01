@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import CartSvg from "../assets/cart.svg";
 import WishlistSvg from "../assets/Heart.svg";
 import ProfileSvg from "../assets/person-circle.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
   return (
@@ -78,18 +80,26 @@ function NavBar() {
             <ul className="navbar-nav">
               <li className="nav-item">
                 <Link to="/wishlist">
-                  <button type="button" className="btn btn-outline-danger me-2">
-                    <img src={WishlistSvg} alt="Wishlist" />
+                  <button type="button" className="btn border px-2 me-2">
+                    {/* <img src={WishlistSvg} alt="Wishlist" /> */}
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      beatFade
+                      size="xl"
+                      style={{ color: "#ff0000" }}
+                    />
                   </button>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/cart">
-                  <button
-                    type="button"
-                    className="btn btn-outline-warning me-2"
-                  >
-                    <img src={CartSvg} alt="Cart" />
+                  <button type="button" className="btn border px-2 me-2">
+                    {/* <img src={CartSvg} alt="Cart" /> */}
+                    <FontAwesomeIcon
+                      icon={faCartShopping}
+                      size="xl"
+                      style={{ color: "#006eff" }}
+                    />
                     <span className="badge bg-dark text-white ms-1 rounded-pill">
                       2
                     </span>
