@@ -8,6 +8,9 @@ import {
   faHeart,
   faUser,
   faGear,
+  faMagnifyingGlass,
+  faBell,
+  faHouse,
 } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
@@ -31,8 +34,18 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
-                Home
+              <Link
+                className="nav-link active"
+                aria-current="page"
+                to="/"
+                title="Home"
+              >
+                {/* Home */}
+                <FontAwesomeIcon
+                  icon={faHouse}
+                  size="xl"
+                  style={{ color: "#dd13a7" }}
+                />
               </Link>
             </li>
             <li className="nav-item dropdown">
@@ -73,8 +86,14 @@ function NavBar() {
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button className="btn btn-outline-primary" type="submit">
-                Search
+              <button className="btn border px-2" type="submit" title="search">
+                {/* Search */}
+                <FontAwesomeIcon
+                  icon={faMagnifyingGlass}
+                  fade
+                  size="xl"
+                  style={{ color: "#5485c4" }}
+                />
               </button>
             </form>
           </ul>
@@ -83,6 +102,20 @@ function NavBar() {
             id="navbarSupportedContent"
           >
             <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link to="/notifications" title="notifications">
+                  <button type="button" className="btn border px-2 me-2">
+                    {/* <img src={WishlistSvg} alt="Wishlist" /> */}
+                    <FontAwesomeIcon
+                      icon={faBell}
+                      shake
+                      size="xl"
+                      style={{ color: "#f0e03c" }}
+                    />
+                  </button>
+                </Link>
+              </li>
+
               <li className="nav-item">
                 <Link to="/wishlist" title="wishlist">
                   <button type="button" className="btn border px-2 me-2">
@@ -131,7 +164,7 @@ function NavBar() {
                       icon={faUser}
                       bounce
                       size="xl"
-                      style={{ color: "#f6be00" }}
+                      style={{ color: "#964B00" }}
                     />
                   </button>
                 </Link>
