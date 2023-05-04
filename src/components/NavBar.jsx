@@ -7,6 +7,7 @@ import {
   faCartShopping,
   faHeart,
   faUser,
+  faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
@@ -83,7 +84,7 @@ function NavBar() {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link to="/wishlist">
+                <Link to="/wishlist" title="wishlist">
                   <button type="button" className="btn border px-2 me-2">
                     {/* <img src={WishlistSvg} alt="Wishlist" /> */}
                     <FontAwesomeIcon
@@ -96,11 +97,12 @@ function NavBar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/cart">
+                <Link to="/cart" title="cart">
                   <button type="button" className="btn border px-2 me-2">
                     {/* <img src={CartSvg} alt="Cart" /> */}
                     <FontAwesomeIcon
                       icon={faCartShopping}
+                      shake
                       size="xl"
                       style={{ color: "#006eff" }}
                     />
@@ -127,8 +129,24 @@ function NavBar() {
                     Profile */}
                     <FontAwesomeIcon
                       icon={faUser}
+                      bounce
                       size="xl"
                       style={{ color: "#f6be00" }}
+                    />
+                  </button>
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link to="" title="settings">
+                  <button type="button" className="btn border px-2 me-2">
+                    {/* <img src={ProfileSvg} alt="Profile" />
+                    Profile */}
+                    <FontAwesomeIcon
+                      icon={faGear}
+                      spin
+                      size="xl"
+                      style={{ color: "#646464" }}
                     />
                   </button>
                 </Link>
