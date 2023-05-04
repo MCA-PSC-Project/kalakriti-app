@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Logo from "../assets/logo.jpeg";
 import CartSvg from "../assets/cart.svg";
 import WishlistSvg from "../assets/Heart.svg";
 import ProfileSvg from "../assets/person-circle.svg";
@@ -18,8 +19,9 @@ function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          KalaKriti
+        <Link className="navbar-brand" to="/" title="Kalakriti">
+          <img src={Logo} alt="KalaKriti" style={{ width: 50, height: 50 }} />
+          <b>KalaKriti</b>
         </Link>
         <button
           className="navbar-toggler"
@@ -148,10 +150,7 @@ function NavBar() {
               </li>
               <li className="nav-item">
                 <Link to="/orders" title="My orders">
-                  <button
-                    type="button"
-                    className="btn border px-2 me-2"
-                  >
+                  <button type="button" className="btn border px-2 me-2">
                     {/* My Orders */}
                     <FontAwesomeIcon
                       icon={faListCheck}
