@@ -8,7 +8,10 @@ import {
   faTwitter,
   faWhatsapp,
 } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faHandHoldingHeart,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Footer({ year, companyName }) {
   return (
@@ -24,7 +27,18 @@ function Footer({ year, companyName }) {
             </svg>
           </Link>
           <span className="mb-3 mb-md-0 text-muted">
-            © {year} {companyName} Inc
+            Crafted with
+            <FontAwesomeIcon
+              icon={faHandHoldingHeart}
+              beat
+              size="xl"
+              style={{ color: "#ff0000" }}
+            />
+            in Bihar
+          </span>
+          &nbsp; &nbsp;
+          <span className="mb-3 mb-md-0 text-muted">
+            © {year} {companyName} Inc.
           </span>
         </div>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">

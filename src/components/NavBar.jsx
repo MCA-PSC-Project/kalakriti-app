@@ -11,6 +11,7 @@ import {
   faMagnifyingGlass,
   faBell,
   faHouse,
+  faListCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
@@ -151,7 +152,13 @@ function NavBar() {
                     type="button"
                     className="btn btn-outline-success me-2"
                   >
-                    My Orders
+                    {/* My Orders */}
+                    <FontAwesomeIcon
+                      icon={faListCheck}
+                      fade
+                      size="xl"
+                      style={{ color: "#0feb1e" }}
+                    />
                   </button>
                 </Link>
               </li>
