@@ -3,7 +3,11 @@ import CartSvg from "../assets/cart.svg";
 import WishlistSvg from "../assets/Heart.svg";
 import ProfileSvg from "../assets/person-circle.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faHeart,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
   return (
@@ -117,13 +121,15 @@ function NavBar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="">
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary me-2"
-                  >
-                    <img src={ProfileSvg} alt="Profile" />
-                    Profile
+                <Link to="" title="profile">
+                  <button type="button" className="btn border px-2 me-2">
+                    {/* <img src={ProfileSvg} alt="Profile" />
+                    Profile */}
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      size="xl"
+                      style={{ color: "#f6be00" }}
+                    />
                   </button>
                 </Link>
               </li>
