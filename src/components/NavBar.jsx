@@ -147,10 +147,10 @@ function NavBar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/orders">
+                <Link to="/orders" title="My orders">
                   <button
                     type="button"
-                    className="btn btn-outline-success me-2"
+                    className="btn border px-2 me-2"
                   >
                     {/* My Orders */}
                     <FontAwesomeIcon
