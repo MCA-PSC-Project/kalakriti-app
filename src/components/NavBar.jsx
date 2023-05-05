@@ -13,6 +13,8 @@ import {
   faBell,
   faHouse,
   faListCheck,
+  faRightFromBracket,
+  faHeadset,
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
 
@@ -171,7 +173,11 @@ function NavBar({ isLoggedIn = true }) {
                     </li>
                     <li>
                       <Link className="dropdown-item" to="/">
-                        Customer Support
+                        <FontAwesomeIcon
+                          icon={faHeadset}
+                          style={{ color: "#d84f22" }}
+                        />
+                        &nbsp; Customer Support
                       </Link>
                     </li>
                     <li>
@@ -179,7 +185,11 @@ function NavBar({ isLoggedIn = true }) {
                     </li>
                     <li>
                       <Link className="dropdown-item" to="/">
-                        Logout
+                        <FontAwesomeIcon
+                          icon={faRightFromBracket}
+                          style={{ color: "#4dbad5" }}
+                        />
+                        &nbsp; Logout
                       </Link>
                     </li>
                   </ul>
