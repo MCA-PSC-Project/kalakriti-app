@@ -20,7 +20,7 @@ function Home() {
       />
       <Section sectionTitle="Popular Products" linkPath="/popular-products" />
       <Section sectionTitle="New Products" linkPath="/new-products" />
-      <Footer year="2022-23" />
+      <Footer />
     </>
   );
 }

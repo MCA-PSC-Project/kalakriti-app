@@ -163,7 +163,7 @@ function NavBar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="" title="profile">
+                <Link to="/profile" title="profile">
                   <button type="button" className="btn border px-2 me-2">
                     {/* <img src={ProfileSvg} alt="Profile" />
                     Profile */}

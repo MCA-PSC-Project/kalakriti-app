@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
 
-function Footer({ year }) {
+function Footer() {
   return (
     <div className="container">
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -39,44 +39,47 @@ function Footer({ year }) {
           </span>
           &nbsp; &nbsp;
           <span className="mb-3 mb-md-0 text-muted">
-            © {year} {appName} Inc.
+            © {new Date().getFullYear()} {appName} Inc.
           </span>
         </div>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
           <li className="ms-3">
-            <Link className="text-muted" to="/login">
+            <a className="text-muted" href="https://github.com/MCA-PSC-Project">
               <FontAwesomeIcon icon={faGithub} size="xl" />
-            </Link>
+            </a>
           </li>
           <li className="ms-3">
-            <Link className="text-muted" to="/login">
+            <a className="text-muted" href="https://instagram.com/s_h_e_e_t__l">
               <FontAwesomeIcon icon={faInstagram} size="xl" />
-            </Link>
+            </a>
           </li>
           <li className="ms-3">
-            <Link className="text-muted" to="/login">
+            <a className="text-muted" href="https://facebook.com">
               <FontAwesomeIcon icon={faFacebook} size="xl" />
-            </Link>
+            </a>
           </li>
           <li className="ms-3">
-            <Link className="text-muted" to="/login">
+            <a className="text-muted" href="https://twitter.com/pacific_dev">
               <FontAwesomeIcon icon={faTwitter} size="xl" />
-            </Link>
+            </a>
           </li>
           <li className="ms-3">
-            <Link className="text-muted" to="/login">
+            <a className="text-muted" href="/login">
               <FontAwesomeIcon icon={faWhatsapp} size="xl" />
-            </Link>
+            </a>
           </li>
           <li className="ms-3">
-            <Link className="text-muted" to="/login">
+            <a className="text-muted" href="/login">
               <FontAwesomeIcon icon={faTelegram} size="xl" />
-            </Link>
+            </a>
           </li>
           <li className="ms-3">
-            <Link className="text-muted" to="/login">
+            <a
+              className="text-muted"
+              href="mailto: kalakriti.app.email@gmail.com"
+            >
               <FontAwesomeIcon icon={faEnvelope} size="xl" />
-            </Link>
+            </a>
           </li>
         </ul>
       </footer>

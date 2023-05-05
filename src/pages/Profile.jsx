@@ -1,13 +1,13 @@
 import React from "react";
 import Footer from "../components/Footer";
 
-function Settings() {
+function Profile() {
   return (
     <div>
-      Settings
+      Profile
       <Footer />
     </div>
   );
 }
 
-export default Settings;
+export default Profile;
