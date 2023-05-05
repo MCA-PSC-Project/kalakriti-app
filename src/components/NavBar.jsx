@@ -16,7 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
 
-function NavBar({ isLoggedIn = false }) {
+function NavBar({ isLoggedIn = true }) {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -49,37 +49,6 @@ function NavBar({ isLoggedIn = false }) {
                   style={{ color: "#dd13a7" }}
                 />
               </Link>
-            </li>
-            <li className="nav-item dropdown">
-              <Link
-                className="nav-link dropdown-toggle"
-                to="/categories"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Categories
-              </Link>
-              <ul className="dropdown-menu">
-                <li>
-                  <Link className="dropdown-item" to="/">
-                    Action
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/">
-                    Another action
-                  </Link>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/">
-                    Something else here
-                  </Link>
-                </li>
-              </ul>
             </li>
             <form className="d-flex" role="search">
               <input
@@ -175,20 +144,45 @@ function NavBar({ isLoggedIn = false }) {
                 </Link>
               </li>
               {isLoggedIn ? (
-                <li className="nav-item">
-                  <Link to="/profile" title="profile">
-                    <button type="button" className="btn border px-2 me-2">
-                      {/* <img src={ProfileSvg} alt="Profile" />
+                <li className="nav-item dropdown">
+                  <Link
+                    className="nav-link dropdown-toggle"
+                    to="/profile"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    title="profile"
+                  >
+                    {/* <img src={ProfileSvg} alt="Profile" />
                     Profile */}
-
-                      <FontAwesomeIcon
-                        icon={faUser}
-                        bounce
-                        size="xl"
-                        style={{ color: "#964B00" }}
-                      />
-                    </button>
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      bounce
+                      size="xl"
+                      style={{ color: "#964B00" }}
+                    />
+                    Hello, <b>Username</b>
                   </Link>
+                  <ul className="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <Link className="dropdown-item" to="/">
+                        Become a Seller / Login as Seller
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/">
+                        Customer Support
+                      </Link>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/">
+                        Logout
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
               ) : (
                 <>
