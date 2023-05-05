@@ -1,13 +1,13 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 
-function Orders() {
+function Notifications() {
   return (
     <>
       <NavBar />
-      <div>My Orders</div>
+      <div>Notifications</div>;
     </>
   );
 }
 
-export default Orders;
+export default Notifications;

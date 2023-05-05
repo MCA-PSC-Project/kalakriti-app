@@ -12,8 +12,9 @@ import {
   faEnvelope,
   faHandHoldingHeart,
 } from "@fortawesome/free-solid-svg-icons";
+import { appName } from "../App";
 
-function Footer({ year, companyName }) {
+function Footer({ year }) {
   return (
     <div className="container">
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -38,7 +39,7 @@ function Footer({ year, companyName }) {
           </span>
           &nbsp; &nbsp;
           <span className="mb-3 mb-md-0 text-muted">
-            © {year} {companyName} Inc.
+            © {year} {appName} Inc.
           </span>
         </div>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">

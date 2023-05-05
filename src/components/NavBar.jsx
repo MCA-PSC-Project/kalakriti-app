@@ -14,6 +14,7 @@ import {
   faHouse,
   faListCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { appName } from "../App";
 
 function NavBar() {
   return (
@@ -21,7 +22,7 @@ function NavBar() {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/" title="Kalakriti">
           <img src={Logo} alt="KalaKriti" style={{ width: 50, height: 50 }} />
-          <b>KalaKriti</b>
+          <b>{appName}</b>
         </Link>
         <button
           className="navbar-toggler"
@@ -177,7 +178,7 @@ function NavBar() {
               </li>
 
               <li className="nav-item">
-                <Link to="" title="settings">
+                <Link to="/settings" title="settings">
                   <button type="button" className="btn border px-2 me-2">
                     {/* <img src={ProfileSvg} alt="Profile" />
                     Profile */}
