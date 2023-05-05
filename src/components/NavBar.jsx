@@ -20,10 +20,8 @@ function NavBar({ isLoggedIn = false }) {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/" title="Kalakriti">
-          <img src={Logo} alt="KalaKriti" style={{ width: 50, height: 50 }} />
-          <b>{appName}</b>
-        </Link>
+        <img src={Logo} alt="KalaKriti" style={{ width: 50, height: 50 }} />
+        <b>{appName}</b>
         <button
           className="navbar-toggler"
           type="button"
