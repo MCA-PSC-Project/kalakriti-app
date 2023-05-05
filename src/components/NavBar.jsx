@@ -16,7 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
 
-function NavBar() {
+function NavBar({ isLoggedIn = false }) {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -163,21 +163,6 @@ function NavBar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/profile" title="profile">
-                  <button type="button" className="btn border px-2 me-2">
-                    {/* <img src={ProfileSvg} alt="Profile" />
-                    Profile */}
-                    <FontAwesomeIcon
-                      icon={faUser}
-                      bounce
-                      size="xl"
-                      style={{ color: "#964B00" }}
-                    />
-                  </button>
-                </Link>
-              </li>
-
-              <li className="nav-item">
                 <Link to="/settings" title="settings">
                   <button type="button" className="btn border px-2 me-2">
                     {/* <img src={ProfileSvg} alt="Profile" />
@@ -191,6 +176,41 @@ function NavBar() {
                   </button>
                 </Link>
               </li>
+              {isLoggedIn ? (
+                <li className="nav-item">
+                  <Link to="/profile" title="profile">
+                    <button type="button" className="btn border px-2 me-2">
+                      {/* <img src={ProfileSvg} alt="Profile" />
+                    Profile */}
+
+                      <FontAwesomeIcon
+                        icon={faUser}
+                        bounce
+                        size="xl"
+                        style={{ color: "#964B00" }}
+                      />
+                    </button>
+                  </Link>
+                </li>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link to="/login" title="login">
+                      <button type="button" className="btn btn-primary me-2">
+                        Login
+                      </button>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="/register" title="login">
+                      <button type="button" className="btn btn-success me-2">
+                        Register
+                      </button>
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
