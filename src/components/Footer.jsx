@@ -64,12 +64,12 @@ function Footer() {
             </a>
           </li>
           <li className="ms-3">
-            <a className="text-muted" href="/login">
+            <a className="text-muted" href="https://whatsapp.com">
               <FontAwesomeIcon icon={faWhatsapp} size="xl" />
             </a>
           </li>
           <li className="ms-3">
-            <a className="text-muted" href="/login">
+            <a className="text-muted" href="https://web.telegram.org">
               <FontAwesomeIcon icon={faTelegram} size="xl" />
             </a>
           </li>
