@@ -7,11 +7,11 @@ import {
 
 export const baseUrl = import.meta.env.VITE_API_URL;
 
-export const http = axios.create({
+export const axiosClient = axios.create({
   baseURL: baseUrl,
 });
 
-http.interceptors.request.use(
+axiosClient.interceptors.request.use(
   function (config) {
     config.headers.Authorization = "Bearer " + getAccessToken();
     return config;
@@ -21,7 +21,7 @@ http.interceptors.request.use(
   }
 );
 
-http.interceptors.response.use(
+axiosClient.interceptors.response.use(
   (res) => {
     return res;
   },
@@ -38,7 +38,7 @@ http.interceptors.response.use(
           return Promise.reject(error);
         }
         await refresh();
-        return http(config);
+        return axiosClient(config);
       }
     }
 
