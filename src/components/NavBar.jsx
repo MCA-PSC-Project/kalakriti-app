@@ -18,7 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
 
-function NavBar({ isLoggedIn = true }) {
+function NavBar({ isLoggedIn = false }) {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
