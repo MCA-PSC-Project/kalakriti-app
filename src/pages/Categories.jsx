@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
+import { axiosClient } from "../utils/axios-client";
 
 function Categories() {
+  const [categoriesList, setCategoriesList] = useState([]);
+  useEffect(() => {
+    axiosClient.get(`/categories`).then((response) => {
+      setCategoriesList(response.data);
+      console.log(response.data);
+    });
+  }, []);
   return (
     <div>
       <NavBar />
@@ -10,30 +18,15 @@ function Categories() {
         <div className="container">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
             {/* change ..md-n to display n items in a row */}
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?painting"
-              cardTitle="category"
-            />
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?painting"
-              cardTitle="category"
-            />
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?painting"
-              cardTitle="category"
-            />
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?painting"
-              cardTitle="category"
-            />
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?painting"
-              cardTitle="category"
-            />
-            <Card
-              imgSrc="https://source.unsplash.com/random/300×300/?painting"
-              cardTitle="category"
-            />
+            {categoriesList.map((category) => {
+              return (
+                <Card
+                  key={category.id}
+                  imgSrc="https://source.unsplash.com/random/300×300/?painting"
+                  cardTitle={category.name}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
