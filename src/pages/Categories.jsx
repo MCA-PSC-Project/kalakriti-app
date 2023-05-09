@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import { axiosClient } from "../utils/axios-client";
+import { Link } from "react-router-dom";
 
 function Categories() {
   const [categoriesList, setCategoriesList] = useState([]);
   useEffect(() => {
-    axiosClient.get(`/categories`).then((response) => {
-      setCategoriesList(response.data);
-      console.log(response.data);
-    });
+    axiosClient
+      .get(`/categories`)
+      .then((response) => {
+        setCategoriesList(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
   return (
     <div>
@@ -22,7 +28,7 @@ function Categories() {
               return (
                 <Card
                   key={category.id}
-                  imgSrc="https://source.unsplash.com/random/300×300/?painting"
+                  imgSrc={category.cover.path}
                   cardTitle={category.name}
                 />
               );
@@ -45,7 +51,9 @@ function Card({ imgSrc, cardTitle }) {
         />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title" style={{ textAlign: "center" }}>
-            {cardTitle}
+            <Link to="" className="stretched-link">
+              {cardTitle}
+            </Link>
           </h5>
         </div>
       </div>
