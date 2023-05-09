@@ -13,7 +13,8 @@ function Register() {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
-
+  
+  let flag= true;
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === "firstName") {
@@ -41,17 +42,137 @@ function Register() {
     setGender(value);
   };
 
+  const handleFirstName =(e) =>{
+      if(firstName==""){
+        alert("cant be null");
+        flag=false;
+        return;
+    }
+    else {
+        console.log(firstName);
+    }
+  };
+
+  const handleLastName =(e) =>{
+      if(lastName===""){
+        alert("cant be null");
+        flag=false;
+        return;
+    }
+    else {
+        console.log(lastName);
+    }
+  };
+
+  const handleEmail =(e) =>{
+    if(email===""){
+       alert("email cant be null");
+       flag=false;
+       return;
+   }
+   else if(email.match(/\S+@\S+\.+\S+/)){
+    console.log(email);
+   }
+   else{
+       alert("invalid");
+       flag=false;
+       return;
+   }
+
+  };
+
+  const handlePassword =(e) =>{
+      if(password ===""){
+        alert("password cant be null");
+        flag=false;
+        return;
+    }
+    else if(password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/))
+    {
+         console.log(password);
+    }
+    else{
+        alert("Password should not be less than 8 digit, contain atleast one lowercase alphabet ,atleast one uppercase alphabet ,one digit(0-9) and one special character");
+        flag=false;
+        return;
+    }
+  };
+
+  const handleConfirmPassword =(e) =>{
+     if(confirmPassword ===""){
+      alert("confirm pass cant be null");
+      flag=false;
+      return;
+    }
+    else if(confirmPassword != password )
+    {
+      alert("Password and confirm password does not match");
+      flag=false;
+      return;
+    }
+   else{
+    console.log(confirmPassword);
+   }
+  };
+
+  const handleDob =(e) =>{
+     let current_date=new Date();
+     let date=new Date(dob);
+    
+     let a=current_date.getTime();
+     let b=date.getTime();
+      if(dob===""){
+          alert("Cant be null");
+          flag=false;
+          return;
+      }
+      else  if(b> a)
+      {
+          alert("Date should not be greater than current date");
+          flag=false;
+          return;
+      }
+     else{
+        console.log(dob);
+     }
+  };
+
+  const handleGender =(e) =>{
+       if(gender==""){
+        alert("Gender can't be null");
+        flag=false;
+        return;
+    }
+    else {
+        console.log(gender);
+    }
+  };
+
+  const reset =(e) =>{
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setDob("");
+    setGender("");
+  }
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      dob,
-      gender
-    );
+    handleFirstName();
+    handleLastName();
+    handleEmail();
+    handlePassword();
+    handleConfirmPassword();
+    handleDob();
+    handleGender();
+
+    if(flag){
+      alert("form filled");
+      reset();
+    }
   };
 
   return (
