@@ -13,7 +13,16 @@ function Register() {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
-  
+  const [errorFirstName, setErrorFirstName] = useState("");
+  const [errorLastName, setErrorLastName] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState("");
+  const [errorDOB, setErrorDOB] = useState("");
+  const [errorGender, setErrorGender] = useState("");
+  const [errorFile, setErrorFile] = useState("");
+
+
   let flag= true;
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -44,18 +53,19 @@ function Register() {
 
   const handleFirstName =(e) =>{
       if(firstName==""){
-        alert("cant be null");
+        setErrorFirstName("First Name can't be null !!");
         flag=false;
         return;
     }
     else {
         console.log(firstName);
     }
+    handleLastName();
   };
 
   const handleLastName =(e) =>{
       if(lastName===""){
-        alert("cant be null");
+         setErrorLastName("Last Name can't be null !!");
         flag=false;
         return;
     }
@@ -66,7 +76,7 @@ function Register() {
 
   const handleEmail =(e) =>{
     if(email===""){
-       alert("email cant be null");
+      setErrorEmail("Email can't be null !!");
        flag=false;
        return;
    }
@@ -74,7 +84,7 @@ function Register() {
     console.log(email);
    }
    else{
-       alert("invalid");
+       setErrorEmail("Please enter a valid email !!");
        flag=false;
        return;
    }
@@ -83,7 +93,7 @@ function Register() {
 
   const handlePassword =(e) =>{
       if(password ===""){
-        alert("password cant be null");
+         setErrorPassword("Password can't be null !!");
         flag=false;
         return;
     }
@@ -92,7 +102,7 @@ function Register() {
          console.log(password);
     }
     else{
-        alert("Password should not be less than 8 digit, contain atleast one lowercase alphabet ,atleast one uppercase alphabet ,one digit(0-9) and one special character");
+        setErrorPassword("Password should not be less than 8 digit, contain atleast one lowercase alphabet ,atleast one uppercase alphabet ,one digit(0-9) and one special character");
         flag=false;
         return;
     }
@@ -100,13 +110,13 @@ function Register() {
 
   const handleConfirmPassword =(e) =>{
      if(confirmPassword ===""){
-      alert("confirm pass cant be null");
+      setErrorConfirmPassword("Confirm your password !!");
       flag=false;
       return;
     }
     else if(confirmPassword != password )
     {
-      alert("Password and confirm password does not match");
+      setErrorConfirmPassword("Password and confirm password does not match");
       flag=false;
       return;
     }
@@ -122,13 +132,13 @@ function Register() {
      let a=current_date.getTime();
      let b=date.getTime();
       if(dob===""){
-          alert("Cant be null");
+           setErrorDOB("Enter your Date Of Birth ."); 
           flag=false;
           return;
       }
       else  if(b> a)
       {
-          alert("Date should not be greater than current date");
+         setErrorDOB("Enter valid Date Of Birth !!");
           flag=false;
           return;
       }
@@ -139,7 +149,7 @@ function Register() {
 
   const handleGender =(e) =>{
        if(gender==""){
-        alert("Gender can't be null");
+        setErrorGender("Select any one option !!");
         flag=false;
         return;
     }
@@ -219,7 +229,9 @@ function Register() {
                 value={firstName}
                 onChange={(e) => handleInputChange(e)}
                 id="firstName"
+          
               />
+              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorFirstName}</p>
             </div>
             <div>
               <label
@@ -236,6 +248,7 @@ function Register() {
                 onChange={(e) => handleInputChange(e)}
                 id="lastName"
               />
+              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorLastName}</p>
             </div>
             <div>
               <label
@@ -252,6 +265,7 @@ function Register() {
                 onChange={(e) => handleInputChange(e)}
                 id="email"
               />
+              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorEmail}</p>
             </div>
             <div>
               <label
@@ -268,6 +282,7 @@ function Register() {
                 onChange={(e) => handleInputChange(e)}
                 id="password"
               />
+              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorPassword}</p>
             </div>
             <div>
               <label
@@ -284,6 +299,7 @@ function Register() {
                 onChange={(e) => handleInputChange(e)}
                 id="confirmPassword"
               />
+              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorConfirmPassword}</p>
             </div>
             <div>
               <label
@@ -300,6 +316,7 @@ function Register() {
                 onChange={(e) => handleInputChange(e)}
                 id="dob"
               />
+               <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorDOB}</p>
             </div>
 
             <div>
@@ -318,6 +335,7 @@ function Register() {
                   onChange={(e) => handleInputChange(e)}
                   style={{ width: 15, height: 15 }}
                 />
+                
                 <label htmlFor="male">
                   <input
                     type="text"
@@ -336,6 +354,7 @@ function Register() {
                   onChange={(e) => handleInputChange(e)}
                   style={{ marginLeft: 100, width: 15, height: 15 }}
                 />
+                
                 <label htmlFor="female">
                   <input
                     type="text"
@@ -346,6 +365,7 @@ function Register() {
                     disabled
                   />
                 </label>
+                <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorGender}</p>
               </div>
             </div>
 
@@ -366,6 +386,7 @@ function Register() {
                 value={selectedFile}
                 onChange={(e) => handleInputChange(e)}
               />
+               <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorFile}</p>
             </div>
 
             <div className="d-grid gap-2 d-md-block">
