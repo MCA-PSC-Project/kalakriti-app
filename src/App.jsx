@@ -8,6 +8,7 @@ import Orders from "./pages/orders";
 import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
+import Product from "./pages/product";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -26,7 +27,8 @@ const App = () => {
           <Route exact path="/settings" element={<Settings />} />
           <Route exact path="/notifications" element={<Notifications />} />
           <Route exact path="/recommended-products" element={<Orders />} />
-          <Route exact path="/popular-products" element={<Orders />} />
+          <Route exact path="/popular-products" element={<Product productName={"product name here"} originalPrice={500}
+            offerPrice={100} />} />
           <Route exact path="/new-products" element={<Orders />} />
         </Routes>
       </BrowserRouter>
