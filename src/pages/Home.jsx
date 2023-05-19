@@ -17,9 +17,18 @@ function Home() {
       <Section
         sectionTitle="Recommended For You"
         linkPath="/recommended-products"
+        endpoint="/recommended-products"
       />
-      <Section sectionTitle="Popular Products" linkPath="/popular-products" />
-      <Section sectionTitle="New Products" linkPath="/new-products" />
+      <Section
+        sectionTitle="Popular Products"
+        linkPath="/popular-products"
+        endpoint="/popular-products"
+      />
+      <Section
+        sectionTitle="New Products"
+        linkPath="/new-products"
+        endpoint="/new-products"
+      />
       <Footer />
     </>
   );

@@ -1,7 +1,21 @@
+import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
+import { axiosClient } from "../utils/axios-client";
 
-function Section({ sectionTitle, linkPath }) {
+function Section({ sectionTitle, linkPath, endpoint }) {
+  const [ProductsList, setProductsList] = useState([]);
+  useEffect(() => {
+    axiosClient
+      .get(endpoint)
+      .then((response) => {
+        setProductsList(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   return (
     <section>
       <div className="container my-5">
@@ -12,41 +26,20 @@ function Section({ sectionTitle, linkPath }) {
         </header>
 
         <div className="row">
-          <Card
-            imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
-            cardTitle="Painting"
-            originalPrice={500}
-            offerPrice={100}
-            rating={5}
-          />
-          <Card
-            imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
-            cardTitle="Painting"
-            originalPrice={500}
-            offerPrice={100}
-            rating={3.6}
-          />
-          <Card
-            imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
-            cardTitle="Painting"
-            originalPrice={500}
-            offerPrice={100}
-            rating={2.5}
-          />
-          <Card
-            imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
-            cardTitle="Painting"
-            originalPrice={500}
-            offerPrice={100}
-            rating={2}
-          />
-          <Card
-            imgSrc="https://source.unsplash.com/random/300×300/?lamp,clay"
-            cardTitle="Painting"
-            originalPrice={500}
-            offerPrice={100}
-            rating={1}
-          />
+          {ProductsList.map((product) => {
+            return (
+              <Card
+                imgSrc={product.base_product_item.media.path}
+                cardTitle={product.product_name}
+                originalPrice={parseFloat(
+                  product.base_product_item.original_price
+                )}
+                offerPrice={parseFloat(product.base_product_item.offer_price)}
+                average_rating={parseFloat(product.average_rating)}
+                ratingCount={parseInt(product.rating_count)}
+              />
+            );
+          })}
         </div>
       </div>
     </section>

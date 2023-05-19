@@ -7,7 +7,14 @@ import {
   faCartPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Card({ imgSrc, cardTitle, originalPrice, offerPrice, rating }) {
+function Card({
+  imgSrc,
+  cardTitle,
+  originalPrice,
+  offerPrice,
+  average_rating,
+  ratingCount,
+}) {
   return (
     <div className="col-lg-3 col-md-6 col-sm-6 d-flex">
       <div className="card w-100 my-2 shadow-2-strong">
@@ -18,7 +25,8 @@ function Card({ imgSrc, cardTitle, originalPrice, offerPrice, rating }) {
         />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">{cardTitle}</h5>
-          <Rating ratingValue={rating} />
+          <Rating ratingValue={average_rating} />
+          ({ratingCount})
           <p className="card-text">
             <span>&#8377;</span>
             <del>{originalPrice}</del>&nbsp;
