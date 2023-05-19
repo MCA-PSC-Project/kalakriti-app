@@ -1,19 +1,13 @@
-import Carousel from "../components/Carousel";
+import BannerCarousel from "../components/Carousel";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import Section from "../components/Section";
-
-const imgSrcList = [
-  "https://source.unsplash.com/random/300×300/?handloom",
-  "https://source.unsplash.com/random/300×300/?lightlamp",
-  "https://source.unsplash.com/random/300×300/?painting",
-];
 
 function Home() {
   return (
     <>
       <NavBar />
-      <Carousel imgSrcList={imgSrcList} />
+      <BannerCarousel />
       <Section
         sectionTitle="Recommended For You"
         linkPath="/recommended-products"
