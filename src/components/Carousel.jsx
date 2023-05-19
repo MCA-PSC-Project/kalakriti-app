@@ -33,7 +33,7 @@ function Carousel({ imgSrcList }) {
             alt="..."
             style={{ width: "100%", height: "400px" }}
           />
-          <div className="container">
+          {/* <div className="container">
             <div className="carousel-caption text-start">
               <h1>Example headline.</h1>
               <p>
@@ -46,7 +46,7 @@ function Carousel({ imgSrcList }) {
                 </a>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="carousel-item active">
           <img
@@ -55,7 +55,7 @@ function Carousel({ imgSrcList }) {
             alt="..."
             style={{ width: "100%", height: "400px" }}
           />
-          <div className="container">
+          {/* <div className="container">
             <div className="carousel-caption">
               <h1>Another example headline.</h1>
               <p>
@@ -68,7 +68,7 @@ function Carousel({ imgSrcList }) {
                 </a>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="carousel-item">
           <img
@@ -77,7 +77,7 @@ function Carousel({ imgSrcList }) {
             alt="..."
             style={{ width: "100%", height: "400px" }}
           />
-          <div className="container">
+          {/* <div className="container">
             <div className="carousel-caption text-end">
               <h1>One more for good measure.</h1>
               <p>
@@ -90,7 +90,7 @@ function Carousel({ imgSrcList }) {
                 </a>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <button
