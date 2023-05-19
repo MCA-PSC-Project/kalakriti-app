@@ -16,7 +16,7 @@ function BannerCarousel() {
   }, []);
   const elements = [];
 
-  for (let index = 0; index <= bannersList.length; index++) {
+  for (let index = 0; index < bannersList.length; index++) {
     elements.push(
       <button
         type="button"
