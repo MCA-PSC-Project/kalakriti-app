@@ -97,17 +97,18 @@ export function SubCategories() {
       <h1 style={{ textAlign: "center" }}>Subcategories</h1>
       <div className="album py-5 bg-body-tertiary">
         <div className="container">
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3"></div>
-          {/* change ..md-n to display n items in a row */}
-          {subCategoriesList.map((subCategory) => {
-            return (
-              <SubCategoryCard
-                key={subCategory.id}
-                imgSrc={subCategory.cover.path}
-                cardTitle={subCategory.name}
-              />
-            );
-          })}
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+            {/* change ..md-n to display n items in a row */}
+            {subCategoriesList.map((subCategory) => {
+              return (
+                <SubCategoryCard
+                  key={subCategory.id}
+                  imgSrc={subCategory.cover.path}
+                  cardTitle={subCategory.name}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
