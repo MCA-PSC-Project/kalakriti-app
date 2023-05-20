@@ -18,8 +18,24 @@ import {
   faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
+import { useState } from "react";
 
 function NavBar({ isLoggedIn = true }) {
+  const [iconsHoveredState, setIconsHoveredState] = useState({
+    wishlist: false,
+    cart: false,
+    profile: false,
+    notifications: false,
+    orders: false,
+    settings: false,
+    search: false,
+  });
+  const handleIconHovered = (item) => {
+    setIconsHoveredState((prevState) => ({
+      ...prevState,
+      [item]: !prevState[item],
+    }));
+  };
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -76,9 +92,11 @@ function NavBar({ isLoggedIn = true }) {
                 {/* Search */}
                 <FontAwesomeIcon
                   icon={faMagnifyingGlass}
-                  fade
                   size="xl"
                   style={{ color: "#5485c4" }}
+                  onMouseEnter={() => handleIconHovered("search")}
+                  onMouseLeave={() => handleIconHovered("search")}
+                  fade={iconsHoveredState.search ? "fade" : undefined}
                 />
               </button>
             </form>
@@ -94,9 +112,13 @@ function NavBar({ isLoggedIn = true }) {
                     {/* <img src={WishlistSvg} alt="Wishlist" /> */}
                     <FontAwesomeIcon
                       icon={faBell}
-                      shake
                       size="xl"
                       style={{ color: "#f0e03c" }}
+                      onMouseEnter={() => handleIconHovered("notifications")}
+                      onMouseLeave={() => handleIconHovered("notifications")}
+                      shake={
+                        iconsHoveredState.notifications ? "shake" : undefined
+                      }
                     />
                   </button>
                 </Link>
@@ -108,9 +130,13 @@ function NavBar({ isLoggedIn = true }) {
                     {/* <img src={WishlistSvg} alt="Wishlist" /> */}
                     <FontAwesomeIcon
                       icon={faHeart}
-                      beatFade
                       size="xl"
                       style={{ color: "#ff0000" }}
+                      onMouseEnter={() => handleIconHovered("wishlist")}
+                      onMouseLeave={() => handleIconHovered("wishlist")}
+                      beatFade={
+                        iconsHoveredState.wishlist ? "beatfade" : undefined
+                      }
                     />
                   </button>
                 </Link>
@@ -121,9 +147,11 @@ function NavBar({ isLoggedIn = true }) {
                     {/* <img src={CartSvg} alt="Cart" /> */}
                     <FontAwesomeIcon
                       icon={faCartShopping}
-                      shake
                       size="xl"
                       style={{ color: "#006eff" }}
+                      onMouseEnter={() => handleIconHovered("cart")}
+                      onMouseLeave={() => handleIconHovered("cart")}
+                      shake={iconsHoveredState.cart ? "shake" : undefined}
                     />
                     <span className="badge bg-dark text-white ms-1 rounded-pill">
                       2
@@ -137,9 +165,11 @@ function NavBar({ isLoggedIn = true }) {
                     {/* My Orders */}
                     <FontAwesomeIcon
                       icon={faListCheck}
-                      fade
                       size="xl"
                       style={{ color: "#0feb1e" }}
+                      onMouseEnter={() => handleIconHovered("orders")}
+                      onMouseLeave={() => handleIconHovered("orders")}
+                      fade={iconsHoveredState.orders ? "fade" : undefined}
                     />
                   </button>
                 </Link>
@@ -151,9 +181,11 @@ function NavBar({ isLoggedIn = true }) {
                     Profile */}
                     <FontAwesomeIcon
                       icon={faGear}
-                      spin
                       size="xl"
                       style={{ color: "#646464" }}
+                      onMouseEnter={() => handleIconHovered("settings")}
+                      onMouseLeave={() => handleIconHovered("settings")}
+                      spin={iconsHoveredState.settings ? "spin" : undefined}
                     />
                   </button>
                 </Link>
@@ -172,9 +204,11 @@ function NavBar({ isLoggedIn = true }) {
                     Profile */}
                     <FontAwesomeIcon
                       icon={faUser}
-                      bounce
                       size="xl"
                       style={{ color: "#964B00" }}
+                      onMouseEnter={() => handleIconHovered("profile")}
+                      onMouseLeave={() => handleIconHovered("profile")}
+                      bounce={iconsHoveredState.profile ? "bounce" : undefined}
                     />
                     Hello, <b>Username</b>
                   </Link>

@@ -10,6 +10,7 @@ import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import Categories from "./pages/Categories";
 import { SubCategories } from "./pages/Categories";
+import Checkout from "./pages/Checkout";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -32,6 +33,7 @@ const App = () => {
           <Route exact path="/new-products" element={<Orders />} />
           <Route exact path="/categories" element={<Categories />} />
           <Route exact path="/subcategories" element={<SubCategories />} />
+          <Route exact path="/checkout" element={<Checkout />} />
         </Routes>
       </BrowserRouter>
     </div>
