@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { axiosClient } from "../utils/axios-client";
+import { Link } from "react-router-dom";
 
 function BannerCarousel() {
   const [bannersList, setBannersList] = useState([]);
@@ -37,12 +38,14 @@ function BannerCarousel() {
             <div
               className={index === 0 ? "carousel-item active" : "carousel-item"}
             >
-              <img
-                src={banner.media.path}
-                className="d-block w-100"
-                alt="banner"
-                style={{ width: "100%", height: "400px" }}
-              />
+              <a href={banner.redirect_url} title="">
+                <img
+                  src={banner.media.path}
+                  className="d-block w-100"
+                  alt="banner"
+                  style={{ width: "100%", height: "400px" }}
+                />
+              </a>
               {/* <div className="container">
             <div className="carousel-caption text-start">
               <h1>Example headline.</h1>
