@@ -15,6 +15,7 @@ import {
   faListCheck,
   faRightFromBracket,
   faHeadset,
+  faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
 
@@ -52,7 +53,7 @@ function NavBar({ isLoggedIn = true }) {
                 />
               </Link>
             </li>
-    
+
             <li className="nav-item">
               <Link
                 className="nav-link active"
@@ -179,8 +180,12 @@ function NavBar({ isLoggedIn = true }) {
                   </Link>
                   <ul className="dropdown-menu dropdown-menu-end">
                     <li>
-                      <Link className="dropdown-item" to="/">
-                        Become a Seller / Login as Seller
+                      <Link className="dropdown-item" to="/viewed-history">
+                        <FontAwesomeIcon
+                          icon={faClockRotateLeft}
+                          style={{ color: "#a45f41" }}
+                        />
+                        &nbsp; Viewed Products
                       </Link>
                     </li>
                     <li>
@@ -190,6 +195,11 @@ function NavBar({ isLoggedIn = true }) {
                           style={{ color: "#d84f22" }}
                         />
                         &nbsp; Customer Support
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/">
+                        Become a Seller / Login as Seller
                       </Link>
                     </li>
                     <li>
