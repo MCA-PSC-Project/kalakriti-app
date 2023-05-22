@@ -25,8 +25,7 @@ function Card({
         />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">{cardTitle}</h5>
-          <Rating ratingValue={average_rating} />
-          ({ratingCount})
+          <Rating ratingValue={average_rating} ratingCount={ratingCount} />
           <p className="card-text">
             <span>&#8377;</span>
             <del>{originalPrice}</del>&nbsp;

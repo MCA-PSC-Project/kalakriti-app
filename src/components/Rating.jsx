@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfStroke } from "@fortawesome/free-regular-svg-icons";
 import { faStar as faStarFilled } from "@fortawesome/free-solid-svg-icons";
 
-function Rating({ ratingValue }) {
+function Rating({ ratingValue, ratingCount }) {
   const rating = parseFloat(ratingValue);
   let ratingInteger = Math.floor(rating);
   const ratingFractional = rating - ratingInteger;
@@ -41,7 +41,11 @@ function Rating({ ratingValue }) {
   for (let i = ratingInteger + 1; i <= 5; i++) {
     elements.push(<FontAwesomeIcon icon={faStar} size="xl" />);
   }
-  return <div className="ratings">{elements}</div>;
+  return (
+    <div className="ratings">
+      {elements}&nbsp;({ratingCount})
+    </div>
+  );
 }
 
 export default Rating;
