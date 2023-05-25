@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
@@ -55,11 +55,13 @@ function CartHorizontalCard({
   minOrderQuantity,
   maxOrderQuantity,
 }) {
+  const [quantity, setQuantity] = useState(minOrderQuantity);
+
   const elements = [];
   for (let i = minOrderQuantity; i <= maxOrderQuantity; i++) {
     elements.push(
       <li>
-        <a className="dropdown-item" href="#">
+        <a className="dropdown-item" onClick={(e) => setQuantity(i)}>
           {i}
         </a>
       </li>
@@ -89,7 +91,7 @@ function CartHorizontalCard({
                   className="btn btn-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
                 >
-                  Quantity: {minOrderQuantity}
+                  Quantity: {quantity}
                 </button>
                 <ul className="dropdown-menu">{elements}</ul>
               </div>
