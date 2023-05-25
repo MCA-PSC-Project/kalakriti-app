@@ -20,6 +20,7 @@ function Wishlist() {
             offerPrice="500"
             average_rating={4.5}
             ratingCount={5}
+            stockStatus={false}
           />
           <WishlistHorizontalCard
             imgSrc={Logo}
@@ -29,6 +30,7 @@ function Wishlist() {
             offerPrice="500"
             average_rating={4.5}
             ratingCount={5}
+            stockStatus={true}
           />
           <WishlistHorizontalCard
             imgSrc={Logo}
@@ -38,6 +40,7 @@ function Wishlist() {
             offerPrice="500"
             average_rating={4.5}
             ratingCount={5}
+            stockStatus={true}
           />
         </div>
       </div>
@@ -54,6 +57,7 @@ function WishlistHorizontalCard({
   offerPrice,
   average_rating,
   ratingCount,
+  stockStatus,
 }) {
   return (
     <div className="card mb-3" style={{ maxWidth: 850 }}>
@@ -65,9 +69,17 @@ function WishlistHorizontalCard({
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
             <h6>sold by {sellerName}</h6>
+            {stockStatus ? (
+              <h5 className="text-success">In Stock</h5>
+            ) : (
+              <h5 className="text-danger">Out Of Stock</h5>
+            )}
             <p className="card-text">
               <Rating ratingValue={average_rating} ratingCount={ratingCount} />
-              <p className="card-text">
+              <p
+                className="card-text"
+                style={{ display: stockStatus ? null : "none" }}
+              >
                 <span>&#8377;</span>
                 <del>{originalPrice}</del>&nbsp;
                 <span>&#8377;</span>
