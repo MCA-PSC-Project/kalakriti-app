@@ -91,14 +91,14 @@ function CartHorizontalCard({
               <div className="dropdown">
                 <button
                   type="button"
-                  className="btn btn-primary dropdown-toggle"
+                  className="btn btn-outline-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
                 >
                   Quantity: {quantity}
                 </button>
                 <ul className="dropdown-menu">{elements}</ul>
               </div>
-
+              &nbsp;
               <button type="button" className="btn btn-outline-danger">
                 Remove From Cart
               </button>
@@ -125,7 +125,7 @@ function CartFooter({ itemsQuantity, subtotal }) {
           <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
             <li className="ms-3">
               <Link to="/checkout">
-                <button type="button" className="btn btn-success btn-block">
+                <button type="button" className="w-100 btn btn-success">
                   Proceed To Checkout
                 </button>
               </Link>
