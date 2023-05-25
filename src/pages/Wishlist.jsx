@@ -80,7 +80,7 @@ function WishlistHorizontalCard({
                 className="btn border px-2 shadow-0 me-1"
                 title="Add to cart"
               >
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" className="btn btn-outline-primary">
                   Add To Cart
                 </button>
               </Link>
@@ -89,7 +89,7 @@ function WishlistHorizontalCard({
                 className="btn border px-2 shadow-0 me-1"
                 title="Remove From Wishlist"
               >
-                <button type="button" class="btn btn-outline-danger">
+                <button type="button" className="btn btn-outline-danger">
                   Remove From Wishlist
                 </button>
               </Link>
