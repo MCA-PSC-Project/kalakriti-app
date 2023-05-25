@@ -20,6 +20,7 @@ function Cart() {
             offerPrice="500"
             minOrderQuantity={1}
             maxOrderQuantity={5}
+            stockStatus={false}
           />
           <CartHorizontalCard
             imgSrc={Logo}
@@ -29,6 +30,7 @@ function Cart() {
             offerPrice="500"
             minOrderQuantity={5}
             maxOrderQuantity={10}
+            stockStatus={true}
           />
           <CartHorizontalCard
             imgSrc={Logo}
@@ -38,6 +40,7 @@ function Cart() {
             offerPrice="500"
             minOrderQuantity={2}
             maxOrderQuantity={6}
+            stockStatus={true}
           />
         </div>
       </div>
@@ -57,6 +60,7 @@ function CartHorizontalCard({
   offerPrice,
   minOrderQuantity,
   maxOrderQuantity,
+  stockStatus,
 }) {
   const [quantity, setQuantity] = useState(minOrderQuantity);
 
@@ -80,8 +84,16 @@ function CartHorizontalCard({
         <div className="col-md-8">
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
-            <h6>by {sellerName}</h6>
-            <p className="card-text">
+            <h6>sold by {sellerName}</h6>
+            {stockStatus ? (
+              <h5 className="text-success">In Stock</h5>
+            ) : (
+              <h5 className="text-danger">Out Of Stock</h5>
+            )}
+            <p
+              className="card-text"
+              style={{ display: stockStatus ? null : "none" }}
+            >
               <span>&#8377;</span>
               <del>{originalPrice}</del>&nbsp;
               <span>&#8377;</span>
@@ -93,6 +105,7 @@ function CartHorizontalCard({
                   type="button"
                   className="btn btn-outline-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
+                  disabled={stockStatus ? null : "false"}
                 >
                   Quantity: {quantity}
                 </button>

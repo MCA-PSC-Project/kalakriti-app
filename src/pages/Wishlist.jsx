@@ -64,7 +64,7 @@ function WishlistHorizontalCard({
         <div className="col-md-8">
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
-            <h6>by {sellerName}</h6>
+            <h6>sold by {sellerName}</h6>
             <p className="card-text">
               <Rating ratingValue={average_rating} ratingCount={ratingCount} />
               <p className="card-text">
