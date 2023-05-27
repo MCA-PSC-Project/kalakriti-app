@@ -193,33 +193,18 @@ function AddressForm() {
       <div className="row g-3">
         <div className="col-sm-6">
           <label htmlFor="firstName" className="form-label">
-            First name
+            Full name
           </label>
           <input
             type="text"
             className="form-control"
             id="firstName"
-            placeholder=""
+            placeholder="Full name"
             defaultValue=""
             required=""
           />
-          <div className="invalid-feedback">Valid first name is required.</div>
+          <div className="invalid-feedback">Valid full name is required.</div>
         </div>
-        <div className="col-sm-6">
-          <label htmlFor="lastName" className="form-label">
-            Last name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="lastName"
-            placeholder=""
-            defaultValue=""
-            required=""
-          />
-          <div className="invalid-feedback">Valid last name is required.</div>
-        </div>
-
         <div className="col-12">
           <label htmlFor="address-line-1" className="form-label">
             Address line 1
@@ -228,7 +213,7 @@ function AddressForm() {
             type="text"
             className="form-control"
             id="address-line-1"
-            placeholder="1234 Main St"
+            placeholder="Flat, House no., Building, Company, Apartment"
             required=""
           />
           <div className="invalid-feedback">
@@ -243,7 +228,7 @@ function AddressForm() {
             type="text"
             className="form-control"
             id="address-line-2"
-            placeholder="Apartment or suite"
+            placeholder="Area, Street, Sector, Village"
           />
           <div className="invalid-feedback">
             Please enter your address line 2.
@@ -270,10 +255,20 @@ function AddressForm() {
           <div className="invalid-feedback">Please provide a valid state.</div>
         </div>
         <div className="col-md-4">
-          <label htmlFor="state" className="form-label">
+          <label htmlFor="district" className="form-label">
+            District
+          </label>
+          <select className="form-select" id="district" required="">
+            <option value="">Choose...</option>
+            <option>Patna</option>
+          </select>
+          <div className="invalid-feedback">Please provide a valid City.</div>
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="city" className="form-label">
             City
           </label>
-          <select className="form-select" id="state" required="">
+          <select className="form-select" id="city" required="">
             <option value="">Choose...</option>
             <option>Patna</option>
           </select>
@@ -287,7 +282,7 @@ function AddressForm() {
             type="text"
             className="form-control"
             id="pincode"
-            placeholder=""
+            placeholder="6-digit [0-9] pincode"
             required=""
           />
           <div className="invalid-feedback">Pincode required.</div>
@@ -300,7 +295,7 @@ function AddressForm() {
             type="text"
             className="form-control"
             id="landmark"
-            placeholder="Apartment or suite"
+            placeholder=""
           />
         </div>
       </div>
@@ -493,7 +488,7 @@ function AddressFormOld() {
             type="text"
             className="form-control"
             id="address"
-            placeholder="1234 Main St"
+            placeholder="Flat, House no., Building, Company, Apartment"
             required=""
           />
           <div className="invalid-feedback">
@@ -508,7 +503,7 @@ function AddressFormOld() {
             type="text"
             className="form-control"
             id="address2"
-            placeholder="Apartment or suite"
+            placeholder="Area, Street, Sector, Village"
           />
         </div>
         <div className="col-md-5">
