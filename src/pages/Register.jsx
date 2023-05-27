@@ -2,188 +2,64 @@ import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDown } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+
+
+
+const Gender_options = [
+  { text: "Male", value: "male" },
+  { text: "Female", value: "female" },
+  { text: "Others", value: "others" },
+];
+
+const schema = yup
+  .object({
+    firstName: yup.string().required("First Name is required"),
+    lastName: yup.string().required("Last Name is required"),
+    gender: yup.string().required("Gender is required"),
+    email: yup
+      .string()
+      .required("Email is required")
+      .matches(/\S+@\S+\.+\S+$/g, "This is not a valid email"),
+
+    password: yup
+      .string()
+      .required("Password is required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+        "Password should not be less than 8 digit, contain atleast one lowercase alphabet ,atleast one uppercase alphabet ,one digit(0-9) and one special character"
+      ),
+
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], "Mismatched passwords")
+      .required("Please confirm your password"),
+
+    dob: yup.date()
+    .max( new Date(),"Please enter a valid date of birth").typeError("Date of birth is required"),
+
+  })
+  .required();
 
 function Register() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
-  const [errorFirstName, setErrorFirstName] = useState("");
-  const [errorLastName, setErrorLastName] = useState("");
-  const [errorEmail, setErrorEmail] = useState("");
-  const [errorPassword, setErrorPassword] = useState("");
-  const [errorConfirmPassword, setErrorConfirmPassword] = useState("");
-  const [errorDOB, setErrorDOB] = useState("");
-  const [errorGender, setErrorGender] = useState("");
-  const [errorFile, setErrorFile] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-
-  let flag= true;
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    if (id === "firstName") {
-      setFirstName(value);
-    }
-    if (id === "lastName") {
-      setLastName(value);
-    }
-    if (id === "email") {
-      setEmail(value);
-    }
-    if (id === "password") {
-      setPassword(value);
-    }
-    if (id === "confirmPassword") {
-      setConfirmPassword(value);
-    }
-    if (id === "dob") {
-      setDob(value);
-    }
-    // if (id === "choose-file"){
-    //   setSelectedFile(value);
-    // }
-
-    setGender(value);
+  const onSubmit = (values) =>{ 
+    console.log(values);
+    alert("Form submitted!!!");
   };
+ 
 
-  const handleFirstName =(e) =>{
-      if(firstName==""){
-        setErrorFirstName("First Name can't be null !!");
-        flag=false;
-        return;
-    }
-    else {
-        console.log(firstName);
-    }
-    handleLastName();
-  };
-
-  const handleLastName =(e) =>{
-      if(lastName===""){
-         setErrorLastName("Last Name can't be null !!");
-        flag=false;
-        return;
-    }
-    else {
-        console.log(lastName);
-    }
-  };
-
-  const handleEmail =(e) =>{
-    if(email===""){
-      setErrorEmail("Email can't be null !!");
-       flag=false;
-       return;
-   }
-   else if(email.match(/\S+@\S+\.+\S+/)){
-    console.log(email);
-   }
-   else{
-       setErrorEmail("Please enter a valid email !!");
-       flag=false;
-       return;
-   }
-
-  };
-
-  const handlePassword =(e) =>{
-      if(password ===""){
-         setErrorPassword("Password can't be null !!");
-        flag=false;
-        return;
-    }
-    else if(password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/))
-    {
-         console.log(password);
-    }
-    else{
-        setErrorPassword("Password should not be less than 8 digit, contain atleast one lowercase alphabet ,atleast one uppercase alphabet ,one digit(0-9) and one special character");
-        flag=false;
-        return;
-    }
-  };
-
-  const handleConfirmPassword =(e) =>{
-     if(confirmPassword ===""){
-      setErrorConfirmPassword("Confirm your password !!");
-      flag=false;
-      return;
-    }
-    else if(confirmPassword != password )
-    {
-      setErrorConfirmPassword("Password and confirm password does not match");
-      flag=false;
-      return;
-    }
-   else{
-    console.log(confirmPassword);
-   }
-  };
-
-  const handleDob =(e) =>{
-     let current_date=new Date();
-     let date=new Date(dob);
-    
-     let a=current_date.getTime();
-     let b=date.getTime();
-      if(dob===""){
-           setErrorDOB("Enter your Date Of Birth ."); 
-          flag=false;
-          return;
-      }
-      else  if(b> a)
-      {
-         setErrorDOB("Enter valid Date Of Birth !!");
-          flag=false;
-          return;
-      }
-     else{
-        console.log(dob);
-     }
-  };
-
-  const handleGender =(e) =>{
-       if(gender==""){
-        setErrorGender("Select any one option !!");
-        flag=false;
-        return;
-    }
-    else {
-        console.log(gender);
-    }
-  };
-
-  const reset =(e) =>{
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setDob("");
-    setGender("");
-  }
-  
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleFirstName();
-    handleLastName();
-    handleEmail();
-    handlePassword();
-    handleConfirmPassword();
-    handleDob();
-    handleGender();
-
-    if(flag){
-      alert("form filled");
-      reset();
-    }
-  };
 
   return (
     <>
@@ -214,10 +90,10 @@ function Register() {
           className="border border-top-0 border border-3"
           style={{ marginTop: 60, marginLeft: 400, marginRight: 400 }}
         >
-          <form className="data-bitwarden-watching={1}">
-            <div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-group">
               <label
-                htmlFor="FirstName"
+                htmlFor="firstName"
                 className="fs-5 d-flex justify-content-center"
               >
                 First Name
@@ -225,17 +101,16 @@ function Register() {
               <input
                 type="text"
                 className="form-control"
-                style={{ marginLeft: 40, marginRight: 40 }}
-                value={firstName}
-                onChange={(e) => handleInputChange(e)}
+                {...register("firstName", { required: true })}
                 id="firstName"
-          
               />
-              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorFirstName}</p>
+              {errors.firstName && (
+                <span style={{ color: "red" }}>{errors.firstName.message}</span>
+              )}
             </div>
-            <div>
+            <div className="form-group">
               <label
-                htmlFor="LastName"
+                htmlFor="lastName"
                 className="fs-5 d-flex justify-content-center"
               >
                 Last Name
@@ -243,16 +118,16 @@ function Register() {
               <input
                 type="text"
                 className="form-control"
-                style={{ marginLeft: 40, marginRight: 40 }}
-                value={lastName}
-                onChange={(e) => handleInputChange(e)}
+                {...register("lastName")}
                 id="lastName"
               />
-              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorLastName}</p>
+              {errors.lastName && (
+                <span style={{ color: "red" }}>{errors.lastName.message}</span>
+              )}
             </div>
-            <div>
+            <div className="form-group">
               <label
-                htmlFor="Email"
+                htmlFor="email"
                 className="fs-5 d-flex justify-content-center"
               >
                 Email
@@ -260,16 +135,16 @@ function Register() {
               <input
                 type="email"
                 className="form-control"
-                style={{ marginLeft: 40, marginRight: 40 }}
-                value={email}
-                onChange={(e) => handleInputChange(e)}
+                {...register("email")}
                 id="email"
               />
-              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorEmail}</p>
+              {errors.email && (
+                <span style={{ color: "red" }}>{errors.email.message}</span>
+              )}
             </div>
-            <div>
+            <div className="form-group">
               <label
-                htmlFor="Password"
+                htmlFor="password"
                 className="fs-5 d-flex justify-content-center"
               >
                 Password
@@ -277,16 +152,17 @@ function Register() {
               <input
                 type="password"
                 className="form-control"
-                style={{ marginLeft: 40, marginRight: 40 }}
-                value={password}
-                onChange={(e) => handleInputChange(e)}
+                {...register("password")}
                 id="password"
               />
-              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorPassword}</p>
+              {errors.password && (
+                <span style={{ color: "red" }}>{errors.password.message}</span>
+              )}
             </div>
-            <div>
+
+            <div className="form-group">
               <label
-                htmlFor="CPassword"
+                htmlFor="confirmPassword"
                 className="fs-5 d-flex justify-content-center"
               >
                 Confirm Password
@@ -294,16 +170,18 @@ function Register() {
               <input
                 type="password"
                 className="form-control"
-                style={{ marginLeft: 40, marginRight: 40 }}
-                value={confirmPassword}
-                onChange={(e) => handleInputChange(e)}
+                {...register("confirmPassword")}
                 id="confirmPassword"
               />
-              <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorConfirmPassword}</p>
+              {errors.confirmPassword && (
+                <span style={{ color: "red" }}>
+                  {errors.confirmPassword.message}
+                </span>
+              )}
             </div>
-            <div>
+            <div className="form-group">
               <label
-                htmlFor="DOB"
+                htmlFor="dob"
                 className="fs-5 d-flex justify-content-center"
               >
                 Date Of Birth
@@ -311,65 +189,34 @@ function Register() {
               <input
                 type="date"
                 className="form-control"
-                style={{ marginLeft: 40, marginRight: 40 }}
-                value={dob}
-                onChange={(e) => handleInputChange(e)}
+                {...register("dob")}
                 id="dob"
               />
-               <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorDOB}</p>
+               {errors.dob && <span style={{color:"red"}}>
+              {errors.dob.message}</span>}
             </div>
 
-            <div>
+            <div className="form-group">
               <label
-                htmlFor="Gender"
+                htmlFor="gender"
                 className="fs-5 d-flex justify-content-center"
               >
                 Gender
               </label>
-              <div style={{ marginLeft: 20 }}>
-                <input
-                  type="radio"
-                  name="Gender"
-                  value="male"
-                  checked={gender === "male"}
-                  onChange={(e) => handleInputChange(e)}
-                  style={{ width: 15, height: 15 }}
-                />
-                
-                <label htmlFor="male">
-                  <input
-                    type="text"
-                    value={"MALE"}
-                    className="form-control"
-                    style={{ marginLeft: 10 }}
-                    size={27}
-                    disabled
-                  />
-                </label>
-                <input
-                  type="radio"
-                  name="Gender"
-                  value="female"
-                  checked={gender === "female"}
-                  onChange={(e) => handleInputChange(e)}
-                  style={{ marginLeft: 100, width: 15, height: 15 }}
-                />
-                
-                <label htmlFor="female">
-                  <input
-                    type="text"
-                    value={"FEMALE"}
-                    className="form-control"
-                    style={{ marginLeft: 10 }}
-                    size={27}
-                    disabled
-                  />
-                </label>
-                <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorGender}</p>
-              </div>
+              <select className="form-control" {...register("gender")}>
+                <option value="">Select Gender</option>
+                {Gender_options.map((option, index) => (
+                  <option key={index} value={option.value}>
+                    {option.text}
+                  </option>
+                ))}
+              </select>
+              {errors.gender && (
+                <span style={{ color: "red" }}>{errors.gender.message}</span>
+              )}
             </div>
 
-            <div>
+            <div className="form-group">
               <label
                 htmlFor="Image"
                 className="fs-5 d-flex justify-content-center"
@@ -382,11 +229,10 @@ function Register() {
                 className="btn btn-outline-primary"
                 id="choose-file"
                 name="choose-file"
-                style={{ marginLeft: 40 }}
-                value={selectedFile}
+                //style={{ marginLeft: 40 }}
+                // value={selectedFile}
                 onChange={(e) => handleInputChange(e)}
               />
-               <p class="text-danger" style={{ marginLeft: 40, marginRight: 40}}>{errorFile}</p>
             </div>
 
             <div className="d-grid gap-2 d-md-block">
