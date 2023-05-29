@@ -153,8 +153,9 @@ function Register() {
                 type="password"
                 className="form-control"
                 {...register("password")}
-                id="password"
-              />
+                id="password"/>
+          <i class="far fa-eye-slash" id="togglePassword"></i>
+            
               {errors.password && (
                 <span style={{ color: "red" }}>{errors.password.message}</span>
               )}
