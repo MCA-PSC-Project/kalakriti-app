@@ -68,24 +68,19 @@ function OrdersHorizontalCard({
         <div className="col-md-8">
           <div className="card-header">
             <ul className="nav nav-tabs card-header-tabs">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="true" href="#">
-                  Active
-                </a>
+              <li className="nav-item me-5">
+                Order #
+                <br />
+                <strong>1</strong>
               </li>
-              <li className="nav-item">
+              <li className="nav-item me-5">
+                Order Placed
+                <br />
+                <strong>30 May 2023</strong>
+              </li>
+              <li className="nav-item me-5">
                 <a className="nav-link" href="#">
-                  Link
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link disabled"
-                  href="#"
-                  tabIndex={-1}
-                  aria-disabled="true"
-                >
-                  Disabled
+                  Get Invoice
                 </a>
               </li>
             </ul>
