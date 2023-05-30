@@ -16,31 +16,25 @@ function Orders() {
             imgSrc={Logo}
             cardTitle="product"
             sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            average_rating={4.5}
-            ratingCount={5}
-            stockStatus={false}
+            orderId="1"
+            orderedAt="30 May 2023"
+            orderStatus="Delivered"
           />
           <OrdersHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
             sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            average_rating={4.5}
-            ratingCount={5}
-            stockStatus={true}
+            orderId="1"
+            orderedAt="30 May 2023"
+            orderStatus="Delivered"
           />
           <OrdersHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
             sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            average_rating={4.5}
-            ratingCount={5}
-            stockStatus={true}
+            orderId="1"
+            orderedAt="30 May 2023"
+            orderStatus="Delivered"
           />
         </div>
       </div>
@@ -53,11 +47,9 @@ function OrdersHorizontalCard({
   imgSrc,
   cardTitle,
   sellerName,
-  originalPrice,
-  offerPrice,
-  average_rating,
-  ratingCount,
-  stockStatus,
+  orderId,
+  orderedAt,
+  orderStatus,
 }) {
   return (
     <div className="card mb-3" style={{ maxWidth: 850 }}>
@@ -71,16 +63,21 @@ function OrdersHorizontalCard({
               <li className="nav-item me-5">
                 Order #
                 <br />
-                <strong>1</strong>
+                <strong>{orderId}</strong>
               </li>
               <li className="nav-item me-5">
                 Order Placed
                 <br />
-                <strong>30 May 2023</strong>
+                <strong>{orderedAt}</strong>
               </li>
-              <li className="nav-item me-5">
+              <li className="nav-item me-4">
                 <a className="nav-link" href="#">
                   Get Invoice
+                </a>
+              </li>
+              <li className="nav-item me-4">
+                <a className="nav-link" href="#">
+                  Track package
                 </a>
               </li>
             </ul>
@@ -89,40 +86,35 @@ function OrdersHorizontalCard({
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
             <h6>sold by {sellerName}</h6>
-            {stockStatus ? (
-              <h5 className="text-success">In Stock</h5>
-            ) : (
-              <h5 className="text-danger">Out Of Stock</h5>
-            )}
             <p className="card-text">
-              <Rating ratingValue={average_rating} ratingCount={ratingCount} />
-              <p
-                className="card-text"
-                style={{ display: stockStatus ? null : "none" }}
-              >
-                <span>&#8377;</span>
-                <del>{originalPrice}</del>&nbsp;
-                <span>&#8377;</span>
-                {offerPrice}
-              </p>
+              Order Status: <span className="text-info">{orderStatus}</span>
             </p>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
               <Link
                 to=""
                 className="btn border px-2 shadow-0 me-1"
-                title="Add to cart"
+                title="Buy Again"
               >
-                <button type="button" className="btn btn-outline-primary">
-                  Add To Cart
+                <button type="button" className="btn btn-success">
+                  Buy Again
                 </button>
               </Link>
               <Link
                 to=""
                 className="btn border px-2 shadow-0 me-1"
-                title="Remove From Wishlist"
+                title="Rate/Review Product"
               >
-                <button type="button" className="btn btn-outline-danger">
-                  Remove From Wishlist
+                <button type="button" className="btn btn-primary">
+                  Rate/Review Product
+                </button>
+              </Link>
+              <Link
+                to=""
+                className="btn border px-2 shadow-0 me-1"
+                title="View Order Detail"
+              >
+                <button type="button" className="btn btn-warning">
+                  View Order Detail
                 </button>
               </Link>
             </div>
