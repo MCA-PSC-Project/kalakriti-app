@@ -2,7 +2,6 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
-import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
 
 function Orders() {
