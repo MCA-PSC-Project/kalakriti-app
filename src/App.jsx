@@ -28,7 +28,8 @@ const App = () => {
           <Route exact path="/notifications" element={<Notifications />} />
           <Route exact path="/recommended-products" element={<Orders />} />
           <Route exact path="/popular-products" element={<Product productName={"product name here"} originalPrice={500}
-            offerPrice={100} />} />
+            offerPrice={100} rating={4} total_review_count={10} fiveStar={"100%"} 
+            fourStar={"75%"} threeStar={"50%"} twoStar={"25%"} oneStar={"45%"} />} />
           <Route exact path="/new-products" element={<Orders />} />
         </Routes>
       </BrowserRouter>
