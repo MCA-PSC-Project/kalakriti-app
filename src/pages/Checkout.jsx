@@ -174,7 +174,7 @@ function AddressForm() {
           <input
             type="text"
             className="form-control"
-            id="firstName"
+            id="fullName"
             placeholder="Full name"
             defaultValue=""
             required=""

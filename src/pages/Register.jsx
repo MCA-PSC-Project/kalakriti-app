@@ -21,192 +21,137 @@ function Register() {
               <div className="row g-3">
                 <div className="col-12">
                   <label htmlFor="firstName" className="form-label">
-                    Full name
+                    First name
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="firstName"
-                    placeholder="Full name"
+                    placeholder="First name"
                     defaultValue=""
                     required=""
                   />
                   <div className="invalid-feedback">
-                    Valid full name is required.
+                    Valid first name is required.
                   </div>
                 </div>
 
                 <div className="col-12">
-                  <label htmlFor="mobile_no" className="form-label">
-                    Mobile No.
+                  <label htmlFor="lastName" className="form-label">
+                    Last name
                   </label>
                   <input
-                    type="tel"
+                    type="text"
                     className="form-control"
-                    id="mobile_no"
-                    placeholder="Mobile number"
+                    id="lastName"
+                    placeholder="Last name"
                     defaultValue=""
                     required=""
-                    pattern=""
                   />
                   <div className="invalid-feedback">
-                    Valid mobile number is required.
+                    Valid last name is required.
                   </div>
                 </div>
 
                 <div className="col-12">
-                  <label htmlFor="address-line-1" className="form-label">
-                    Address line 1
+                  <label htmlFor="email" className="form-label">
+                    Email
                   </label>
                   <input
-                    type="text"
+                    type="email"
                     className="form-control"
-                    id="address-line-1"
-                    placeholder="Flat, House no., Building, Company, Apartment"
+                    id="email"
+                    placeholder="Email"
+                    defaultValue=""
                     required=""
                   />
                   <div className="invalid-feedback">
-                    Please enter your address line 1.
+                    Valid email is required.
                   </div>
                 </div>
 
                 <div className="col-12">
-                  <label htmlFor="address-line-2" className="form-label">
-                    Address Line 2
+                  <label htmlFor="password" className="form-label">
+                    Password
                   </label>
                   <input
-                    type="text"
+                    type="password"
                     className="form-control"
-                    id="address-line-2"
-                    placeholder="Area, Street, Sector, Village"
+                    id="password"
+                    defaultValue=""
+                    required=""
                   />
                   <div className="invalid-feedback">
-                    Please enter your address line 2.
+                    Valid Password is required.
                   </div>
                 </div>
 
-                <div className="col-md-5">
-                  <label htmlFor="country" className="form-label">
-                    Country
-                  </label>
-                  <input
-                    className="form-control"
-                    list="countries-data-list-options"
-                    id="country"
-                    required=""
-                  />
-                  <datalist id="countries-data-list-options">
-                    <option value="India"></option>
-                  </datalist>
-                  <div className="invalid-feedback">
-                    Please select a valid country.
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <label htmlFor="state" className="form-label">
-                    State
-                  </label>
-                  <input
-                    className="form-control"
-                    list="states-data-list-options"
-                    id="state"
-                    required=""
-                  />
-                  <datalist id="states-data-list-options">
-                    <option value="Bihar"></option>
-                    <option value="Jharkhand"></option>
-                  </datalist>
-                  <div className="invalid-feedback">
-                    Please provide a valid state.
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <label htmlFor="district" className="form-label">
-                    District
-                  </label>
-                  <input
-                    className="form-control"
-                    list="districts-data-list-options"
-                    id="district"
-                    required=""
-                  />
-                  <datalist id="districts-data-list-options">
-                    <option value="Patna"></option>
-                  </datalist>
-                  <div className="invalid-feedback">
-                    Please provide a valid District.
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <label htmlFor="city" className="form-label">
-                    City
-                  </label>
-                  <input
-                    className="form-control"
-                    list="cities-data-list-options"
-                    id="city"
-                    required=""
-                  />
-                  <datalist id="cities-data-list-options">
-                    <option value="Patna"></option>
-                  </datalist>
-
-                  <div className="invalid-feedback">
-                    Please provide a valid City.
-                  </div>
-                </div>
-                <div className="col-md-3">
-                  <label htmlFor="pincode" className="form-label">
-                    Pincode
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="pincode"
-                    placeholder="6-digit [0-9] pincode"
-                    required=""
-                  />
-                  <div className="invalid-feedback">Pincode required.</div>
-                </div>
                 <div className="col-12">
-                  <label htmlFor="landmark" className="form-label">
-                    Landmark
+                  <label htmlFor="confirm-password" className="form-label">
+                    Confirm Password
                   </label>
                   <input
-                    type="text"
+                    type="password"
                     className="form-control"
-                    id="landmark"
-                    placeholder="E.g. Near Shiv Temple"
+                    id="confirm-password"
+                    defaultValue=""
+                    required=""
                   />
+                  <div className="invalid-feedback">
+                    Valid Confirm Password is required.
+                  </div>
                 </div>
+
+                <div className="col-12">
+                  <label htmlFor="dob" className="form-label">
+                    Date of Birth
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="dob"
+                    defaultValue=""
+                    required=""
+                  />
+                  <div className="invalid-feedback">Valid dob is required.</div>
+                </div>
+
+                <div className="col-12">
+                  <label htmlFor="gender" className="form-label">
+                    Gender
+                  </label>
+                  <select className="form-control">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <div className="invalid-feedback">Gender is required.</div>
+                </div>
+
+                <div className="col-12">
+                  <label htmlFor="dp" className="form-label">
+                    UPLOAD YOUR DISPLAY PICTURE
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/* , /pdf"
+                    className="btn btn-outline-primary"
+                    id="dp"
+                    name="choose-file"
+                    //style={{ marginLeft: 40 }}
+                    // value={selectedFile}
+                    // onChange={(e) => handleInputChange(e)}
+                  />
+                  <div className="invalid-feedback">
+                    Valid image is required.
+                  </div>
+                </div>
+
+                <button type="submit" className="w-100 btn btn-lg btn-success">
+                  Register
+                </button>
               </div>
-              <hr className="my-4" />
-              <div className="form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="same-address"
-                />
-                <label className="form-check-label" htmlFor="same-address">
-                  Shipping address is the same as my billing address
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="save-info"
-                />
-                <label className="form-check-label" htmlFor="save-info">
-                  Save this information for next time
-                </label>
-              </div>
-              <button type="submit" className="w-100 btn btn-lg btn-success">
-                Register
-              </button>
             </form>
           </div>
         </div>
