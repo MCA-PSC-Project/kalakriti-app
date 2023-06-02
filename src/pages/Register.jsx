@@ -3,8 +3,49 @@ import Logo from "../assets/logo.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDown } from "@fortawesome/free-solid-svg-icons";
 
+const schema = yup
+  .object({
+    firstName: yup.string().required("First Name is required"),
+    lastName: yup.string().required("Last Name is required"),
+    gender: yup.string().required("Gender is required"),
+    email: yup
+      .string()
+      .required("Email is required")
+      .matches(/\S+@\S+\.+\S+$/g, "This is not a valid email"),
+
+    password: yup
+      .string()
+      .required("Password is required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+        "Password should not be less than 8 digit, contain atleast one lowercase alphabet ,atleast one uppercase alphabet ,one digit(0-9) and one special character"
+      ),
+
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], "Mismatched passwords")
+      .required("Please confirm your password"),
+
+    dob: yup.date()
+    .max( new Date(),"Please enter a valid date of birth").typeError("Date of birth is required"),
+
+  })
+  .required();
 
 function Register() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (values) =>{ 
+    console.log(values);
+    alert("Form submitted!!!");
+  };
+
   return (
     <>
       <div className="container">
@@ -39,10 +80,14 @@ function Register() {
                     placeholder="First name"
                     defaultValue=""
                     required=""
+                    {...register("firstName")}
                   />
-                  <div className="invalid-feedback">
+                   {errors.firstName && (
+                <span style={{ color: "red" }}>{errors.firstName.message}</span>
+              )}
+                  {/* <div className="invalid-feedback">
                     Valid first name is required.
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="col-12">
@@ -56,10 +101,14 @@ function Register() {
                     placeholder="Last name"
                     defaultValue=""
                     required=""
+                    {...register("lastName")}
                   />
-                  <div className="invalid-feedback">
+                   {errors.lastName && (
+                <span style={{ color: "red" }}>{errors.lastName.message}</span>
+              )}
+                  {/* <div className="invalid-feedback">
                     Valid last name is required.
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="col-12">
@@ -73,10 +122,14 @@ function Register() {
                     placeholder="Email"
                     defaultValue=""
                     required=""
+                    {...register("email")}
                   />
-                  <div className="invalid-feedback">
+                   {errors.email && (
+                <span style={{ color: "red" }}>{errors.email.message}</span>
+              )}
+                  {/* <div className="invalid-feedback">
                     Valid email is required.
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="col-12">
@@ -89,26 +142,34 @@ function Register() {
                     id="password"
                     defaultValue=""
                     required=""
+                    {...register("password")}
                   />
-                  <div className="invalid-feedback">
+                   {errors.password && (
+                <span style={{ color: "red" }}>{errors.password.message}</span>
+              )}
+                  {/* <div className="invalid-feedback">
                     Valid Password is required.
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="col-12">
-                  <label htmlFor="confirm-password" className="form-label">
+                  <label htmlFor="confirmPassword" className="form-label">
                     Confirm Password
                   </label>
                   <input
                     type="password"
                     className="form-control"
-                    id="confirm-password"
+                    id="confirmPassword"
                     defaultValue=""
                     required=""
+                    {...register("confirmPassword")}
                   />
-                  <div className="invalid-feedback">
+                   {errors.confirmPassword && (
+                <span style={{ color: "red" }}>{errors.confirmPassword.message}</span>
+              )}
+                  {/* <div className="invalid-feedback">
                     Valid Confirm Password is required.
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="col-12">
@@ -121,8 +182,12 @@ function Register() {
                     id="dob"
                     defaultValue=""
                     required=""
+                    {...register("dob")}
                   />
-                  <div className="invalid-feedback">Valid dob is required.</div>
+                   {errors.dob && (
+                <span style={{ color: "red" }}>{errors.dob.message}</span>
+              )}
+                  {/* <div className="invalid-feedback">Valid dob is required.</div> */}
                 </div>
 
                 <div className="col-12">
@@ -134,8 +199,12 @@ function Register() {
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
+                    {...register("gender")}
                   </select>
-                  <div className="invalid-feedback">Gender is required.</div>
+                  {errors.gender && (
+                <span style={{ color: "red" }}>{errors.gender.message}</span>
+              )}
+                  {/* <div className="invalid-feedback">Gender is required.</div> */}
                 </div>
 
                 <div className="col-12">
