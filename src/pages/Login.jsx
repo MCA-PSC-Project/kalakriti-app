@@ -43,7 +43,9 @@ function Login() {
           </button>
         </form>
       </main>
-      <div className="fixed-bottom">{/* <Footer /> */}</div>
+      {/* <div className="fixed-bottom"> */}
+      <Footer />
+      {/* </div> */}
     </div>
   );
 }

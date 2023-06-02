@@ -148,14 +148,20 @@ function Register() {
                   </div>
                 </div>
 
-                <button type="submit" className="w-100 btn btn-lg btn-success">
-                  Register
-                </button>
+                <div className="col-12">
+                  <button
+                    type="submit"
+                    className="w-100 btn btn-lg btn-success"
+                  >
+                    Register
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
