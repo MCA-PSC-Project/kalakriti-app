@@ -2,6 +2,9 @@ import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDown } from "@fortawesome/free-solid-svg-icons";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup
   .object({
@@ -28,6 +31,9 @@ const schema = yup
 
     dob: yup.date()
     .max( new Date(),"Please enter a valid date of birth").typeError("Date of birth is required"),
+
+    dp : yup.string().required("Please provide a profile picture"),
+    
 
   })
   .required();
@@ -65,9 +71,9 @@ function Register() {
             style={{ color: "#43d2e5" }}
           />
         </div>
-        <div class="row">
-          <div class="mx-auto col-10 col-md-8 col-lg-6">
-            <form className="needs-validation" noValidate="">
+        <div className="row">
+          <div className="mx-auto col-10 col-md-8 col-lg-6">
+            <form className="needs-validation" noValidate="" onSubmit={handleSubmit(onSubmit)}>
               <div className="row g-3">
                 <div className="col-12">
                   <label htmlFor="firstName" className="form-label">
@@ -85,9 +91,6 @@ function Register() {
                    {errors.firstName && (
                 <span style={{ color: "red" }}>{errors.firstName.message}</span>
               )}
-                  {/* <div className="invalid-feedback">
-                    Valid first name is required.
-                  </div> */}
                 </div>
 
                 <div className="col-12">
@@ -106,9 +109,7 @@ function Register() {
                    {errors.lastName && (
                 <span style={{ color: "red" }}>{errors.lastName.message}</span>
               )}
-                  {/* <div className="invalid-feedback">
-                    Valid last name is required.
-                  </div> */}
+  
                 </div>
 
                 <div className="col-12">
@@ -127,9 +128,7 @@ function Register() {
                    {errors.email && (
                 <span style={{ color: "red" }}>{errors.email.message}</span>
               )}
-                  {/* <div className="invalid-feedback">
-                    Valid email is required.
-                  </div> */}
+                 
                 </div>
 
                 <div className="col-12">
@@ -147,9 +146,7 @@ function Register() {
                    {errors.password && (
                 <span style={{ color: "red" }}>{errors.password.message}</span>
               )}
-                  {/* <div className="invalid-feedback">
-                    Valid Password is required.
-                  </div> */}
+               
                 </div>
 
                 <div className="col-12">
@@ -167,9 +164,7 @@ function Register() {
                    {errors.confirmPassword && (
                 <span style={{ color: "red" }}>{errors.confirmPassword.message}</span>
               )}
-                  {/* <div className="invalid-feedback">
-                    Valid Confirm Password is required.
-                  </div> */}
+                 
                 </div>
 
                 <div className="col-12">
@@ -187,24 +182,23 @@ function Register() {
                    {errors.dob && (
                 <span style={{ color: "red" }}>{errors.dob.message}</span>
               )}
-                  {/* <div className="invalid-feedback">Valid dob is required.</div> */}
                 </div>
 
                 <div className="col-12">
                   <label htmlFor="gender" className="form-label">
                     Gender
                   </label>
-                  <select className="form-control">
+                  <select className="form-control"  {...register("gender")}>
                     <option value="">Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
-                    {...register("gender")}
+                   
                   </select>
                   {errors.gender && (
                 <span style={{ color: "red" }}>{errors.gender.message}</span>
               )}
-                  {/* <div className="invalid-feedback">Gender is required.</div> */}
+                
                 </div>
 
                 <div className="col-12">
@@ -217,19 +211,17 @@ function Register() {
                     className="btn btn-outline-primary"
                     id="dp"
                     name="choose-file"
-                    //style={{ marginLeft: 40 }}
-                    // value={selectedFile}
-                    // onChange={(e) => handleInputChange(e)}
-                  />
-                  <div className="invalid-feedback">
-                    Valid image is required.
-                  </div>
+                  /><br/>
+                  {errors.dp && (
+                <span style={{ color: "red" }}>{errors.dp.message}</span>
+              )}
                 </div>
 
                 <div className="col-12">
                   <button
                     type="submit"
                     className="w-100 btn btn-lg btn-success"
+                    onClick={(e) => handleSubmit(e)}
                   >
                     Register
                   </button>
