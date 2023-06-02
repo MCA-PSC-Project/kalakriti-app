@@ -12,6 +12,7 @@ function Register() {
             alt="Logo"
             style={{ width: 200, height: 200 }}
           />
+          <h5>KalaKriti</h5>
           <h1>Register</h1>
         </div>
         <div class="row">
@@ -203,6 +204,9 @@ function Register() {
                   Save this information for next time
                 </label>
               </div>
+              <button type="submit" className="w-100 btn btn-lg btn-success">
+                Register
+              </button>
             </form>
           </div>
         </div>

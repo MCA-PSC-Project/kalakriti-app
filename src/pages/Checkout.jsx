@@ -81,18 +81,6 @@ function Checkout() {
                 <div className="modal-body">
                   <AddressForm />
                 </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    data-bs-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button type="button" className="btn btn-success">
-                    Save changes
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -347,6 +335,18 @@ function AddressForm() {
         <label className="form-check-label" htmlFor="save-info">
           Save this information for next time
         </label>
+      </div>
+      <div className="modal-footer">
+        <button
+          type="button"
+          className="btn btn-danger"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" className="btn btn-success">
+          Save changes
+        </button>
       </div>
     </form>
   );
