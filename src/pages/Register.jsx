@@ -3,6 +3,7 @@ import Logo from "../assets/logo.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDown } from "@fortawesome/free-solid-svg-icons";
 
+
 function Register() {
   return (
     <>

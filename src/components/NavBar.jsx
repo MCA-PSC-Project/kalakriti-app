@@ -20,7 +20,7 @@ import {
 import { appName } from "../App";
 import { useState } from "react";
 
-function NavBar({ isLoggedIn = true }) {
+function NavBar({ isLoggedIn = false }) {
   const [iconsHoveredState, setIconsHoveredState] = useState({
     wishlist: false,
     cart: false,
