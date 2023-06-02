@@ -1,5 +1,7 @@
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleDown } from "@fortawesome/free-solid-svg-icons";
 
 function Register() {
   return (
@@ -13,7 +15,13 @@ function Register() {
             style={{ width: 200, height: 200 }}
           />
           <h5>KalaKriti</h5>
-          <h1>Register</h1>
+          <h1>Register Here</h1>
+          <FontAwesomeIcon
+            icon={faCircleDown}
+            shake
+            size="2xl"
+            style={{ color: "#43d2e5" }}
+          />
         </div>
         <div class="row">
           <div class="mx-auto col-10 col-md-8 col-lg-6">
