@@ -1,18 +1,20 @@
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
+import "./Login.css";
 
 function Login() {
   return (
     <div className="text-center">
-      <main className="form-signin w-25 m-auto">
-        <form data-bitwarden-watching={1}>
+      <main className="form-signin">
+        <form>
           <img
             className="mb-4 mt-5"
             src={Logo}
             alt="Logo"
             style={{ width: 200, height: 200 }}
           />
-          <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+          <h3 className="h3 mb-3 fw-normal">KalaKriti</h3>
+          <h2 className="h2 mb-2 fw-normal">Please sign in</h2>
           <div className="form-floating">
             <input
               type="email"
@@ -41,9 +43,7 @@ function Login() {
           </button>
         </form>
       </main>
-      <div className="fixed-bottom">
-        <Footer />
-      </div>
+      <div className="fixed-bottom">{/* <Footer /> */}</div>
     </div>
   );
 }
