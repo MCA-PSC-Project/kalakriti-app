@@ -1,8 +1,28 @@
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import "./Login.css";
+import { useState } from "react";
 
 function Login() {
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+
+    if (id === "email") {
+      setEmail(value);
+    }
+    if (id === "password") {
+      setPassword(value);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(email, password);
+  };
+
   return (
     <div className="text-center">
       <main className="form-signin">
@@ -19,26 +39,32 @@ function Login() {
             <input
               type="email"
               className="form-control"
-              id="floatingInput"
+              id="email"
               placeholder="name@example.com"
+              onChange={(event) => handleInputChange(event)}
             />
-            <label htmlFor="floatingInput">Email address</label>
+            <label htmlFor="email">Email address</label>
           </div>
           <div className="form-floating">
             <input
               type="password"
               className="form-control"
-              id="floatingPassword"
+              id="password"
               placeholder="Password"
+              onChange={(event) => handleInputChange(event)}
             />
-            <label htmlFor="floatingPassword">Password</label>
+            <label htmlFor="password">Password</label>
           </div>
           <div className="checkbox mb-3">
             <label>
               <input type="checkbox" defaultValue="remember-me" /> Remember me
             </label>
           </div>
-          <button className="w-100 btn btn-lg btn-primary" type="submit">
+          <button
+            className="w-100 btn btn-lg btn-primary"
+            type="submit"
+            onClick={(event) => handleSubmit(event)}
+          >
             Sign in
           </button>
         </form>
