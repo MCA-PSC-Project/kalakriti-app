@@ -29,7 +29,7 @@ function Product({
   twoStar,
   oneStar,
   userName,
-  rating
+  rating,
 }) {
   const [reviewActive, setReviewActive] = useState(false);
   const [descriptionActive, setDescriptionActive] = useState(false);
@@ -161,7 +161,7 @@ function Product({
             </h4>
           </div>
         </div>
-        <div  style={{ marginTop: 80 }}>
+        <div style={{ marginTop: 80 }}>
           <button
             type="button"
             class="btn btn-outline-primary "
@@ -198,163 +198,164 @@ function Product({
           )}
           {isShown1 && (
             <>
-            <div class="col-6 col-sm-3" style={{ marginTop: 30 }}>
+              <div class="col-6 col-sm-3" style={{ marginTop: 30 }}>
+                <h4>
+                  <b>
+                    <i>Customer reviews</i>
+                  </b>
+                </h4>
+                <h5>
+                  {" "}
+                  <Rating ratingValue={overallRating} />
+                  <p>
+                    <i>{overallRating} out of 5</i>
+                  </p>
+                </h5>
+                <p>{total_review_count} global ratings</p>
+
+                <table class="table table-borderless ">
+                  <tbody>
+                    <tr>
+                      <td class="col-2">
+                        <b>5</b>{" "}
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          style={{ color: "#fbcc23" }}
+                        />
+                      </td>
+                      <td class="col-9">
+                        <div
+                          class="progress"
+                          role="progressbar"
+                          aria-label="Animated striped example"
+                          aria-valuenow="0"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <div
+                            class="progress-bar progress-bar-striped progress-bar-animated"
+                            style={{ width: fiveStar }}
+                          ></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="col-2">
+                        <b>4</b>{" "}
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          style={{ color: "#fbcc23" }}
+                        />
+                      </td>
+                      <td class="col-9">
+                        <div
+                          class="col progress"
+                          role="progressbar"
+                          aria-label="Animated striped example"
+                          aria-valuenow="25"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <div
+                            class=" progress-bar progress-bar-striped progress-bar-animated"
+                            style={{ width: fourStar }}
+                          ></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="col-2">
+                        <b>3</b>{" "}
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          style={{ color: "#fbcc23" }}
+                        />
+                      </td>
+                      <td class="col-9">
+                        <div
+                          class=" col progress"
+                          role="progressbar"
+                          aria-label="Animated striped example"
+                          aria-valuenow="50"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <div
+                            class=" progress-bar progress-bar-striped progress-bar-animated"
+                            style={{ width: threeStar }}
+                          ></div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-2">
+                        <b>2</b>{" "}
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          style={{ color: "#fbcc23" }}
+                        />
+                      </td>
+                      <td class="col-9">
+                        <div
+                          class="col progress"
+                          role="progressbar"
+                          aria-label="Animated striped example"
+                          aria-valuenow="75"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <div
+                            class=" progress-bar progress-bar-striped progress-bar-animated"
+                            style={{ width: twoStar }}
+                          ></div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-2">
+                        <b>1</b>{" "}
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          style={{ color: "#fbcc23" }}
+                        />
+                      </td>
+                      <td class="col-9">
+                        <div
+                          class="col progress"
+                          role="progressbar"
+                          aria-label="Animated striped example"
+                          aria-valuenow="100"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <div
+                            class=" progress-bar progress-bar-striped progress-bar-animated"
+                            style={{ width: oneStar }}
+                          ></div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
               <h4>
                 <b>
-                  <i>Customer reviews</i>
+                  <i>customer reviews</i>
                 </b>
               </h4>
-              <h5>
-                {" "}
-                <Rating ratingValue={overallRating} />
-                <p>
-                  <i>{overallRating} out of 5</i>
-                </p>
-              </h5>
-              <p>{total_review_count} global ratings</p>
 
-              <table class="table table-borderless ">
-                <tbody>
-                  <tr>
-                    <td class="col-2">
-                     <b>5</b> {" "}
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size="lg"
-                        style={{ color: "#fbcc23" }}
-                      />
-                    </td>
-                    <td class="col-9">
-                      <div
-                        class="progress"
-                        role="progressbar"
-                        aria-label="Animated striped example"
-                        aria-valuenow="0"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      >
-                        <div
-                          class="progress-bar progress-bar-striped progress-bar-animated"
-                          style={{ width: fiveStar }}
-                        ></div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td class="col-2">
-                    <b>4</b> {" "}
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size="lg"
-                        style={{ color: "#fbcc23" }}
-                      />
-                    </td>
-                    <td class="col-9">
-                      <div
-                        class="col progress"
-                        role="progressbar"
-                        aria-label="Animated striped example"
-                        aria-valuenow="25"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      >
-                        <div
-                          class=" progress-bar progress-bar-striped progress-bar-animated"
-                          style={{ width: fourStar }}
-                        ></div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td class="col-2">
-                    <b>3</b> {" "}
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size="lg"
-                        style={{ color: "#fbcc23" }}
-                      />
-                    </td>
-                    <td class="col-9">
-                      <div
-                        class=" col progress"
-                        role="progressbar"
-                        aria-label="Animated striped example"
-                        aria-valuenow="50"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      >
-                        <div
-                          class=" progress-bar progress-bar-striped progress-bar-animated"
-                          style={{ width: threeStar }}
-                        ></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="col-2">
-                    <b>2</b> {" "}
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size="lg"
-                        style={{ color: "#fbcc23" }}
-                      />
-                    </td>
-                    <td class="col-9">
-                      <div
-                        class="col progress"
-                        role="progressbar"
-                        aria-label="Animated striped example"
-                        aria-valuenow="75"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      >
-                        <div
-                          class=" progress-bar progress-bar-striped progress-bar-animated"
-                          style={{ width: twoStar }}
-                        ></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="col-2">
-                    <b>1</b> {" "}
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size="lg"
-                        style={{ color: "#fbcc23" }}
-                      />
-                    </td>
-                    <td class="col-9">
-                      <div
-                        class="col progress"
-                        role="progressbar"
-                        aria-label="Animated striped example"
-                        aria-valuenow="100"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      >
-                        <div
-                          class=" progress-bar progress-bar-striped progress-bar-animated"
-                          style={{ width: oneStar }}
-                        ></div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              
-              </div>
-             
-                
-              <h4><b><i>customer reviews</i></b></h4>
-              
-           <Review  userName={userName}rating={rating}/>
-           <Review userName={userName} rating={rating}/>
-           <Review userName={userName} rating={rating}/>
-         
-</>
+              <Review userName={userName} rating={rating} />
+              <Review userName={userName} rating={rating} />
+              <Review userName={userName} rating={rating} />
+            </>
           )}
         </div>
       </div>
