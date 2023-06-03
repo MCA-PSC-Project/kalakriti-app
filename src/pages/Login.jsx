@@ -2,6 +2,7 @@ import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import "./Login.css";
 import { useState } from "react";
+import { login } from "../services/auth-service";
 
 function Login() {
   const [email, setEmail] = useState(null);
@@ -20,7 +21,11 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(email, password);
+    console.log({ email, password });
+    // const signin = async (email, password) => {
+    //   const response = await login(email, password);
+    //   console.log(response);
+    // };
   };
 
   return (
@@ -60,13 +65,12 @@ function Login() {
               <input type="checkbox" defaultValue="remember-me" /> Remember me
             </label>
           </div>
-          <button
+          <input
             className="w-100 btn btn-lg btn-primary"
             type="submit"
+            value="Login"
             onClick={(event) => handleSubmit(event)}
-          >
-            Sign in
-          </button>
+          />
         </form>
       </main>
       {/* <div className="fixed-bottom"> */}
