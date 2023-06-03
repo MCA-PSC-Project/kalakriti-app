@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
-import { axiosClient } from "../utils/axios-client";
+import api from "../utils/api";
 
 function Section({ sectionTitle, linkPath, endpoint }) {
   const [ProductsList, setProductsList] = useState([]);
   useEffect(() => {
-    axiosClient
+    api
       .get(endpoint)
       .then((response) => {
         setProductsList(response.data === null ? [] : response.data);

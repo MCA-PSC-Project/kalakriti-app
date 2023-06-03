@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { axiosClient } from "../utils/axios-client";
+import api from "../utils/api";
 import { Link } from "react-router-dom";
 
 function BannerCarousel() {
   const [bannersList, setBannersList] = useState([]);
   useEffect(() => {
-    axiosClient
+    api
       .get(`/banners`)
       .then((response) => {
         setBannersList(response.data === null ? [] : response.data);

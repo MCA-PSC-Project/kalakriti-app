@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
-import { axiosClient } from "../utils/axios-client";
+import api from "../utils/api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Categories() {
   const [categoriesList, setCategoriesList] = useState([]);
   useEffect(() => {
-    axiosClient
+    api
       .get(`/categories`)
       .then((response) => {
         setCategoriesList(response.data === null ? [] : response.data);

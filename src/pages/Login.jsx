@@ -2,7 +2,7 @@ import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import "./Login.css";
 import { useState } from "react";
-import { login } from "../services/auth-service";
+import AuthService from "../services/auth-service";
 
 function Login() {
   const [email, setEmail] = useState(null);
@@ -27,11 +27,11 @@ function Login() {
     //   console.log(response);
     // };
     try {
-      const response = await login({ email, password });
+      const response = await AuthService.login(email, password);
       // if (result.data) {
       //   // navigate("/profile");
       // }
-        console.log(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log(error.data.message);
     }

@@ -1,60 +1,41 @@
-import { axiosClient, baseUrl } from "../utils/axios-client";
+import api from "../utils/api";
+import TokenService from "./token-service";
 
-// export async function login(email, password) {
-//   try {
-//     const response = await axios.post(`${baseUrl}/customers/auth/login`, {
-//       email,
-//       password,
-//     });
-
-//     if (response.status === 202) {
-//       localStorage.setItem("access_token", response.data.access_token);
-//       localStorage.setItem("refresh_token", response.data.refresh_token);
-//       //   return getUser();
-//       console.log("login");
-//       return response;
-//     }
-//   } catch (_) {
-//     return null;
-//   }
-// }
-
-export const login = (data) => {
-  console.log("data=", data);
-  return axiosClient.post("/customers/auth/login", data).then((response) => {
-    localStorage.setItem("access_token", response.data.access_token);
-    localStorage.setItem("refresh_token", response.data.refresh_token);
+const register = (email, password) => {
+  return api.post("/customers/auth/signup", {
+    email,
+    password,
   });
 };
 
-export async function refresh() {
-  try {
-    const response = await axios.post(
-      `${baseUrl}/customers/auth/refresh`,
-      {},
-      {
-        headers: {
-          Authorization: "Bearer " + getRefreshToken(),
-        },
+const login = (email, password) => {
+  return api
+    .post("/customers/auth/login", {
+      email,
+      password,
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        TokenService.setUser(response.data);
       }
-    );
-    localStorage.setItem("access_token", response.data.access_token);
-    localStorage.setItem("refresh_token", response.data.refresh_token);
-  } catch (e) {
-    logout();
-  }
-}
 
-export function getAccessToken() {
-  return localStorage.getItem("access_token");
-}
+      return response.data;
+    });
+};
 
-export function getRefreshToken() {
-  return localStorage.getItem("refresh_token");
-}
+const logout = () => {
+  TokenService.removeUser();
+};
 
-export function logout() {
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("refresh_token");
-  //   clearUser();
-}
+const getCurrentUser = () => {
+  return JSON.parse(localStorage.getItem("user"));
+};
+
+const AuthService = {
+  register,
+  login,
+  logout,
+  getCurrentUser,
+};
+
+export default AuthService;
