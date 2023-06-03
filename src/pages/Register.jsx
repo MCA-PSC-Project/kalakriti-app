@@ -5,6 +5,7 @@ import { faCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import AuthService from "../services/auth-service";
 
 const schema = yup
   .object({
@@ -47,8 +48,25 @@ function Register() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      const bodyContent = JSON.stringify({
+        email: data.email,
+        password: data.password,
+        first_name: data.firstName,
+        last_name: data.lastName,
+        dob: new Date(data.dob).toISOString(),
+        gender: data.gender,
+      });
+      const response = await AuthService.register(bodyContent);
+      // if (result.data) {
+      //   // navigate("/profile");
+      // }
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
     alert("Form submitted!!!");
   };
 
