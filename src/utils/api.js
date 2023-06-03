@@ -36,11 +36,11 @@ instance.interceptors.response.use(
 
         try {
           const rs = await instance.post("/auth/refresh", {
-            refreshToken: TokenService.getLocalRefreshToken(),
+            refresh_token: TokenService.getLocalRefreshToken(),
           });
 
-          const { accessToken } = rs.data;
-          TokenService.updateLocalAccessToken(accessToken);
+          const { access_token } = rs.data;
+          TokenService.updateLocalAccessToken(access_token);
 
           return instance(originalConfig);
         } catch (_error) {
