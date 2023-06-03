@@ -1,23 +1,31 @@
-import { baseUrl } from "../utils/axios-client";
+import { axiosClient, baseUrl } from "../utils/axios-client";
 
-export async function login(email, password) {
-  try {
-    const response = await axios.post(`${baseUrl}/customers/auth/login`, {
-      email,
-      password,
-    });
+// export async function login(email, password) {
+//   try {
+//     const response = await axios.post(`${baseUrl}/customers/auth/login`, {
+//       email,
+//       password,
+//     });
 
-    if (response.status === 202) {
-      localStorage.setItem("access_token", response.data.access_token);
-      localStorage.setItem("refresh_token", response.data.refresh_token);
-      //   return getUser();
-      console.log("login");
-      return response;
-    }
-  } catch (_) {
-    return null;
-  }
-}
+//     if (response.status === 202) {
+//       localStorage.setItem("access_token", response.data.access_token);
+//       localStorage.setItem("refresh_token", response.data.refresh_token);
+//       //   return getUser();
+//       console.log("login");
+//       return response;
+//     }
+//   } catch (_) {
+//     return null;
+//   }
+// }
+
+export const login = (data) => {
+  console.log("data=", data);
+  return axiosClient.post("/customers/auth/login", data).then((response) => {
+    localStorage.setItem("access_token", response.data.access_token);
+    localStorage.setItem("refresh_token", response.data.refresh_token);
+  });
+};
 
 export async function refresh() {
   try {

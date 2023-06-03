@@ -19,13 +19,22 @@ function Login() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log({ email, password });
     // const signin = async (email, password) => {
     //   const response = await login(email, password);
     //   console.log(response);
     // };
+    try {
+      const response = await login({ email, password });
+      // if (result.data) {
+      //   // navigate("/profile");
+      // }
+        console.log(response.data);
+    } catch (error) {
+      console.log(error.data.message);
+    }
   };
 
   return (
