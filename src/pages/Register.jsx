@@ -29,12 +29,12 @@ const schema = yup
       .oneOf([yup.ref("password")], "Mismatched passwords")
       .required("Please confirm your password"),
 
-    dob: yup.date()
-    .max( new Date(),"Please enter a valid date of birth").typeError("Date of birth is required"),
+    dob: yup
+      .date()
+      .max(new Date(), "Please enter a valid date of birth")
+      .typeError("Date of birth is required"),
 
-    dp : yup.string().required("Please provide a profile picture"),
-    
-
+    // dp: yup.string().required("Please provide a profile picture"),
   })
   .required();
 
@@ -47,7 +47,7 @@ function Register() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (values) =>{ 
+  const onSubmit = (values) => {
     console.log(values);
     alert("Form submitted!!!");
   };
@@ -73,7 +73,11 @@ function Register() {
         </div>
         <div className="row">
           <div className="mx-auto col-10 col-md-8 col-lg-6">
-            <form className="needs-validation" noValidate="" onSubmit={handleSubmit(onSubmit)}>
+            <form
+              className="needs-validation"
+              noValidate=""
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div className="row g-3">
                 <div className="col-12">
                   <label htmlFor="firstName" className="form-label">
@@ -88,9 +92,11 @@ function Register() {
                     required=""
                     {...register("firstName")}
                   />
-                   {errors.firstName && (
-                <span style={{ color: "red" }}>{errors.firstName.message}</span>
-              )}
+                  {errors.firstName && (
+                    <span style={{ color: "red" }}>
+                      {errors.firstName.message}
+                    </span>
+                  )}
                 </div>
 
                 <div className="col-12">
@@ -106,10 +112,11 @@ function Register() {
                     required=""
                     {...register("lastName")}
                   />
-                   {errors.lastName && (
-                <span style={{ color: "red" }}>{errors.lastName.message}</span>
-              )}
-  
+                  {errors.lastName && (
+                    <span style={{ color: "red" }}>
+                      {errors.lastName.message}
+                    </span>
+                  )}
                 </div>
 
                 <div className="col-12">
@@ -125,10 +132,9 @@ function Register() {
                     required=""
                     {...register("email")}
                   />
-                   {errors.email && (
-                <span style={{ color: "red" }}>{errors.email.message}</span>
-              )}
-                 
+                  {errors.email && (
+                    <span style={{ color: "red" }}>{errors.email.message}</span>
+                  )}
                 </div>
 
                 <div className="col-12">
@@ -143,10 +149,11 @@ function Register() {
                     required=""
                     {...register("password")}
                   />
-                   {errors.password && (
-                <span style={{ color: "red" }}>{errors.password.message}</span>
-              )}
-               
+                  {errors.password && (
+                    <span style={{ color: "red" }}>
+                      {errors.password.message}
+                    </span>
+                  )}
                 </div>
 
                 <div className="col-12">
@@ -161,10 +168,11 @@ function Register() {
                     required=""
                     {...register("confirmPassword")}
                   />
-                   {errors.confirmPassword && (
-                <span style={{ color: "red" }}>{errors.confirmPassword.message}</span>
-              )}
-                 
+                  {errors.confirmPassword && (
+                    <span style={{ color: "red" }}>
+                      {errors.confirmPassword.message}
+                    </span>
+                  )}
                 </div>
 
                 <div className="col-12">
@@ -179,31 +187,31 @@ function Register() {
                     required=""
                     {...register("dob")}
                   />
-                   {errors.dob && (
-                <span style={{ color: "red" }}>{errors.dob.message}</span>
-              )}
+                  {errors.dob && (
+                    <span style={{ color: "red" }}>{errors.dob.message}</span>
+                  )}
                 </div>
 
                 <div className="col-12">
                   <label htmlFor="gender" className="form-label">
                     Gender
                   </label>
-                  <select className="form-control"  {...register("gender")}>
+                  <select className="form-control" {...register("gender")}>
                     <option value="">Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
-                   
                   </select>
                   {errors.gender && (
-                <span style={{ color: "red" }}>{errors.gender.message}</span>
-              )}
-                
+                    <span style={{ color: "red" }}>
+                      {errors.gender.message}
+                    </span>
+                  )}
                 </div>
 
                 <div className="col-12">
                   <label htmlFor="dp" className="form-label">
-                    UPLOAD YOUR DISPLAY PICTURE
+                    UPLOAD YOUR PROFILE PICTURE (optional)
                   </label>
                   <input
                     type="file"
@@ -211,10 +219,11 @@ function Register() {
                     className="btn btn-outline-primary"
                     id="dp"
                     name="choose-file"
-                  /><br/>
+                  />
+                  <br />
                   {errors.dp && (
-                <span style={{ color: "red" }}>{errors.dp.message}</span>
-              )}
+                    <span style={{ color: "red" }}>{errors.dp.message}</span>
+                  )}
                 </div>
 
                 <div className="col-12">
