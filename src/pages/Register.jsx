@@ -63,11 +63,12 @@ function Register() {
       // if (result.data) {
       //   // navigate("/profile");
       // }
+      alert("Form submitted!!!");
       console.log(response.data);
+      alert(response.data);
     } catch (error) {
       console.log(error);
     }
-    alert("Form submitted!!!");
   };
 
   return (
