@@ -1,30 +1,30 @@
 const getLocalRefreshToken = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  return user?.refresh_token;
+  const customer = JSON.parse(localStorage.getItem("customer"));
+  return customer?.refresh_token;
 };
 
 const getLocalAccessToken = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  return user?.access_token;
+  const customer = JSON.parse(localStorage.getItem("customer"));
+  return customer?.access_token;
 };
 
 const updateLocalAccessToken = (token) => {
-  let user = JSON.parse(localStorage.getItem("user"));
-  user.access_token = token;
-  localStorage.setItem("user", JSON.stringify(user));
+  let customer = JSON.parse(localStorage.getItem("customer"));
+  customer.access_token = token;
+  localStorage.setItem("customer", JSON.stringify(customer));
 };
 
 const getUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  return JSON.parse(localStorage.getItem("customer"));
 };
 
-const setUser = (user) => {
-  console.log(JSON.stringify(user));
-  localStorage.setItem("user", JSON.stringify(user));
+const setUser = (customer) => {
+  console.log(JSON.stringify(customer));
+  localStorage.setItem("customer", JSON.stringify(customer));
 };
 
 const removeUser = () => {
-  localStorage.removeItem("user");
+  localStorage.removeItem("customer");
 };
 
 const TokenService = {
