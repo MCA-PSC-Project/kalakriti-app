@@ -14,8 +14,8 @@ import "./Product.css";
 
 const imgSrcList = [
   "https://source.unsplash.com/random/1600×900/?handloom",
-  "https://source.unsplash.com/random/300×300/?lightlamp",
-  "https://source.unsplash.com/random/300×300/?painting",
+  "https://source.unsplash.com/random/1024×768/?lightlamp",
+  "https://source.unsplash.com/random/300*300/?painting",
 ];
 
 function Product({
