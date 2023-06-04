@@ -13,7 +13,7 @@ import { useState } from "react";
 import "./Product.css";
 
 const imgSrcList = [
-  "https://source.unsplash.com/random/300×300/?handloom",
+  "https://source.unsplash.com/random/1600×900/?handloom",
   "https://source.unsplash.com/random/300×300/?lightlamp",
   "https://source.unsplash.com/random/300×300/?painting",
 ];
@@ -56,97 +56,8 @@ function Product({
         <div className="container">
           <div className="row gx-5">
             <aside className="col-lg-6">
-              <div className="border rounded-4 mb-3 d-flex justify-content-center">
-                <a
-                  data-fslightbox="mygalley"
-                  className="rounded-4"
-                  target="_top"
-                  data-type="image"
-                  href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp"
-                >
-                  <img
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100vh",
-                      margin: "auto",
-                    }}
-                    className="rounded-4 fit"
-                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp"
-                  />
-                </a>
-              </div>
-              <div className="d-flex justify-content-center mb-3">
-                <a
-                  data-fslightbox="mygalley"
-                  className="border mx-1 rounded-2"
-                  target="_top"
-                  data-type="image"
-                  href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp"
-                >
-                  <img
-                    width={60}
-                    height={60}
-                    className="rounded-2"
-                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp"
-                  />
-                </a>
-                <a
-                  data-fslightbox="mygalley"
-                  className="border mx-1 rounded-2"
-                  target="_top"
-                  data-type="image"
-                  href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp"
-                >
-                  <img
-                    width={60}
-                    height={60}
-                    className="rounded-2"
-                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp"
-                  />
-                </a>
-                <a
-                  data-fslightbox="mygalley"
-                  className="border mx-1 rounded-2"
-                  target="_top"
-                  data-type="image"
-                  href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp"
-                >
-                  <img
-                    width={60}
-                    height={60}
-                    className="rounded-2"
-                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp"
-                  />
-                </a>
-                <a
-                  data-fslightbox="mygalley"
-                  className="border mx-1 rounded-2"
-                  target="_top"
-                  data-type="image"
-                  href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp"
-                >
-                  <img
-                    width={60}
-                    height={60}
-                    className="rounded-2"
-                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp"
-                  />
-                </a>
-                <a
-                  data-fslightbox="mygalley"
-                  className="border mx-1 rounded-2"
-                  target="_top"
-                  data-type="image"
-                  href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp"
-                >
-                  <img
-                    width={60}
-                    height={60}
-                    className="rounded-2"
-                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp"
-                  />
-                </a>
-              </div>
+                <ImageCarousel imgSrcList={imgSrcList} />
+              <div className="d-flex justify-content-center mb-3"></div>
               {/* thumbs-wrap.// */}
               {/* gallery-wrap .end// */}
             </aside>

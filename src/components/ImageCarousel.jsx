@@ -1,6 +1,6 @@
-function ImageCarousel({ imgSrcList }){
-    return(
-      <div id="myCarouselExampleIndicators" className="carousel slide" >
+function ImageCarousel({ imgSrcList }) {
+  return (
+    <div id="myCarouselExampleIndicators" className="carousel slide">
       <div className="carousel-indicators">
         <button
           type="button"
@@ -31,7 +31,7 @@ function ImageCarousel({ imgSrcList }){
             src={imgSrcList[0]}
             className="d-block w-100"
             alt="..."
-            style={{ width: "100%", height: "400px" }}
+            style={{ width: "100%", height: "100%" }}
           />
         </div>
         <div className="carousel-item active">
