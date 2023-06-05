@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ImageCarousel from "../components/ImageCarousel";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
@@ -94,6 +95,14 @@ function Product({
             <main className="col-lg-6">
               <div className="ps-lg-3">
                 <h4 className="title text-dark">{product?.product_name}</h4>
+                <h6 className="title text-dark">
+                  sold by &nbsp;
+                  <b classname="text text-info">
+                    <Link to="" title="view seller details">
+                      {product?.seller?.seller_name}
+                    </Link>
+                  </b>
+                </h6>
                 <div className="d-flex flex-row my-3">
                   <div className="text-warning mb-1 me-2">
                     <span className="ms-1">
@@ -242,6 +251,7 @@ function Product({
                 </li>
               </ul>
               <div className="tab-content" id="pills-tabContent">
+                {/* for Description */}
                 <div
                   className="tab-pane fade show active"
                   id="pills-home"
@@ -251,16 +261,22 @@ function Product({
                   {product.product_description}
                   {/* lorem*10 */}
                 </div>
+                {/* for product reviews */}
                 <div
                   className="tab-pane fade"
                   id="pills-profile"
                   role="tabpanel"
                   aria-labelledby="pills-profile-tab"
                 >
-                  reviews here
+                  <Review
+                    userName="Prashant"
+                    rating={5}
+                    review="sdfbsfbsvsvnsjvb"
+                  />
                 </div>
               </div>
             </div>
+            {/* for similar items */}
             <div className="col-lg-4">
               <div className="px-0 border rounded-2 shadow-0">
                 <div className="card">

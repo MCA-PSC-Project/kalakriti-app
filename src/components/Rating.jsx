@@ -7,7 +7,7 @@ function Rating({ ratingValue, ratingCount }) {
   const rating = parseFloat(ratingValue);
   let ratingInteger = Math.floor(rating);
   const ratingFractional = rating - ratingInteger;
-  console.log(ratingValue, rating, ratingInteger, ratingFractional);
+  // console.log(ratingValue, rating, ratingInteger, ratingFractional);
   const elements = [];
   for (let i = 1; i <= ratingInteger; i++) {
     elements.push(
