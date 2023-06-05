@@ -63,22 +63,6 @@ function Product({
     setQuantity(product?.min_order_quantity);
   }, [product]);
 
-  const [reviewActive, setReviewActive] = useState(false);
-  const [descriptionActive, setDescriptionActive] = useState(false);
-  const [isShown, setIsShown] = useState(false);
-  const [isShown1, setIsShown1] = useState(false);
-  const handleDescription = () => {
-    setDescriptionActive(!descriptionActive);
-    setReviewActive(false);
-    setIsShown1(false);
-    setIsShown((current) => !current);
-  };
-  const handleReview = () => {
-    setReviewActive(!reviewActive);
-    setDescriptionActive(false);
-    setIsShown(false);
-    setIsShown1((current) => !current);
-  };
   return (
     <>
       <NavBar />
@@ -224,12 +208,12 @@ function Product({
                 <li className="nav-item" role="presentation">
                   <button
                     className="nav-link active"
-                    id="pills-home-tab"
+                    id="pills-description-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-home"
+                    data-bs-target="#pills-description"
                     type="button"
                     role="tab"
-                    aria-controls="pills-home"
+                    aria-controls="pills-description"
                     aria-selected="true"
                   >
                     Description
@@ -238,12 +222,12 @@ function Product({
                 <li className="nav-item" role="presentation">
                   <button
                     className="nav-link"
-                    id="pills-profile-tab"
+                    id="pills-reviews-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-profile"
+                    data-bs-target="#pills-reviews"
                     type="button"
                     role="tab"
-                    aria-controls="pills-profile"
+                    aria-controls="pills-reviews"
                     aria-selected="false"
                   >
                     Product Reviews
@@ -254,20 +238,25 @@ function Product({
                 {/* for Description */}
                 <div
                   className="tab-pane fade show active"
-                  id="pills-home"
+                  id="pills-description"
                   role="tabpanel"
-                  aria-labelledby="pills-home-tab"
+                  aria-labelledby="pills-description-tab"
                 >
-                  {product.product_description}
+                  {product?.product_description}
                   {/* lorem*10 */}
                 </div>
                 {/* for product reviews */}
                 <div
                   className="tab-pane fade"
-                  id="pills-profile"
+                  id="pills-reviews"
                   role="tabpanel"
-                  aria-labelledby="pills-profile-tab"
+                  aria-labelledby="pills-reviews-tab"
                 >
+                  <Review
+                    userName="Prashant"
+                    rating={5}
+                    review="sdfbsfbsvsvnsjvb"
+                  />
                   <Review
                     userName="Prashant"
                     rating={5}
