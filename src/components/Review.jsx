@@ -2,14 +2,14 @@ import React from "react";
 import Rating from "./Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-function Review({ profilePic, userName, rating, review }) {
+function Review({ profilePicSrc, userName, rating, review }) {
   return (
     <>
       <div>
         <hr className="border border-sucess border opacity-50"></hr>
-        {profilePic ? (
+        {profilePicSrc ? (
           <img
-            src={profilePic}
+            src={profilePicSrc}
             class="rounded-circle"
             alt="Profile Pic"
             width="30"

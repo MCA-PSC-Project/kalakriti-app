@@ -39,13 +39,15 @@ function Product({
 }) {
   const [product, setProduct] = useState({});
   const [selectedProductItem, setSelectedProductItem] = useState(null);
+  const [productReviewsList, setProductReviewsList] = useState([]);
   const [quantity, setQuantity] = useState(null);
+  const [isProductReviewsShown, setIsProductReviewsShown] = useState(false);
 
   useEffect(() => {
     api
       .get(`/products/${productId}`)
       .then((response) => {
-        setProduct(response.data === null ? [] : response.data);
+        setProduct(response.data === null ? {} : response.data);
         console.log(response.data);
       })
       .catch((err) => {
@@ -62,6 +64,18 @@ function Product({
     );
     setQuantity(product?.min_order_quantity);
   }, [product]);
+
+  useEffect(() => {
+    api
+      .get(`/products/${productId}/product-reviews`)
+      .then((response) => {
+        setProductReviewsList(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [isProductReviewsShown]);
 
   return (
     <>
@@ -229,6 +243,7 @@ function Product({
                     role="tab"
                     aria-controls="pills-reviews"
                     aria-selected="false"
+                    onClick={() => setIsProductReviewsShown(true)}
                   >
                     Product Reviews
                   </button>
@@ -252,16 +267,21 @@ function Product({
                   role="tabpanel"
                   aria-labelledby="pills-reviews-tab"
                 >
-                  <Review
-                    userName="Prashant"
-                    rating={5}
-                    review="sdfbsfbsvsvnsjvb"
-                  />
-                  <Review
-                    userName="Prashant"
-                    rating={5}
-                    review="sdfbsfbsvsvnsjvb"
-                  />
+                  {productReviewsList.map((productReview) => {
+                    return (
+                      <Review
+                        key={productReview.id}
+                        profilePicSrc={productReview.dp.path}
+                        userName={
+                          productReview.first_name +
+                          " " +
+                          productReview.last_name
+                        }
+                        rating={productReview.rating}
+                        review={productReview.review}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
