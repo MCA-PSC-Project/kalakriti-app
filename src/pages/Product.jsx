@@ -159,8 +159,13 @@ function Product({
                       <button
                         className="btn btn-white border border-secondary px-3"
                         type="button"
-                        id="button-addon1"
+                        id="button-decrement-quantity"
                         data-mdb-ripple-color="dark"
+                        onClick={(event) =>
+                          quantity > product.min_order_quantity
+                            ? setQuantity(quantity - 1)
+                            : null
+                        }
                       >
                         <FontAwesomeIcon
                           icon={faMinus}
@@ -177,9 +182,14 @@ function Product({
                       />
                       <button
                         className="btn btn-white border border-secondary px-3"
-                        type="button"
+                        type="button-increment-quantity"
                         id="button-addon2"
                         data-mdb-ripple-color="dark"
+                        onClick={(event) =>
+                          quantity < product.max_order_quantity
+                            ? setQuantity(quantity + 1)
+                            : null
+                        }
                       >
                         <FontAwesomeIcon
                           icon={faPlus}
