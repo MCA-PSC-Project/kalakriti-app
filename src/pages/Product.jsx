@@ -6,6 +6,8 @@ import {
   faLayerGroup,
   faStar,
   faTruckFast,
+  faMinus,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import Rating from "../components/Rating";
 import Review from "../components/Review";
@@ -36,6 +38,7 @@ function Product({
 }) {
   const [product, setProduct] = useState({});
   const [selectedProductItem, setSelectedProductItem] = useState(null);
+  const [quantity, setQuantity] = useState(null);
 
   useEffect(() => {
     api
@@ -56,6 +59,7 @@ function Product({
         return item;
       })
     );
+    setQuantity(product?.min_order_quantity);
   }, [product]);
 
   const [reviewActive, setReviewActive] = useState(false);
@@ -158,12 +162,16 @@ function Product({
                         id="button-addon1"
                         data-mdb-ripple-color="dark"
                       >
-                        <i className="fas fa-minus" />
+                        <FontAwesomeIcon
+                          icon={faMinus}
+                          size="lg"
+                          style={{ color: "#000000" }}
+                        />
                       </button>
                       <input
                         type="text"
                         className="form-control text-center border border-secondary"
-                        placeholder={14}
+                        placeholder={quantity}
                         aria-label="Example text with button addon"
                         aria-describedby="button-addon1"
                       />
@@ -173,7 +181,11 @@ function Product({
                         id="button-addon2"
                         data-mdb-ripple-color="dark"
                       >
-                        <i className="fas fa-plus" />
+                        <FontAwesomeIcon
+                          icon={faPlus}
+                          size="lg"
+                          style={{ color: "#000000" }}
+                        />
                       </button>
                     </div>
                   </div>
