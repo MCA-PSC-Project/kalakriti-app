@@ -27,10 +27,13 @@ function Card({
           <h5 className="card-title">{cardTitle}</h5>
           <Rating ratingValue={average_rating} ratingCount={ratingCount} />
           <p className="card-text">
-            <span>&#8377;</span>
-            <del>{originalPrice}</del>&nbsp;
-            <span>&#8377;</span>
-            {offerPrice}
+            <span>
+              <del>&#8377;{originalPrice}</del>
+            </span>
+            &nbsp;
+            <span>
+              <b>&#8377;{offerPrice}</b>
+            </span>
           </p>
           <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
             <Link

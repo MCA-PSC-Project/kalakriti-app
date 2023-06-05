@@ -11,7 +11,7 @@ import Profile from "./pages/Profile";
 import Categories from "./pages/Categories";
 import { SubCategories } from "./pages/Categories";
 import Checkout from "./pages/Checkout";
-import Product from "./pages/product";
+import Product from "./pages/Product";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -37,6 +37,7 @@ const App = () => {
             path="/products"
             element={
               <Product
+                productId={3}
                 productName={"product name here"}
                 originalPrice={500}
                 offerPrice={100}

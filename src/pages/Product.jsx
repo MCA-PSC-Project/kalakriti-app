@@ -9,8 +9,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Rating from "../components/Rating";
 import Review from "../components/Review";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Product.css";
+import api from "../utils/api";
 
 const imgSrcList = [
   "https://source.unsplash.com/random/1600×900/?handloom",
@@ -19,6 +20,7 @@ const imgSrcList = [
 ];
 
 function Product({
+  productId,
   productName,
   originalPrice,
   offerPrice,
@@ -32,6 +34,30 @@ function Product({
   userName,
   rating,
 }) {
+  const [product, setProduct] = useState({});
+  const [selectedProductItem, setSelectedProductItem] = useState(null);
+
+  useEffect(() => {
+    api
+      .get(`/products/${productId}`)
+      .then((response) => {
+        setProduct(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    setSelectedProductItem(
+      product?.product_items?.find((item) => {
+        item.id === product?.base_product_item_id;
+        return item;
+      })
+    );
+  }, [product]);
+
   const [reviewActive, setReviewActive] = useState(false);
   const [descriptionActive, setDescriptionActive] = useState(false);
   const [isShown, setIsShown] = useState(false);
@@ -56,42 +82,49 @@ function Product({
         <div className="container">
           <div className="row gx-5">
             <aside className="col-lg-6">
-                <ImageCarousel imgSrcList={imgSrcList} />
+              <ImageCarousel imgSrcList={imgSrcList} />
               <div className="d-flex justify-content-center mb-3"></div>
               {/* thumbs-wrap.// */}
               {/* gallery-wrap .end// */}
             </aside>
             <main className="col-lg-6">
               <div className="ps-lg-3">
-                <h4 className="title text-dark">
-                  Quality Men's Hoodie for Winter, Men's Fashion <br />
-                  Casual Hoodie
-                </h4>
+                <h4 className="title text-dark">{product?.product_name}</h4>
                 <div className="d-flex flex-row my-3">
                   <div className="text-warning mb-1 me-2">
-                    <i className="fa fa-star" />
-                    <i className="fa fa-star" />
-                    <i className="fa fa-star" />
-                    <i className="fa fa-star" />
-                    <i className="fas fa-star-half-alt" />
-                    <span className="ms-1">4.5</span>
+                    <span className="ms-1">
+                      {parseFloat(product?.average_rating).toFixed(1)}
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size="xl"
+                        style={{ color: "#ffff00" }}
+                      />
+                    </span>
+                    |<span>&nbsp;{product?.rating_count} Ratings</span>
                   </div>
-                  <span className="text-muted">
+                  {/* <span className="text-muted">
                     <i className="fas fa-shopping-basket fa-sm mx-1" />
                     154 orders
-                  </span>
-                  <span className="text-success ms-2">In stock</span>
+                  </span> */}
+                  {/* <span className="text-success ms-2">In stock</span> */}
                 </div>
+                <div className="text-success mb-1">In stock</div>
                 <div className="mb-3">
-                  <span className="h5">$75.00</span>
-                  <span className="text-muted">/per box</span>
+                  <span>
+                    <del>
+                      &#8377;
+                      {selectedProductItem?.original_price}
+                    </del>
+                  </span>
+                  &nbsp;
+                  <span>
+                    <b>
+                      &#8377;
+                      {selectedProductItem?.offer_price}
+                    </b>
+                  </span>
                 </div>
-                <p>
-                  Modern look and quality demo item is a streetwear-inspired
-                  collection that continues to break away from the conventions
-                  of mainstream fashion. Made in Italy, these black and brown
-                  clothing low-top shirts for men.
-                </p>
+                <p>{product?.product_description}</p>
                 <div className="row">
                   <dt className="col-3">Type:</dt>
                   <dd className="col-9">Regular</dd>
