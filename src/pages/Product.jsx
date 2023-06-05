@@ -200,20 +200,17 @@ function Product({
                     </div>
                   </div>
                 </div>
-                <a href="#" className="btn btn-warning shadow-0">
-                  {" "}
-                  Buy now{" "}
+                <a href="#" className="btn btn-success shadow-0 me-2">
+                  Buy now
                 </a>
-                <a href="#" className="btn btn-primary shadow-0">
-                  {" "}
-                  <i className="me-1 fa fa-shopping-basket" /> Add to cart{" "}
+                <a href="#" className="btn btn-warning shadow-0 me-2">
+                  Add to cart
                 </a>
                 <a
                   href="#"
                   className="btn btn-light border border-secondary py-2 icon-hover px-3"
                 >
-                  {" "}
-                  <i className="me-1 fa fa-heart fa-lg" /> Save{" "}
+                  Add to Wishlist
                 </a>
               </div>
             </main>
@@ -242,7 +239,7 @@ function Product({
                       aria-controls="ex1-pills-1"
                       aria-selected="true"
                     >
-                      Specification
+                      Description
                     </a>
                   </li>
                   <li className="nav-item d-flex" role="presentation">
