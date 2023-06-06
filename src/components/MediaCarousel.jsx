@@ -1,6 +1,6 @@
-function ImageCarousel({ imgSrcList }) {
+function MediaCarousel({ mediaSrcList }) {
   const elements = [];
-  for (let index = 0; index < imgSrcList.length; index++) {
+  for (let index = 0; index < mediaSrcList.length; index++) {
     elements.push(
       <button
         type="button"
@@ -16,7 +16,7 @@ function ImageCarousel({ imgSrcList }) {
     <div id="myCarouselExampleIndicators" className="carousel slide">
       <div className="carousel-indicators">{elements}</div>
       <div className="carousel-inner">
-        {imgSrcList.map((image, index) => {
+        {mediaSrcList.map((image, index) => {
           return (
             <div
               className={index === 0 ? "carousel-item active" : "carousel-item"}
@@ -53,4 +53,4 @@ function ImageCarousel({ imgSrcList }) {
   );
 }
 
-export default ImageCarousel;
+export default MediaCarousel;

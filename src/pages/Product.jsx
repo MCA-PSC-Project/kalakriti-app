@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ImageCarousel from "../components/ImageCarousel";
+import MediaCarousel from "../components/MediaCarousel";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,32 +16,13 @@ import { useEffect, useState } from "react";
 import "./Product.css";
 import api from "../utils/api";
 
-const imgSrcList = [
-  "https://source.unsplash.com/random/1600×900/?handloom",
-  "https://source.unsplash.com/random/1024×768/?lightlamp",
-  "https://source.unsplash.com/random/300*300/?painting",
-];
-
-function Product({
-  productId,
-  productName,
-  originalPrice,
-  offerPrice,
-  overallRating,
-  total_review_count,
-  fiveStar,
-  fourStar,
-  threeStar,
-  twoStar,
-  oneStar,
-  userName,
-  rating,
-}) {
+function Product({ productId }) {
   const [product, setProduct] = useState({});
   const [selectedProductItem, setSelectedProductItem] = useState(null);
   const [productReviewsList, setProductReviewsList] = useState([]);
   const [quantity, setQuantity] = useState(null);
   const [isProductReviewsShown, setIsProductReviewsShown] = useState(false);
+  const [mediaSrcList, setMediaSrcList] = useState([]);
 
   useEffect(() => {
     api
@@ -77,6 +58,18 @@ function Product({
       });
   }, [isProductReviewsShown]);
 
+  useEffect(() => {
+    if (selectedProductItem) {
+      console.log("selected pi=", selectedProductItem);
+      const localMediaSrcList = [];
+      const media_list = selectedProductItem?.media_list;
+      for (let media of media_list) {
+        localMediaSrcList.push(media.path);
+      }
+      setMediaSrcList(localMediaSrcList);
+    }
+  }, [selectedProductItem]);
+
   return (
     <>
       <NavBar />
@@ -85,7 +78,7 @@ function Product({
         <div className="container">
           <div className="row gx-5">
             <aside className="col-lg-6">
-              <ImageCarousel imgSrcList={imgSrcList} />
+              <MediaCarousel mediaSrcList={mediaSrcList} />
               <div className="d-flex justify-content-center mb-3"></div>
               {/* thumbs-wrap.// */}
               {/* gallery-wrap .end// */}
