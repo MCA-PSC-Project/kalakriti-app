@@ -125,7 +125,11 @@ function Product({ productId }) {
                     <button
                       type="button"
                       className="btn border px-2 me-2"
-                      title={wishlistClicked ? "Remove From wishlist" : "Add To wishlist"}
+                      title={
+                        wishlistClicked
+                          ? "Remove From wishlist"
+                          : "Add To wishlist"
+                      }
                       onClick={() => handleWishlistClick()}
                     >
                       {wishlistClicked ? (
@@ -242,12 +246,6 @@ function Product({ productId }) {
                 <a href="#" className="btn btn-warning shadow-0 me-2">
                   Add to cart
                 </a>
-                <a
-                  href="#"
-                  className="btn btn-light border border-secondary py-2 icon-hover px-3"
-                >
-                  Add to Wishlist
-                </a>
               </div>
             </main>
           </div>
@@ -319,6 +317,8 @@ function Product({ productId }) {
                         }
                         rating={productReview.rating}
                         review={productReview.review}
+                        added_at={productReview.added_at}
+                        updated_at={productReview.updated_at}
                       />
                     );
                   })}
