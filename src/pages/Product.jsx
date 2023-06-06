@@ -9,7 +9,10 @@ import {
   faTruckFast,
   faMinus,
   faPlus,
+  faHeart as faHeartFilled,
+  faShare,
 } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import Rating from "../components/Rating";
 import Review from "../components/Review";
 import { useEffect, useState } from "react";
@@ -23,6 +26,7 @@ function Product({ productId }) {
   const [quantity, setQuantity] = useState(null);
   const [isProductReviewsShown, setIsProductReviewsShown] = useState(false);
   const [mediaSrcList, setMediaSrcList] = useState([]);
+  const [wishlistClicked, setWishlistCLicked] = useState(false);
 
   useEffect(() => {
     api
@@ -70,6 +74,10 @@ function Product({ productId }) {
     }
   }, [selectedProductItem]);
 
+  const handleWishlistClick = () => {
+    setWishlistCLicked(!wishlistClicked);
+  };
+
   return (
     <>
       <NavBar />
@@ -111,6 +119,45 @@ function Product({ productId }) {
                     154 orders
                   </span> */}
                   {/* <span className="text-success ms-2">In stock</span> */}
+                </div>
+                <div className="mb-3">
+                  <Link to="">
+                    <button
+                      type="button"
+                      className="btn border px-2 me-2"
+                      title={wishlistClicked ? "Remove From wishlist" : "Add To wishlist"}
+                      onClick={() => handleWishlistClick()}
+                    >
+                      {wishlistClicked ? (
+                        <FontAwesomeIcon
+                          icon={faHeartFilled}
+                          size="xl"
+                          style={{ color: "#ff0000" }}
+                          // beatFade
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          size="xl"
+                          style={{ color: "#ff0000" }}
+                          // beatFade
+                        />
+                      )}
+                    </button>
+                  </Link>
+
+                  <button
+                    type="button"
+                    className="btn border px-2 me-2"
+                    title="share"
+                    // onClick=""
+                  >
+                    <FontAwesomeIcon
+                      icon={faShare}
+                      size="xl"
+                      style={{ color: "#20511f" }}
+                    />
+                  </button>
                 </div>
                 <div className="text-success mb-1">In stock</div>
                 <div className="mb-3">
