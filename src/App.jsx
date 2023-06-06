@@ -35,23 +35,7 @@ const App = () => {
           <Route
             exact
             path="/products"
-            element={
-              <Product
-                productId={3}
-                productName={"product name here"}
-                originalPrice={500}
-                offerPrice={100}
-                overallRating={4}
-                total_review_count={10}
-                fiveStar={"100%"}
-                fourStar={"75%"}
-                threeStar={"50%"}
-                twoStar={"25%"}
-                oneStar={"45%"}
-                userName={"user name here"}
-                rating={3}
-              />
-            }
+            element={<Product productId={3} isLoggedIn={false} />}
           />
           <Route exact path="/categories" element={<Categories />} />
           <Route exact path="/subcategories" element={<SubCategories />} />

@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import "./Product.css";
 import api from "../utils/api";
 
-function Product({ productId }) {
+function Product({ productId, isLoggedIn }) {
   const [product, setProduct] = useState({});
   const [selectedProductItem, setSelectedProductItem] = useState(null);
   const [productReviewsList, setProductReviewsList] = useState([]);
@@ -240,12 +240,35 @@ function Product({ productId }) {
                     </div>
                   </div>
                 </div>
-                <a href="#" className="btn btn-success shadow-0 me-2">
+                <div className="mb-4">
+                  {isLoggedIn ? (
+                    <>
+                      <span className="text text-success">Delivery: </span>
+                      <span>between 7-10 June</span>
+                    </>
+                  ) : (
+                    <>
+                      <form>
+                      <div class="input-group">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Pincode here"
+                          />
+                        <button className="btn btn-secondary input-group-text shadow-0">
+                          Check Delivery
+                        </button>
+                        </div>
+                      </form>
+                    </>
+                  )}
+                </div>
+                <button className="btn btn-success shadow-0 me-2">
                   Buy now
-                </a>
-                <a href="#" className="btn btn-warning shadow-0 me-2">
+                </button>
+                <button className="btn btn-warning shadow-0 me-2">
                   Add to cart
-                </a>
+                </button>
               </div>
             </main>
           </div>
