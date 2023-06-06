@@ -43,7 +43,7 @@ function Rating({ ratingValue, ratingCount }) {
   }
   return (
     <div className="ratings">
-      {elements}&nbsp;({ratingCount})
+      {elements}&nbsp;{ratingCount ? "(" + ratingCount + ")" : null}
     </div>
   );
 }

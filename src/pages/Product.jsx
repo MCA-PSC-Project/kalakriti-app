@@ -63,7 +63,7 @@ function Product({ productId }) {
       console.log("selected pi=", selectedProductItem);
       const localMediaSrcList = [];
       const media_list = selectedProductItem?.media_list;
-      for (let media of media_list) {
+      for (const media of media_list) {
         localMediaSrcList.push(media.path);
       }
       setMediaSrcList(localMediaSrcList);
@@ -88,7 +88,7 @@ function Product({ productId }) {
                 <h4 className="title text-dark">{product?.product_name}</h4>
                 <h6 className="title text-dark">
                   sold by &nbsp;
-                  <b classname="text text-info">
+                  <b className="text text-info">
                     <Link to="" title="view seller details">
                       {product?.seller?.seller_name}
                     </Link>
