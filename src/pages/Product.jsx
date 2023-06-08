@@ -252,7 +252,7 @@ function Product({ productId, isLoggedIn }) {
                       <div class="input-group">
                           <input
                             type="text"
-                            className="form-control"
+                            className="form-control-sm"
                             placeholder="Enter Pincode here"
                           />
                         <button className="btn btn-secondary input-group-text shadow-0">

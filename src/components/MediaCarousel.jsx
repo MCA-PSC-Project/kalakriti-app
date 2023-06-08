@@ -4,7 +4,7 @@ function MediaCarousel({ mediaSrcList }) {
     elements.push(
       <button
         type="button"
-        data-bs-target="#myCarousel"
+        data-bs-target="#myCarouselExampleIndicators"
         data-bs-slide-to={index}
         className={index === 0 ? "active" : ""}
         aria-label={"Slide " + (index + 1)}
