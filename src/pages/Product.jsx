@@ -28,6 +28,7 @@ function Product({ productId, isLoggedIn }) {
   const [mediaSrcList, setMediaSrcList] = useState([]);
   const [wishlistClicked, setWishlistCLicked] = useState(false);
 
+  let variants = new Set();
   useEffect(() => {
     api
       .get(`/products/${productId}`)
@@ -48,6 +49,15 @@ function Product({ productId, isLoggedIn }) {
       })
     );
     setQuantity(product?.min_order_quantity);
+
+    variants = product?.product_items?.reduce((acc, item) => {
+      if (!acc[item.variant]) {
+        acc[item.variant] = [];
+      }
+      acc[item.variant].push({ id: item.id, value: item.variant_value });
+      return acc;
+    }, {});
+    console.log("variants", variants);
   }, [product]);
 
   useEffect(() => {
@@ -249,15 +259,15 @@ function Product({ productId, isLoggedIn }) {
                   ) : (
                     <>
                       <form>
-                      <div class="input-group">
+                        <div class="input-group">
                           <input
                             type="text"
                             className="form-control-sm"
                             placeholder="Enter Pincode here"
                           />
-                        <button className="btn btn-secondary input-group-text shadow-0">
-                          Check Delivery
-                        </button>
+                          <button className="btn btn-secondary input-group-text shadow-0">
+                            Check Delivery
+                          </button>
                         </div>
                       </form>
                     </>
