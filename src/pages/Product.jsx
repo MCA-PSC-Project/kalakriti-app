@@ -28,7 +28,6 @@ function Product({ productId, isLoggedIn }) {
   const [mediaSrcList, setMediaSrcList] = useState([]);
   const [wishlistClicked, setWishlistCLicked] = useState(false);
 
-  let variants = new Set();
   useEffect(() => {
     api
       .get(`/products/${productId}`)
@@ -49,15 +48,6 @@ function Product({ productId, isLoggedIn }) {
       })
     );
     setQuantity(product?.min_order_quantity);
-
-    variants = product?.product_items?.reduce((acc, item) => {
-      if (!acc[item.variant]) {
-        acc[item.variant] = [];
-      }
-      acc[item.variant].push({ id: item.id, value: item.variant_value });
-      return acc;
-    }, {});
-    console.log("variants", variants);
   }, [product]);
 
   useEffect(() => {
@@ -77,8 +67,10 @@ function Product({ productId, isLoggedIn }) {
       console.log("selected pi=", selectedProductItem);
       const localMediaSrcList = [];
       const media_list = selectedProductItem?.media_list;
-      for (const media of media_list) {
-        localMediaSrcList.push(media.path);
+      if (media_list) {
+        for (const media of media_list) {
+          localMediaSrcList.push(media.path);
+        }
       }
       setMediaSrcList(localMediaSrcList);
     }
@@ -190,18 +182,30 @@ function Product({ productId, isLoggedIn }) {
                   </span>
                 </div>
                 <hr />
+
                 <div className="row mb-4">
                   <div className="col-md-4 col-6">
-                    <label className="mb-2">Size</label>
-                    <select
-                      className="form-select border border-secondary"
-                      style={{ height: 35 }}
-                    >
-                      <option>Small</option>
-                      <option>Medium</option>
-                      <option>Large</option>
-                    </select>
+                    {product?.product_items?.map((product_item) => {
+                      return (
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary shadow-0 me-2"
+                          key={product_item.id}
+                          disabled={
+                            product_item === selectedProductItem
+                              ? "true"
+                              : undefined
+                          }
+                          onClick={() => setSelectedProductItem(product_item)}
+                        >
+                          {product_item.product_variant_name}
+                        </button>
+                      );
+                    })}
                   </div>
+                </div>
+
+                <div className="row mb-4">
                   {/* col.// */}
                   <div className="col-md-4 col-6 mb-3">
                     <label className="mb-2 d-block">Quantity</label>
@@ -265,7 +269,7 @@ function Product({ productId, isLoggedIn }) {
                             className="form-control-sm"
                             placeholder="Enter Pincode here"
                           />
-                          <button className="btn btn-secondary input-group-text shadow-0">
+                          <button className="btn btn-info input-group-text shadow-0">
                             Check Delivery
                           </button>
                         </div>
