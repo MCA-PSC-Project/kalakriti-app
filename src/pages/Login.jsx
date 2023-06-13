@@ -4,15 +4,16 @@ import "./Login.css";
 import { useState } from "react";
 import AuthService from "../services/auth-service";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+// import useAuth from "../hooks/useAuth";
+import AuthConsumer from "../hooks/useAuth";
 
 function Login() {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
   const navigate = useNavigate();
-  const { login } = useAuth();
-
+  // const { login } = useAuth();
+  const { login } = AuthConsumer();
   const handleInputChange = (event) => {
     const { id, value } = event.target;
 

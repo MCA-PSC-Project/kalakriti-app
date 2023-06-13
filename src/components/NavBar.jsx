@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpeg";
 import CartSvg from "../assets/cart.svg";
 import WishlistSvg from "../assets/Heart.svg";
@@ -18,9 +18,11 @@ import {
   faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+// import useAuth from "../hooks/useAuth";
+import AuthConsumer from "../hooks/useAuth";
 
-function NavBar({ isLoggedIn = false }) {
+function NavBar() {
   const [iconsHoveredState, setIconsHoveredState] = useState({
     wishlist: false,
     cart: false,
@@ -35,6 +37,20 @@ function NavBar({ isLoggedIn = false }) {
       ...prevState,
       [item]: !prevState[item],
     }));
+  };
+  // const { authed, logout } = useAuth();
+  const { authed, logout } = AuthConsumer();
+  const isLoggedIn = authed ? true : false;
+  console.log("isLogedIn=", authed);
+  // useEffect(() => {
+  //   console.log(authed);
+  // }, [authed]);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    console.log("logging out");
+    logout();
+    navigate("/");
   };
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -240,7 +256,11 @@ function NavBar({ isLoggedIn = false }) {
                       <hr className="dropdown-divider" />
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/">
+                      <Link
+                        className="dropdown-item"
+                        to="/"
+                        onClick={() => handleLogout()}
+                      >
                         <FontAwesomeIcon
                           icon={faRightFromBracket}
                           style={{ color: "#4dbad5" }}

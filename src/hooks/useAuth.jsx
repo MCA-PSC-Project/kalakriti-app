@@ -3,7 +3,7 @@ import AuthService from "../services/auth-service";
 
 const authContext = createContext();
 
-export default function useAuth() {
+function useAuth() {
   const [authed, setAuthed] = useState(false);
   const login = async (email, password) => {
     return new Promise((resolve, reject) => {
@@ -42,6 +42,6 @@ export function AuthProvider({ children }) {
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
 
-export function AuthConsumer() {
+export default function AuthConsumer() {
   return useContext(authContext);
 }
