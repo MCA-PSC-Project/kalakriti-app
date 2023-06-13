@@ -1,10 +1,15 @@
 import React, { createContext, useContext, useState } from "react";
 import AuthService from "../services/auth-service";
+import TokenService from "../services/token-service";
 
 const authContext = createContext();
 
 function useAuth() {
-  const [authed, setAuthed] = useState(false);
+  const [authed, setAuthed] = useState(() => {
+    const accessToken = TokenService.getLocalAccessToken();
+    const refreshToken = TokenService.getLocalRefreshToken();
+    return !!(accessToken && refreshToken);
+  });
   const login = async (email, password) => {
     return new Promise((resolve, reject) => {
       AuthService.login(email, password).then(

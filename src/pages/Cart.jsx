@@ -45,7 +45,7 @@ function Cart() {
         </div>
       </div>
       <Footer />
-      <div class="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
+      <div className="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
         <CartFooter itemsQuantity={3} subtotal={500} />
       </div>
     </>

@@ -263,7 +263,7 @@ function Product({ productId, isLoggedIn }) {
                   ) : (
                     <>
                       <form>
-                        <div class="input-group">
+                        <div className="input-group">
                           <input
                             type="text"
                             className="form-control-sm"

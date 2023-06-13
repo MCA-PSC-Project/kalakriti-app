@@ -22,7 +22,7 @@ function Review({
         {profilePicSrc ? (
           <img
             src={profilePicSrc}
-            class="rounded-circle"
+            className="rounded-circle"
             alt="Profile Pic"
             width="30"
             height="30"
