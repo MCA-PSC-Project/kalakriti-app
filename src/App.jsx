@@ -20,26 +20,25 @@ const App = () => {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/wishlist" element={<Wishlist />} />
-          <Route exact path="/cart" element={<Cart />} />
-          <Route exact path="/orders" element={<Orders />} />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/settings" element={<Settings />} />
-          <Route exact path="/notifications" element={<Notifications />} />
-          <Route exact path="/recommended-products" element={<Orders />} />
-          <Route exact path="/popular-products" element={<Orders />} />
-          <Route exact path="/new-products" element={<Orders />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/recommended-products" element={<Orders />} />
+          <Route path="/popular-products" element={<Orders />} />
+          <Route path="/new-products" element={<Orders />} />
           <Route
-            exact
             path="/products"
             element={<Product productId={3} isLoggedIn={false} />}
           />
-          <Route exact path="/categories" element={<Categories />} />
-          <Route exact path="/subcategories" element={<SubCategories />} />
-          <Route exact path="/checkout" element={<Checkout />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/subcategories" element={<SubCategories />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </BrowserRouter>
     </div>
