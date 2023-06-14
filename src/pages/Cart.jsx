@@ -20,6 +20,20 @@ function Cart() {
         console.error(err);
       });
   }, []);
+
+  const handleDelete = (productItemId) => {
+    api
+      .delete(`/carts/${productItemId}`, { headers: authHeader() })
+      .then((response) => {
+        setCartItemsList(
+          cartItemsList.filter((item) => item.product_item.id !== productItemId)
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <>
       <NavBar />
@@ -44,6 +58,7 @@ function Cart() {
                     ? true
                     : false
                 }
+                onDelete={() => handleDelete(cartItem.product_item.id)}
               />
             );
           })}
@@ -97,6 +112,7 @@ function CartHorizontalCard({
   maxOrderQuantity,
   quantity,
   stockStatus,
+  onDelete,
 }) {
   const [quantitySelected, setQuantitySelected] = useState(
     quantity ? quantity : minOrderQuantity
@@ -150,7 +166,11 @@ function CartHorizontalCard({
                 <ul className="dropdown-menu">{elements}</ul>
               </div>
               &nbsp;
-              <button type="button" className="btn btn-outline-danger">
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={onDelete}
+              >
                 Remove From Cart
               </button>
             </div>
