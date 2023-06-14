@@ -1,18 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
+import authHeader from "../services/auth-header";
+import api from "../utils/api";
 
 function Cart() {
+  const [cartItemsList, setCartItemsList] = useState([]);
+  useEffect(() => {
+    api
+      .get(`/carts`, { headers: authHeader() })
+      .then((response) => {
+        setCartItemsList(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   return (
     <>
       <NavBar />
       <h1>Cart</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          <CartHorizontalCard
+          {cartItemsList.map((cartItem) => {
+            return (
+              <CartHorizontalCard
+                key={cartItem.product_id}
+                imgSrc={cartItem.product_item.media.path}
+                cardTitle={cartItem.product_name}
+                sellerName={cartItem.seller.seller_name}
+                originalPrice={cartItem.product_item.original_price}
+                offerPrice={cartItem.product_item.offer_price}
+                minOrderQuantity={cartItem.min_order_quantity}
+                maxOrderQuantity={cartItem.max_order_quantity}
+                quantity={cartItem.quantity}
+                stockStatus={
+                  cartItem.product_item.quantity_in_stock >=
+                  cartItem.min_order_quantity
+                    ? true
+                    : false
+                }
+              />
+            );
+          })}
+          {/* <CartHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
             sellerName="seller_name"
@@ -41,7 +76,7 @@ function Cart() {
             minOrderQuantity={2}
             maxOrderQuantity={6}
             stockStatus={true}
-          />
+          /> */}
         </div>
       </div>
       <Footer />
@@ -60,15 +95,18 @@ function CartHorizontalCard({
   offerPrice,
   minOrderQuantity,
   maxOrderQuantity,
+  quantity,
   stockStatus,
 }) {
-  const [quantity, setQuantity] = useState(minOrderQuantity);
+  const [quantitySelected, setQuantitySelected] = useState(
+    quantity ? quantity : minOrderQuantity
+  );
 
   const elements = [];
   for (let i = minOrderQuantity; i <= maxOrderQuantity; i++) {
     elements.push(
       <li>
-        <a className="dropdown-item" onClick={(e) => setQuantity(i)}>
+        <a className="dropdown-item" onClick={(e) => setQuantitySelected(i)}>
           {i}
         </a>
       </li>
@@ -105,7 +143,7 @@ function CartHorizontalCard({
                   type="button"
                   className="btn btn-outline-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
-                  disabled={stockStatus ? null : "false"}
+                  disabled={stockStatus ? null : false}
                 >
                   Quantity: {quantity}
                 </button>
