@@ -2,7 +2,7 @@ import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Wishlist from "./pages/wishlist";
+import Wishlist from "./pages/Wishlist";
 import Cart from "./pages/cart";
 import Orders from "./pages/orders";
 import Settings from "./pages/Settings";
