@@ -3,7 +3,7 @@ import Logo from "../assets/logo.jpeg";
 import "./Login.css";
 import { useState } from "react";
 import AuthService from "../services/auth-service";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/useAuth";
 import AuthConsumer from "../hooks/useAuth";
 
@@ -86,6 +86,9 @@ function Login() {
             <label>
               <input type="checkbox" defaultValue="remember-me" /> Remember me
             </label>
+          </div>
+          <div className="mb-3">
+            <Link to="/register">Don't have an account? Register</Link>
           </div>
           <input
             className="w-100 btn btn-lg btn-primary"
