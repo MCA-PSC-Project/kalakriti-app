@@ -32,7 +32,7 @@ function Wishlist() {
                 key={wish.product_id}
                 imgSrc={wish.product_item.media.path}
                 cardTitle={wish.product_name}
-                sellerName="needs to be done"
+                sellerName={wish.seller.seller_name}
                 originalPrice={wish.product_item.originalPrice}
                 offerPrice={wish.product_item.offerPrice}
                 average_rating={wish.average_rating}
