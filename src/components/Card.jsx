@@ -2,18 +2,18 @@ import WishlistSvg from "../assets/Heart.svg";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeartCirclePlus,
-  faCartPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import authHeader from "../services/auth-header";
+import api from "../utils/api";
 
 function Card({
+  productItemId,
   imgSrc,
   cardTitle,
   originalPrice,
   offerPrice,
   average_rating,
   ratingCount,
+  minOrderQuantity,
 }) {
   return (
     <div className="col-lg-3 col-md-6 col-sm-6 d-flex">
@@ -38,30 +38,38 @@ function Card({
           <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
             <Link
               to=""
-              className="btn border px-2 shadow-0 me-1"
+              className="btn border px-2 pt-2 icon-hover"
               title="Add to cart"
             >
               {/* Add to cart */}
-              <FontAwesomeIcon
-                icon={faCartPlus}
-                size="xl"
-                style={{ color: "#006eff" }}
-              />
+              <button
+                className="btn btn-warning"
+                onClick={() => {
+                  api
+                    .post("/carts", {
+                      product_item_id: productItemId,
+                      quantity: minOrderQuantity,
+                    })
+                    .then((response) => {
+                      if (response.data) {
+                        console.log("item added to cart successfully");
+                      }
+                    })
+                    .catch((error) => {
+                      console.error("some error occured in adding to cart");
+                    });
+                }}
+              >
+                Add to cart
+              </button>
             </Link>
             <Link
               to=""
               // className="btn btn-light border px-2 pt-2 icon-hover"
               className="btn border px-2 pt-2 icon-hover"
-              title="Add to wishlist"
+              title="Buy Now"
             >
-              {/* <i className="fas fa-heart fa-lg text-secondary px-1" /> */}
-
-              {/* <img src={WishlistSvg} alt="Wishlist" /> */}
-              <FontAwesomeIcon
-                icon={faHeartCirclePlus}
-                size="xl"
-                style={{ color: "#ff0000" }}
-              />
+              <button className="btn btn-success">Buy Now</button>
             </Link>
           </div>
         </div>
