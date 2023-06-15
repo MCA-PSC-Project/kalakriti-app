@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import authHeader from "../services/auth-header";
 import api from "../utils/api";
 import Toast from "./Toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Card({
   productItemId,
@@ -19,10 +19,26 @@ function Card({
 }) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("");
+
+  useEffect(() => {
+    if (showToast) {
+      const timeoutId = setTimeout(() => {
+        setShowToast(false);
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showToast]);
+
   return (
     <>
       {showToast && (
-        <Toast showToast message={toastMessage} onClose={() => setShowToast(false)} />
+        <Toast
+          toastType={toastType}
+          message={toastMessage}
+          onClose={() => setShowToast(false)}
+        />
       )}
       <div className="col-lg-3 col-md-6 col-sm-6 d-flex">
         <div className="card w-100 my-2 shadow-2-strong">
@@ -63,12 +79,14 @@ function Card({
                           console.log("item added to cart successfully");
                           setShowToast(true);
                           setToastMessage("Item added to Cart successfully");
+                          setToastType("success");
                         }
                       })
                       .catch((error) => {
                         console.error("some error occured in adding to cart");
                         setShowToast(true);
                         setToastMessage("some error occured in adding to cart");
+                        setToastType("error");
                       });
                   }}
                 >

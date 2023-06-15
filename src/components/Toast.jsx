@@ -1,14 +1,19 @@
 import React from "react";
 import "./Toast.css";
-function Toast({ showToast, message, onClose }) {
+function Toast({ toastType, message, onClose }) {
+  const colorMapping = {
+    error: "text-bg-danger",
+    warning: "text-bg-warning",
+    info: "text-bg-info",
+    success: "text-bg-success",
+  };
   console.log("Toast called");
+  console.log("colorMapping.toastType=", colorMapping[toastType]);
   return (
     <div className="toast-container">
       <div
         className={
-          showToast
-            ? "toast align-items-center text-bg-primary border-0 show"
-            : "toast align-items-center text-bg-primary border-0"
+          "toast align-items-center border-0 show " + colorMapping[toastType]
         }
         role="alert"
         aria-live="assertive"
