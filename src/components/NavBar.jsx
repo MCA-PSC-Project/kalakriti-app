@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpeg";
 import CartSvg from "../assets/cart.svg";
 import WishlistSvg from "../assets/Heart.svg";
@@ -18,23 +18,33 @@ import {
   faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+// import useAuth from "../hooks/useAuth";
+import AuthConsumer from "../hooks/useAuth";
 
-function NavBar({ isLoggedIn = false }) {
-  const [iconsHoveredState, setIconsHoveredState] = useState({
-    wishlist: false,
-    cart: false,
-    profile: false,
-    notifications: false,
-    orders: false,
-    settings: false,
-    search: false,
-  });
-  const handleIconHovered = (item) => {
-    setIconsHoveredState((prevState) => ({
-      ...prevState,
-      [item]: !prevState[item],
-    }));
+function NavBar() {
+  const [wishlistIconHovered, setWishlistIconHovered] = useState(false);
+  const [cartIconHovered, setCartIconHovered] = useState(false);
+  const [profileIconHovered, setProfileIconHovered] = useState(false);
+  const [notificationsIconHovered, setNotificationsIconHovered] =
+    useState(false);
+  const [ordersIconHovered, setOrdersIconHovered] = useState(false);
+  const [settingsIconHovered, setSettingsIconHovered] = useState(false);
+  const [searchIconHovered, setSearchIconHovered] = useState(false);
+
+  // const { authed, logout } = useAuth();
+  const { authed, logout } = AuthConsumer();
+  const isLoggedIn = authed ? true : false;
+  console.log("isLogedIn=", authed);
+  // useEffect(() => {
+  //   console.log(authed);
+  // }, [authed]);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    console.log("logging out");
+    logout();
+    navigate("/");
   };
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -94,9 +104,9 @@ function NavBar({ isLoggedIn = false }) {
                   icon={faMagnifyingGlass}
                   size="xl"
                   style={{ color: "#5485c4" }}
-                  onMouseEnter={() => handleIconHovered("search")}
-                  onMouseLeave={() => handleIconHovered("search")}
-                  fade={iconsHoveredState.search ? "fade" : undefined}
+                  onMouseEnter={() => setSearchIconHovered(true)}
+                  onMouseLeave={() => setSearchIconHovered(false)}
+                  fade={searchIconHovered ? "fade" : undefined}
                 />
               </button>
             </form>
@@ -114,11 +124,9 @@ function NavBar({ isLoggedIn = false }) {
                       icon={faBell}
                       size="xl"
                       style={{ color: "#f0e03c" }}
-                      onMouseEnter={() => handleIconHovered("notifications")}
-                      onMouseLeave={() => handleIconHovered("notifications")}
-                      shake={
-                        iconsHoveredState.notifications ? "shake" : undefined
-                      }
+                      onMouseEnter={() => setNotificationsIconHovered(true)}
+                      onMouseLeave={() => setNotificationsIconHovered(false)}
+                      shake={notificationsIconHovered ? "shake" : undefined}
                     />
                   </button>
                 </Link>
@@ -132,11 +140,9 @@ function NavBar({ isLoggedIn = false }) {
                       icon={faHeart}
                       size="xl"
                       style={{ color: "#ff0000" }}
-                      onMouseEnter={() => handleIconHovered("wishlist")}
-                      onMouseLeave={() => handleIconHovered("wishlist")}
-                      beatFade={
-                        iconsHoveredState.wishlist ? "beatfade" : undefined
-                      }
+                      onMouseEnter={() => setWishlistIconHovered(true)}
+                      onMouseLeave={() => setWishlistIconHovered(false)}
+                      beatFade={wishlistIconHovered ? "beatfade" : undefined}
                     />
                   </button>
                 </Link>
@@ -149,9 +155,9 @@ function NavBar({ isLoggedIn = false }) {
                       icon={faCartShopping}
                       size="xl"
                       style={{ color: "#006eff" }}
-                      onMouseEnter={() => handleIconHovered("cart")}
-                      onMouseLeave={() => handleIconHovered("cart")}
-                      shake={iconsHoveredState.cart ? "shake" : undefined}
+                      onMouseEnter={() => setCartIconHovered(true)}
+                      onMouseLeave={() => setCartIconHovered(false)}
+                      shake={cartIconHovered ? "shake" : undefined}
                     />
                     <span className="badge bg-dark text-white ms-1 rounded-pill">
                       2
@@ -167,9 +173,9 @@ function NavBar({ isLoggedIn = false }) {
                       icon={faListCheck}
                       size="xl"
                       style={{ color: "#0feb1e" }}
-                      onMouseEnter={() => handleIconHovered("orders")}
-                      onMouseLeave={() => handleIconHovered("orders")}
-                      fade={iconsHoveredState.orders ? "fade" : undefined}
+                      onMouseEnter={() => setOrdersIconHovered(true)}
+                      onMouseLeave={() => setOrdersIconHovered(false)}
+                      fade={ordersIconHovered ? "fade" : undefined}
                     />
                   </button>
                 </Link>
@@ -183,9 +189,9 @@ function NavBar({ isLoggedIn = false }) {
                       icon={faGear}
                       size="xl"
                       style={{ color: "#646464" }}
-                      onMouseEnter={() => handleIconHovered("settings")}
-                      onMouseLeave={() => handleIconHovered("settings")}
-                      spin={iconsHoveredState.settings ? "spin" : undefined}
+                      onMouseEnter={() => setSettingsIconHovered(true)}
+                      onMouseLeave={() => setSettingsIconHovered(false)}
+                      spin={settingsIconHovered ? "spin" : undefined}
                     />
                   </button>
                 </Link>
@@ -206,9 +212,9 @@ function NavBar({ isLoggedIn = false }) {
                       icon={faUser}
                       size="xl"
                       style={{ color: "#964B00" }}
-                      onMouseEnter={() => handleIconHovered("profile")}
-                      onMouseLeave={() => handleIconHovered("profile")}
-                      bounce={iconsHoveredState.profile ? "bounce" : undefined}
+                      onMouseEnter={() => setProfileIconHovered(true)}
+                      onMouseLeave={() => setProfileIconHovered(false)}
+                      bounce={profileIconHovered ? "bounce" : undefined}
                     />
                     Hello, <b>Username</b>
                   </Link>
@@ -240,7 +246,11 @@ function NavBar({ isLoggedIn = false }) {
                       <hr className="dropdown-divider" />
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/">
+                      <Link
+                        className="dropdown-item"
+                        to="/"
+                        onClick={() => handleLogout()}
+                      >
                         <FontAwesomeIcon
                           icon={faRightFromBracket}
                           style={{ color: "#4dbad5" }}

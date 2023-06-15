@@ -1,4 +1,5 @@
-import ImageCarousel from "../components/ImageCarousel";
+import { Link } from "react-router-dom";
+import MediaCarousel from "../components/MediaCarousel";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,359 +7,438 @@ import {
   faLayerGroup,
   faStar,
   faTruckFast,
+  faMinus,
+  faPlus,
+  faHeart as faHeartFilled,
+  faShare,
 } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import Rating from "../components/Rating";
 import Review from "../components/Review";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import "./Product.css";
+import api from "../utils/api";
 
-const imgSrcList = [
-  "https://source.unsplash.com/random/300×300/?handloom",
-  "https://source.unsplash.com/random/300×300/?lightlamp",
-  "https://source.unsplash.com/random/300×300/?painting",
-];
+function Product({ productId, isLoggedIn }) {
+  const [product, setProduct] = useState({});
+  const [selectedProductItem, setSelectedProductItem] = useState(null);
+  const [productReviewsList, setProductReviewsList] = useState([]);
+  const [quantity, setQuantity] = useState(null);
+  const [isProductReviewsShown, setIsProductReviewsShown] = useState(false);
+  const [mediaSrcList, setMediaSrcList] = useState([]);
+  const [wishlistClicked, setWishlistCLicked] = useState(false);
 
-function Product({
-  productName,
-  originalPrice,
-  offerPrice,
-  overallRating,
-  total_review_count,
-  fiveStar,
-  fourStar,
-  threeStar,
-  twoStar,
-  oneStar,
-  userName,
-  rating,
-}) {
-  const [reviewActive, setReviewActive] = useState(false);
-  const [descriptionActive, setDescriptionActive] = useState(false);
-  const [isShown, setIsShown] = useState(false);
-  const [isShown1, setIsShown1] = useState(false);
-  const handleDescription = () => {
-    setDescriptionActive(!descriptionActive);
-    setReviewActive(false);
-    setIsShown1(false);
-    setIsShown((current) => !current);
+  useEffect(() => {
+    api
+      .get(`/products/${productId}`)
+      .then((response) => {
+        setProduct(response.data === null ? {} : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    setSelectedProductItem(
+      product?.product_items?.find((item) => {
+        item.id === product?.base_product_item_id;
+        return item;
+      })
+    );
+    setQuantity(product?.min_order_quantity);
+  }, [product]);
+
+  useEffect(() => {
+    api
+      .get(`/products/${productId}/product-reviews`)
+      .then((response) => {
+        setProductReviewsList(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [isProductReviewsShown]);
+
+  useEffect(() => {
+    if (selectedProductItem) {
+      console.log("selected pi=", selectedProductItem);
+      const localMediaSrcList = [];
+      const media_list = selectedProductItem?.media_list;
+      if (media_list) {
+        for (const media of media_list) {
+          localMediaSrcList.push(media.path);
+        }
+      }
+      setMediaSrcList(localMediaSrcList);
+    }
+  }, [selectedProductItem]);
+
+  const handleWishlistClick = () => {
+    setWishlistCLicked(!wishlistClicked);
   };
-  const handleReview = () => {
-    setReviewActive(!reviewActive);
-    setDescriptionActive(false);
-    setIsShown(false);
-    setIsShown1((current) => !current);
-  };
+
   return (
     <>
       <NavBar />
-      <div
-        class="container"
-        style={{
-          marginTop: 50,
-          marginLeft: 250,
-          marginBottom: 10,
-        }}
-      >
-        <div class="row">
-          <div class="col-4" style={{ marginRight: 40 }}>
-            <ImageCarousel imgSrcList={imgSrcList} />
-          </div>
-
-          <div class="col-6">
-            <h2>{productName}</h2>
-            <p>
-              <span>&#8377;</span>
-              <del>{originalPrice}</del>&nbsp;
-              <span>&#8377;</span>
-              {offerPrice}
-            </p>
-            <p>
-              <FontAwesomeIcon
-                icon={faTruckFast}
-                bounce
-                size="lg"
-                style={{ color: "#f85a16" }}
-              />
-              <b>Dispatch soon</b>
-            </p>
-            <div>
-              <h4>
-                In Stock{" "}
-                <FontAwesomeIcon
-                  icon={faLayerGroup}
-                  flip
-                  style={{ color: "#e86888" }}
-                />
-                <div class="dropdown">
-                  <button
-                    class="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style={{ marginTop: 15 }}
-                  >
-                    Quantity:
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        1
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        3
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        4
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        5
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </h4>
-            </div>
-            &nbsp;
-            <h4>
-              Color:: &nbsp;&nbsp;
-              <button type="button" class="btn btn-outline-dark">
-                Golden
-              </button>{" "}
-              &nbsp;
-              <button type="button" class="btn btn-outline-dark">
-                Brown
-              </button>{" "}
-              &nbsp;
-              <button type="button" class="btn btn-outline-dark">
-                Black
-              </button>{" "}
-              &nbsp;
-            </h4>
-            <h4>
-              Material :: &nbsp;&nbsp;
-              <button type="button" class="btn btn-outline-dark">
-                Canvas
-              </button>{" "}
-              &nbsp;
-              <button type="button" class="btn btn-outline-dark">
-                Paper
-              </button>{" "}
-              &nbsp;
-              <button type="button" class="btn btn-outline-dark">
-                Silk
-              </button>{" "}
-              &nbsp;
-            </h4>
-          </div>
-        </div>
-        <div style={{ marginTop: 80 }}>
-          <button
-            type="button"
-            class="btn btn-outline-primary "
-            onClick={handleDescription}
-            style={{
-              backgroundColor: descriptionActive ? "black" : "LightGreen",
-              borderRadius: "12px",
-              fontSize: "20px",
-            }}
-          >
-            <b>
-              <i>Description</i>
-            </b>
-          </button>
-          &nbsp;
-          <button
-            type="button"
-            class="btn btn-outline-primary "
-            onClick={handleReview}
-            style={{
-              backgroundColor: reviewActive ? "black" : "LightGreen",
-              borderRadius: "12px",
-              fontSize: "20px",
-            }}
-          >
-            <b>
-              <i>Review</i>
-            </b>
-          </button>
-          {isShown && (
-            <div>
-              <h2>Some content here</h2>
-            </div>
-          )}
-          {isShown1 && (
-            <>
-              <div class="col-6 col-sm-3" style={{ marginTop: 30 }}>
-                <h4>
-                  <b>
-                    <i>Customer reviews</i>
+      {/* content */}
+      <section className="py-5">
+        <div className="container">
+          <div className="row gx-5">
+            <aside className="col-lg-6">
+              <MediaCarousel mediaSrcList={mediaSrcList} />
+              <div className="d-flex justify-content-center mb-3"></div>
+              {/* thumbs-wrap.// */}
+              {/* gallery-wrap .end// */}
+            </aside>
+            <main className="col-lg-6">
+              <div className="ps-lg-3">
+                <h4 className="title text-dark">{product?.product_name}</h4>
+                <h6 className="title text-dark">
+                  sold by &nbsp;
+                  <b className="text text-info">
+                    <Link to="" title="view seller details">
+                      {product?.seller?.seller_name}
+                    </Link>
                   </b>
-                </h4>
-                <h5>
-                  {" "}
-                  <Rating ratingValue={overallRating} />
-                  <p>
-                    <i>{overallRating} out of 5</i>
-                  </p>
-                </h5>
-                <p>{total_review_count} global ratings</p>
+                </h6>
+                <div className="d-flex flex-row my-3">
+                  <div className="text-warning mb-1 me-2">
+                    <span className="ms-1">
+                      {parseFloat(product?.average_rating).toFixed(1)}
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size="xl"
+                        style={{ color: "#ffff00" }}
+                      />
+                    </span>
+                    |<span>&nbsp;{product?.rating_count} Ratings</span>
+                  </div>
+                  {/* <span className="text-muted">
+                    <i className="fas fa-shopping-basket fa-sm mx-1" />
+                    154 orders
+                  </span> */}
+                  {/* <span className="text-success ms-2">In stock</span> */}
+                </div>
+                <div className="mb-3">
+                  <Link to="">
+                    <button
+                      type="button"
+                      className="btn border px-2 me-2"
+                      title={
+                        wishlistClicked
+                          ? "Remove From wishlist"
+                          : "Add To wishlist"
+                      }
+                      onClick={() => handleWishlistClick()}
+                    >
+                      {wishlistClicked ? (
+                        <FontAwesomeIcon
+                          icon={faHeartFilled}
+                          size="xl"
+                          style={{ color: "#ff0000" }}
+                          // beatFade
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          size="xl"
+                          style={{ color: "#ff0000" }}
+                          // beatFade
+                        />
+                      )}
+                    </button>
+                  </Link>
 
-                <table class="table table-borderless ">
-                  <tbody>
-                    <tr>
-                      <td class="col-2">
-                        <b>5</b>{" "}
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="lg"
-                          style={{ color: "#fbcc23" }}
-                        />
-                      </td>
-                      <td class="col-9">
-                        <div
-                          class="progress"
-                          role="progressbar"
-                          aria-label="Animated striped example"
-                          aria-valuenow="0"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        >
-                          <div
-                            class="progress-bar progress-bar-striped progress-bar-animated"
-                            style={{ width: fiveStar }}
-                          ></div>
-                        </div>
-                      </td>
-                    </tr>
+                  <button
+                    type="button"
+                    className="btn border px-2 me-2"
+                    title="share"
+                    // onClick=""
+                  >
+                    <FontAwesomeIcon
+                      icon={faShare}
+                      size="xl"
+                      style={{ color: "#20511f" }}
+                    />
+                  </button>
+                </div>
+                <div className="text-success mb-1">In stock</div>
+                <div className="mb-3">
+                  <span>
+                    <del>
+                      &#8377;
+                      {selectedProductItem?.original_price}
+                    </del>
+                  </span>
+                  &nbsp;
+                  <span>
+                    <b>
+                      &#8377;
+                      {selectedProductItem?.offer_price}
+                    </b>
+                  </span>
+                </div>
+                <hr />
 
-                    <tr>
-                      <td class="col-2">
-                        <b>4</b>{" "}
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="lg"
-                          style={{ color: "#fbcc23" }}
-                        />
-                      </td>
-                      <td class="col-9">
-                        <div
-                          class="col progress"
-                          role="progressbar"
-                          aria-label="Animated striped example"
-                          aria-valuenow="25"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
+                <div className="row mb-4">
+                  <div className="col-md-4 col-6">
+                    {product?.product_items?.map((product_item) => {
+                      return (
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary shadow-0 me-2"
+                          key={product_item.id}
+                          disabled={
+                            product_item === selectedProductItem
+                              ? "true"
+                              : undefined
+                          }
+                          onClick={() => setSelectedProductItem(product_item)}
                         >
-                          <div
-                            class=" progress-bar progress-bar-striped progress-bar-animated"
-                            style={{ width: fourStar }}
-                          ></div>
-                        </div>
-                      </td>
-                    </tr>
+                          {product_item.product_variant_name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-                    <tr>
-                      <td class="col-2">
-                        <b>3</b>{" "}
+                <div className="row mb-4">
+                  {/* col.// */}
+                  <div className="col-md-4 col-6 mb-3">
+                    <label className="mb-2 d-block">Quantity</label>
+                    <div className="input-group mb-3" style={{ width: 170 }}>
+                      <button
+                        className="btn btn-white border border-secondary px-3"
+                        type="button"
+                        id="button-decrement-quantity"
+                        data-mdb-ripple-color="dark"
+                        onClick={(event) =>
+                          quantity > product.min_order_quantity
+                            ? setQuantity(quantity - 1)
+                            : null
+                        }
+                      >
                         <FontAwesomeIcon
-                          icon={faStar}
+                          icon={faMinus}
                           size="lg"
-                          style={{ color: "#fbcc23" }}
+                          style={{ color: "#000000" }}
                         />
-                      </td>
-                      <td class="col-9">
-                        <div
-                          class=" col progress"
-                          role="progressbar"
-                          aria-label="Animated striped example"
-                          aria-valuenow="50"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        >
-                          <div
-                            class=" progress-bar progress-bar-striped progress-bar-animated"
-                            style={{ width: threeStar }}
-                          ></div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="col-2">
-                        <b>2</b>{" "}
+                      </button>
+                      <input
+                        type="text"
+                        className="form-control text-center border border-secondary"
+                        placeholder={quantity}
+                        aria-label="Example text with button addon"
+                        aria-describedby="button-addon1"
+                      />
+                      <button
+                        className="btn btn-white border border-secondary px-3"
+                        type="button-increment-quantity"
+                        id="button-addon2"
+                        data-mdb-ripple-color="dark"
+                        onClick={(event) =>
+                          quantity < product.max_order_quantity
+                            ? setQuantity(quantity + 1)
+                            : null
+                        }
+                      >
                         <FontAwesomeIcon
-                          icon={faStar}
+                          icon={faPlus}
                           size="lg"
-                          style={{ color: "#fbcc23" }}
+                          style={{ color: "#000000" }}
                         />
-                      </td>
-                      <td class="col-9">
-                        <div
-                          class="col progress"
-                          role="progressbar"
-                          aria-label="Animated striped example"
-                          aria-valuenow="75"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        >
-                          <div
-                            class=" progress-bar progress-bar-striped progress-bar-animated"
-                            style={{ width: twoStar }}
-                          ></div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-4">
+                  {isLoggedIn ? (
+                    <>
+                      <span className="text text-success">Delivery: </span>
+                      <span>between 7-10 June</span>
+                    </>
+                  ) : (
+                    <>
+                      <form>
+                        <div className="input-group">
+                          <input
+                            type="text"
+                            className="form-control-sm"
+                            placeholder="Enter Pincode here"
+                          />
+                          <button className="btn btn-info input-group-text shadow-0">
+                            Check Delivery
+                          </button>
                         </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="col-2">
-                        <b>1</b>{" "}
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="lg"
-                          style={{ color: "#fbcc23" }}
-                        />
-                      </td>
-                      <td class="col-9">
-                        <div
-                          class="col progress"
-                          role="progressbar"
-                          aria-label="Animated striped example"
-                          aria-valuenow="100"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        >
-                          <div
-                            class=" progress-bar progress-bar-striped progress-bar-animated"
-                            style={{ width: oneStar }}
-                          ></div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      </form>
+                    </>
+                  )}
+                </div>
+                <button className="btn btn-success shadow-0 me-2">
+                  Buy now
+                </button>
+                <button className="btn btn-warning shadow-0 me-2">
+                  Add to cart
+                </button>
               </div>
-
-              <h4>
-                <b>
-                  <i>customer reviews</i>
-                </b>
-              </h4>
-
-              <Review userName={userName} rating={rating} />
-              <Review userName={userName} rating={rating} />
-              <Review userName={userName} rating={rating} />
-            </>
-          )}
+            </main>
+          </div>
         </div>
-      </div>
+      </section>
+      {/* content */}
+      <section className="bg-light border-top py-4">
+        <div className="container">
+          <div className="row gx-4">
+            <div className="col-lg-8 mb-4">
+              <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li className="nav-item" role="presentation">
+                  <button
+                    className="nav-link active"
+                    id="pills-description-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-description"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-description"
+                    aria-selected="true"
+                  >
+                    Description
+                  </button>
+                </li>
+                <li className="nav-item" role="presentation">
+                  <button
+                    className="nav-link"
+                    id="pills-reviews-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-reviews"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-reviews"
+                    aria-selected="false"
+                    onClick={() => setIsProductReviewsShown(true)}
+                  >
+                    Product Reviews
+                  </button>
+                </li>
+              </ul>
+              <div className="tab-content" id="pills-tabContent">
+                {/* for Description */}
+                <div
+                  className="tab-pane fade show active"
+                  id="pills-description"
+                  role="tabpanel"
+                  aria-labelledby="pills-description-tab"
+                >
+                  {product?.product_description}
+                  {/* lorem*10 */}
+                </div>
+                {/* for product reviews */}
+                <div
+                  className="tab-pane fade"
+                  id="pills-reviews"
+                  role="tabpanel"
+                  aria-labelledby="pills-reviews-tab"
+                >
+                  {productReviewsList.map((productReview) => {
+                    return (
+                      <Review
+                        key={productReview.id}
+                        profilePicSrc={productReview.dp.path}
+                        userName={
+                          productReview.first_name +
+                          " " +
+                          productReview.last_name
+                        }
+                        rating={productReview.rating}
+                        review={productReview.review}
+                        added_at={productReview.added_at}
+                        updated_at={productReview.updated_at}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            {/* for similar items */}
+            <div className="col-lg-4">
+              <div className="px-0 border rounded-2 shadow-0">
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">Similar items</h5>
+                    <div className="d-flex mb-3">
+                      <a href="#" className="me-3">
+                        <img
+                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp"
+                          style={{ minWidth: 96, height: 96 }}
+                          className="img-md img-thumbnail"
+                        />
+                      </a>
+                      <div className="info">
+                        <a href="#" className="nav-link mb-1">
+                          Rucksack Backpack Large <br />
+                          Line Mounts
+                        </a>
+                        <strong className="text-dark"> $38.90</strong>
+                      </div>
+                    </div>
+                    <div className="d-flex mb-3">
+                      <a href="#" className="me-3">
+                        <img
+                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp"
+                          style={{ minWidth: 96, height: 96 }}
+                          className="img-md img-thumbnail"
+                        />
+                      </a>
+                      <div className="info">
+                        <a href="#" className="nav-link mb-1">
+                          Summer New Men's Denim <br />
+                          Jeans Shorts
+                        </a>
+                        <strong className="text-dark"> $29.50</strong>
+                      </div>
+                    </div>
+                    <div className="d-flex mb-3">
+                      <a href="#" className="me-3">
+                        <img
+                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp"
+                          style={{ minWidth: 96, height: 96 }}
+                          className="img-md img-thumbnail"
+                        />
+                      </a>
+                      <div className="info">
+                        <a href="#" className="nav-link mb-1">
+                          {" "}
+                          T-shirts with multiple colors, for men and lady{" "}
+                        </a>
+                        <strong className="text-dark"> $120.00</strong>
+                      </div>
+                    </div>
+                    <div className="d-flex">
+                      <a href="#" className="me-3">
+                        <img
+                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp"
+                          style={{ minWidth: 96, height: 96 }}
+                          className="img-md img-thumbnail"
+                        />
+                      </a>
+                      <div className="info">
+                        <a href="#" className="nav-link mb-1">
+                          {" "}
+                          Blazer Suit Dress Jacket for Men, Blue color{" "}
+                        </a>
+                        <strong className="text-dark"> $339.90</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <Footer />
     </>
   );

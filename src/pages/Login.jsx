@@ -3,11 +3,17 @@ import Logo from "../assets/logo.jpeg";
 import "./Login.css";
 import { useState } from "react";
 import AuthService from "../services/auth-service";
+import { Link, useNavigate } from "react-router-dom";
+// import useAuth from "../hooks/useAuth";
+import AuthConsumer from "../hooks/useAuth";
 
 function Login() {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
+  const navigate = useNavigate();
+  // const { login } = useAuth();
+  const { login } = AuthConsumer();
   const handleInputChange = (event) => {
     const { id, value } = event.target;
 
@@ -19,24 +25,31 @@ function Login() {
     }
   };
 
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   console.log({ email, password });
+
+  //   try {
+  //     const response = await AuthService.login(email, password);
+  //     // if (result.data) {
+  //     //   // navigate("/profile");
+  //     // }
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({ email, password });
-    // const signin = async (email, password) => {
-    //   const response = await login(email, password);
-    //   console.log(response);
-    // };
-    try {
-      const response = await AuthService.login(email, password);
-      // if (result.data) {
-      //   // navigate("/profile");
-      // }
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
+    const success = await login(email, password);
+    if (success) {
+      // Login was successful
+      navigate("/");
+    } else {
+      // Login failed
     }
   };
-
   return (
     <div className="text-center">
       <main className="form-signin">
@@ -73,6 +86,9 @@ function Login() {
             <label>
               <input type="checkbox" defaultValue="remember-me" /> Remember me
             </label>
+          </div>
+          <div className="mb-3">
+            <Link to="/register">Don't have an account? Register</Link>
           </div>
           <input
             className="w-100 btn btn-lg btn-primary"

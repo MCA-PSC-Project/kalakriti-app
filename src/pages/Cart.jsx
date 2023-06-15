@@ -1,18 +1,100 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
+import authHeader from "../services/auth-header";
+import api from "../utils/api";
+import Toast from "../components/Toast";
 
 function Cart() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastProperties, setToastProperties] = useState({});
+
+  useEffect(() => {
+    if (showToast) {
+      const timeoutId = setTimeout(() => {
+        setShowToast(false);
+        setToastProperties({});
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showToast]);
+
+  const [cartItemsList, setCartItemsList] = useState([]);
+  useEffect(() => {
+    api
+      .get(`/carts`, { headers: authHeader() })
+      .then((response) => {
+        setCartItemsList(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  const handleDelete = (productItemId) => {
+    api
+      .delete(`/carts/${productItemId}`, { headers: authHeader() })
+      .then((response) => {
+        setCartItemsList(
+          cartItemsList.filter((item) => item.product_item.id !== productItemId)
+        );
+        setShowToast(true);
+        setToastProperties({
+          toastType: "success",
+          toastMessage: "Item successfully removed from cart",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        setShowToast(true);
+        setToastProperties({
+          toastType: "error",
+          toastMessage: "some error occured in removing item from cart",
+        });
+      });
+  };
+
   return (
     <>
+      {showToast && (
+        <Toast
+          toastType={toastProperties.toastType}
+          message={toastProperties.toastMessage}
+          onClose={() => setShowToast(false)}
+        />
+      )}
       <NavBar />
       <h1>Cart</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          <CartHorizontalCard
+          {cartItemsList.map((cartItem) => {
+            return (
+              <CartHorizontalCard
+                key={cartItem.product_id}
+                imgSrc={cartItem.product_item.media.path}
+                cardTitle={cartItem.product_name}
+                sellerName={cartItem.seller.seller_name}
+                originalPrice={cartItem.product_item.original_price}
+                offerPrice={cartItem.product_item.offer_price}
+                minOrderQuantity={cartItem.min_order_quantity}
+                maxOrderQuantity={cartItem.max_order_quantity}
+                quantity={cartItem.quantity}
+                stockStatus={
+                  cartItem.product_item.quantity_in_stock >=
+                  cartItem.min_order_quantity
+                    ? true
+                    : false
+                }
+                onDelete={() => handleDelete(cartItem.product_item.id)}
+              />
+            );
+          })}
+          {/* <CartHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
             sellerName="seller_name"
@@ -41,11 +123,11 @@ function Cart() {
             minOrderQuantity={2}
             maxOrderQuantity={6}
             stockStatus={true}
-          />
+          /> */}
         </div>
       </div>
       <Footer />
-      <div class="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
+      <div className="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
         <CartFooter itemsQuantity={3} subtotal={500} />
       </div>
     </>
@@ -60,15 +142,19 @@ function CartHorizontalCard({
   offerPrice,
   minOrderQuantity,
   maxOrderQuantity,
+  quantity,
   stockStatus,
+  onDelete,
 }) {
-  const [quantity, setQuantity] = useState(minOrderQuantity);
+  const [quantitySelected, setQuantitySelected] = useState(
+    quantity ? quantity : minOrderQuantity
+  );
 
   const elements = [];
   for (let i = minOrderQuantity; i <= maxOrderQuantity; i++) {
     elements.push(
       <li>
-        <a className="dropdown-item" onClick={(e) => setQuantity(i)}>
+        <a className="dropdown-item" onClick={(e) => setQuantitySelected(i)}>
           {i}
         </a>
       </li>
@@ -105,14 +191,18 @@ function CartHorizontalCard({
                   type="button"
                   className="btn btn-outline-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
-                  disabled={stockStatus ? null : "false"}
+                  disabled={stockStatus ? null : false}
                 >
                   Quantity: {quantity}
                 </button>
                 <ul className="dropdown-menu">{elements}</ul>
               </div>
               &nbsp;
-              <button type="button" className="btn btn-outline-danger">
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={onDelete}
+              >
                 Remove From Cart
               </button>
             </div>

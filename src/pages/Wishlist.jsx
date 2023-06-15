@@ -1,18 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
+import authHeader from "../services/auth-header";
+import api from "../utils/api";
 
 function Wishlist() {
+  const [wishlist, setWishlist] = useState([]);
+  useEffect(() => {
+    api
+      .get(`/wishlists`, { headers: authHeader() })
+      .then((response) => {
+        setWishlist(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   return (
     <>
       <NavBar />
       <h1>Wishlist</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          <WishlistHorizontalCard
+          {wishlist.map((wish) => {
+            return (
+              <WishlistHorizontalCard
+                key={wish.product_id}
+                imgSrc={wish.product_item.media.path}
+                cardTitle={wish.product_name}
+                sellerName={wish.seller.seller_name}
+                originalPrice={wish.product_item.originalPrice}
+                offerPrice={wish.product_item.offerPrice}
+                average_rating={wish.average_rating}
+                ratingCount={wish.rating_count}
+                stockStatus={false}
+              />
+            );
+          })}
+          {/* <WishlistHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
             sellerName="seller_name"
@@ -41,7 +70,7 @@ function Wishlist() {
             average_rating={4.5}
             ratingCount={5}
             stockStatus={true}
-          />
+          /> */}
         </div>
       </div>
       <Footer />

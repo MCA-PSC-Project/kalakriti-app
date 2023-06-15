@@ -1,5 +1,5 @@
 import Home from "./pages/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Wishlist from "./pages/wishlist";
@@ -11,50 +11,83 @@ import Profile from "./pages/Profile";
 import Categories from "./pages/Categories";
 import { SubCategories } from "./pages/Categories";
 import Checkout from "./pages/Checkout";
-import Product from "./pages/product";
+import Product from "./pages/Product";
+import AuthConsumer from "./hooks/useAuth";
 
 export const appName = import.meta.env.VITE_APP_NAME;
+
+function RequireAuth({ children }) {
+  const { authed } = AuthConsumer();
+
+  return authed === true ? children : <Navigate to="/login" replace />;
+}
 
 const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/wishlist" element={<Wishlist />} />
-          <Route exact path="/cart" element={<Cart />} />
-          <Route exact path="/orders" element={<Orders />} />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/settings" element={<Settings />} />
-          <Route exact path="/notifications" element={<Notifications />} />
-          <Route exact path="/recommended-products" element={<Orders />} />
-          <Route exact path="/popular-products" element={<Orders />} />
-          <Route exact path="/new-products" element={<Orders />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route
-            exact
-            path="/products"
+            path="/wishlist"
             element={
-              <Product
-                productName={"product name here"}
-                originalPrice={500}
-                offerPrice={100}
-                overallRating={4}
-                total_review_count={10}
-                fiveStar={"100%"}
-                fourStar={"75%"}
-                threeStar={"50%"}
-                twoStar={"25%"}
-                oneStar={"45%"}
-                userName={"user name here"}
-                rating={3}
-              />
+              <RequireAuth>
+                <Wishlist />
+              </RequireAuth>
             }
           />
-          <Route exact path="/categories" element={<Categories />} />
-          <Route exact path="/subcategories" element={<SubCategories />} />
-          <Route exact path="/checkout" element={<Checkout />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/orders"
+            element={
+              <RequireAuth>
+                <Orders />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <RequireAuth>
+                <Settings />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <RequireAuth>
+                <Notifications />
+              </RequireAuth>
+            }
+          />
+          <Route path="/recommended-products" element={<Orders />} />
+          <Route path="/popular-products" element={<Orders />} />
+          <Route path="/new-products" element={<Orders />} />
+          <Route
+            path="/products"
+            element={<Product productId={3} isLoggedIn={false} />}
+          />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/subcategories" element={<SubCategories />} />
+          <Route
+            path="/checkout"
+            element={
+              <RequireAuth>
+                <Checkout />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

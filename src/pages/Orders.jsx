@@ -1,17 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import { Link } from "react-router-dom";
+import authHeader from "../services/auth-header";
+import api from "../utils/api";
 
 function Orders() {
+  const [ordersList, setOrdersList] = useState([]);
+  useEffect(() => {
+    api
+      .get(`/customer-orders`, { headers: authHeader() })
+      .then((response) => {
+        setOrdersList(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   return (
     <>
       <NavBar />
       <h1>Orders</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          <OrdersHorizontalCard
+          {ordersList.map((order) => {
+            return (
+              <OrdersHorizontalCard
+                key={order.order_id}
+                orderId={order.order_id}
+                imgSrc={order.media.path}
+                cardTitle={order.product_name}
+                sellerName={order.seller.seller_name}
+                orderedAt={order.added_at}
+                orderStatus={order.order_item_status}
+              />
+            );
+          })}
+          {/* <OrdersHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
             sellerName="seller_name"
@@ -34,7 +62,7 @@ function Orders() {
             orderId="1"
             orderedAt="30 May 2023"
             orderStatus="Delivered"
-          />
+          /> */}
         </div>
       </div>
       <Footer />

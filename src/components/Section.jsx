@@ -29,6 +29,7 @@ function Section({ sectionTitle, linkPath, endpoint }) {
           {ProductsList.map((product) => {
             return (
               <Card
+                productItemId={product.base_product_item.id}
                 imgSrc={product.base_product_item.media.path}
                 cardTitle={product.product_name}
                 originalPrice={parseFloat(
@@ -37,6 +38,7 @@ function Section({ sectionTitle, linkPath, endpoint }) {
                 offerPrice={parseFloat(product.base_product_item.offer_price)}
                 average_rating={parseFloat(product.average_rating)}
                 ratingCount={parseInt(product.rating_count)}
+                minOrderQuantity={product.min_order_quantity}
               />
             );
           })}
