@@ -73,28 +73,32 @@ function Cart() {
       <h1>Cart</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          {cartItemsList && (cartItemsList.length > 0) && cartItemsList.map((cartItem) => {
-            return (
-              <CartHorizontalCard
-                key={cartItem.product_id}
-                imgSrc={cartItem.product_item.media.path}
-                cardTitle={cartItem.product_name}
-                sellerName={cartItem.seller.seller_name}
-                originalPrice={cartItem.product_item.original_price}
-                offerPrice={cartItem.product_item.offer_price}
-                minOrderQuantity={cartItem.min_order_quantity}
-                maxOrderQuantity={cartItem.max_order_quantity}
-                quantity={cartItem.quantity}
-                stockStatus={
-                  cartItem.product_item.quantity_in_stock >=
-                  cartItem.min_order_quantity
-                    ? true
-                    : false
-                }
-                onDelete={() => handleDelete(cartItem.product_item.id)}
-              />
-            );
-          })}
+          {cartItemsList && cartItemsList.length > 0 ? (
+            cartItemsList.map((cartItem) => {
+              return (
+                <CartHorizontalCard
+                  key={cartItem.product_id}
+                  imgSrc={cartItem.product_item.media.path}
+                  cardTitle={cartItem.product_name}
+                  sellerName={cartItem.seller.seller_name}
+                  originalPrice={cartItem.product_item.original_price}
+                  offerPrice={cartItem.product_item.offer_price}
+                  minOrderQuantity={cartItem.min_order_quantity}
+                  maxOrderQuantity={cartItem.max_order_quantity}
+                  quantity={cartItem.quantity}
+                  stockStatus={
+                    cartItem.product_item.quantity_in_stock >=
+                    cartItem.min_order_quantity
+                      ? true
+                      : false
+                  }
+                  onDelete={() => handleDelete(cartItem.product_item.id)}
+                />
+              );
+            })
+          ) : (
+            <h1>Cart Empty</h1>
+          )}
           {/* <CartHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
