@@ -3,7 +3,7 @@ import Logo from "../assets/logo.jpeg";
 import "./Login.css";
 import { useState } from "react";
 import AuthService from "../services/auth-service";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/useAuth";
 import AuthConsumer from "../hooks/useAuth";
 
@@ -12,6 +12,7 @@ function Login() {
   const [password, setPassword] = useState(null);
 
   const navigate = useNavigate();
+  const { state } = useLocation();
   // const { login } = useAuth();
   const { login } = AuthConsumer();
   const handleInputChange = (event) => {
@@ -40,12 +41,13 @@ function Login() {
   //   }
   // };
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     const success = await login(email, password);
     if (success) {
       // Login was successful
-      navigate("/");
+      // navigate("/");
+      navigate(state?.path || "/");
     } else {
       // Login failed
     }
@@ -94,7 +96,7 @@ function Login() {
             className="w-100 btn btn-lg btn-primary"
             type="submit"
             value="Login"
-            onClick={(event) => handleSubmit(event)}
+            onClick={(event) => handleLogin(event)}
           />
         </form>
       </main>

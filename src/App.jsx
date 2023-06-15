@@ -1,5 +1,11 @@
 import Home from "./pages/Home";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Wishlist from "./pages/wishlist";
@@ -18,8 +24,13 @@ export const appName = import.meta.env.VITE_APP_NAME;
 
 function RequireAuth({ children }) {
   const { authed } = AuthConsumer();
+  const location = useLocation();
 
-  return authed === true ? children : <Navigate to="/login" replace />;
+  return authed === true ? (
+    children
+  ) : (
+    <Navigate to="/login" replace state={{ path: location.pathname }} />
+  );
 }
 
 const App = () => {
