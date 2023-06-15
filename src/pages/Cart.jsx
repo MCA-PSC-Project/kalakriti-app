@@ -30,6 +30,7 @@ function Cart() {
       .then((response) => {
         setCartItemsList(response.data === null ? [] : response.data);
         console.log(response.data);
+        // console.log("cartItemsList= ", cartItemsList);
       })
       .catch((err) => {
         console.error(err);
@@ -72,7 +73,7 @@ function Cart() {
       <h1>Cart</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          {cartItemsList.map((cartItem) => {
+          {cartItemsList && (cartItemsList.length > 0) && cartItemsList.map((cartItem) => {
             return (
               <CartHorizontalCard
                 key={cartItem.product_id}
