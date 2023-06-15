@@ -6,8 +6,23 @@ import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
 import authHeader from "../services/auth-header";
 import api from "../utils/api";
+import Toast from "../components/Toast";
 
 function Cart() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastProperties, setToastProperties] = useState({});
+
+  useEffect(() => {
+    if (showToast) {
+      const timeoutId = setTimeout(() => {
+        setShowToast(false);
+        setToastProperties({});
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showToast]);
+
   const [cartItemsList, setCartItemsList] = useState([]);
   useEffect(() => {
     api
@@ -28,14 +43,31 @@ function Cart() {
         setCartItemsList(
           cartItemsList.filter((item) => item.product_item.id !== productItemId)
         );
+        setShowToast(true);
+        setToastProperties({
+          toastType: "success",
+          toastMessage: "Item successfully removed from cart",
+        });
       })
       .catch((err) => {
         console.error(err);
+        setShowToast(true);
+        setToastProperties({
+          toastType: "error",
+          toastMessage: "some error occured in removing item from cart",
+        });
       });
   };
 
   return (
     <>
+      {showToast && (
+        <Toast
+          toastType={toastProperties.toastType}
+          message={toastProperties.toastMessage}
+          onClose={() => setShowToast(false)}
+        />
+      )}
       <NavBar />
       <h1>Cart</h1>
       <div className="d-flex justify-content-center align-items-center">

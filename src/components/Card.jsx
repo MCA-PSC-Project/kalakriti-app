@@ -24,6 +24,7 @@ function Card({
     if (showToast) {
       const timeoutId = setTimeout(() => {
         setShowToast(false);
+        setToastProperties({});
       }, 2000);
 
       return () => clearTimeout(timeoutId);
