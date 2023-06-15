@@ -1,24 +1,45 @@
-import React from 'react';
-import Rating from './Rating';
-import profilepicsample from "../assets/profilepicsample.jpeg";
-
-
-function Review ({userName,rating}){
+import React from "react";
+import Rating from "./Rating";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { convertToDateTime, formatDateTime } from "../utils/common";
+function Review({
+  profilePicSrc,
+  userName,
+  rating,
+  review,
+  added_at,
+  updated_at,
+}) {
+  added_at = formatDateTime(convertToDateTime(added_at));
+  if (updated_at) {
+    updated_at = new Date(new Date(updated_at).getTime()).toISOString();
+  }
   return (
     <>
-     <div style={{marginTop:30 ,marginRight:150}}>
-              <hr class="border border-sucess border opacity-50"></hr>
-              <p ><img src={profilepicsample} class="rounded-circle" alt="Cinque Terre" width="30" height="30"></img>
-              &nbsp;&nbsp; &nbsp;{userName}
-              <div style={{marginLeft:40, marginRight:90}}><Rating ratingValue={rating}/>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod nisi at turpis interdum facilisis. Nullam at vestibulum quam. Aliquam et mi faucibus, cursus erat eu, porttitor magna. Nullam lobortis fermentum enim quis mollis. Curabitur sed felis mauris. Duis convallis metus ex, sit amet faucibus mi tempor in. Sed eget auctor ligula, non congue lorem. Quisque venenatis, augue ac egestas sollicitudin, felis augue mollis tortor, ac luctus ante nibh ut justo.
-                 Vestibulum congue orci quis metus varius pellentesque.
-                  Sed vitae felis vulputate, aliquet lorem id, pharetra leo.
-                </p>
-              </div>
-              </p>
-              </div>
+      <div>
+        <hr className="border border-sucess border opacity-50"></hr>
+        {profilePicSrc ? (
+          <img
+            src={profilePicSrc}
+            className="rounded-circle"
+            alt="Profile Pic"
+            width="30"
+            height="30"
+          />
+        ) : (
+          <FontAwesomeIcon icon={faUser} size="xl" />
+        )}
+        &nbsp;&nbsp;<b>{userName}</b>
+        <br />
+        <span style={{ marginLeft: 30, marginRight: 90 }}>
+          {updated_at ? updated_at + " edited" : added_at}
+        </span>
+        <div style={{ marginLeft: 30, marginRight: 90 }}>
+          <Rating ratingValue={rating} />
+          <p>{review}</p>
+        </div>
+      </div>
     </>
   );
 }
