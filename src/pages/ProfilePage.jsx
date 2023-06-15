@@ -2,66 +2,52 @@ import React, { useState } from "react";
 import "./ProfilePage.css";
 import { BrowserRouter } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
-import { faL } from "@fortawesome/free-solid-svg-icons";
+import profilePicSample from "../assets/profilePicSample.jpg";
 
 function ProfilePage() {
-  const [isActive, setActive] = useState(true);
+  const [isActiveGeneral, setActiveGeneral] = useState(true);
   const [isActivePassword, setActivePassword] = useState(false);
-  const [isActiveInfo, setActiveInfo] = useState(false);
-  const [isActiveSocial, setActiveSocial] = useState(false);
-  const [isActiveConnection, setActiveConnection] = useState(false);
-  const [isActiveNotification, setActiveNotification] = useState(false);
+  const [isActiveMobile, setActiveMobile] = useState(false);
+  const [isActiveEmail, setActiveEmail] = useState(false);
+  const [isActiveDP, setActiveDP] = useState(false);
 
-  const ToggleClass = () => {
-    setActive(true);
+  const ToggleGeneral = () => {
+    setActiveGeneral(true);
     setActivePassword(false);
-    setActiveInfo(false);
-    setActiveSocial(false);
-    setActiveConnection(false);
-    setActiveNotification(false);
+    setActiveMobile(false);
+    setActiveEmail(false);
+    setActiveDP(false);
   };
-  const ToggleClass1 = () => {
-    setActive(false);
+  const TogglePassword = () => {
+    setActiveGeneral(false);
     setActivePassword(true);
-    setActiveInfo(false);
-    setActiveSocial(false);
-    setActiveConnection(false);
-    setActiveNotification(false);
+    setActiveMobile(false);
+    setActiveEmail(false);
+    setActiveDP(false);
   };
-  const ToggleClass2 = () => {
-    setActive(false);
+  const ToggleMobile = () => {
+    setActiveGeneral(false);
     setActivePassword(false);
-    setActiveInfo(true);
-    setActiveSocial(false);
-    setActiveConnection(false);
-    setActiveNotification(false);
+    setActiveMobile(true);
+    setActiveEmail(false);
+    setActiveDP(false);
   };
 
-  const ToggleClass3 = () => {
-    setActive(false);
+  const ToggleEmail = () => {
+    setActiveGeneral(false);
     setActivePassword(false);
-    setActiveInfo(false);
-    setActiveSocial(true);
-    setActiveConnection(false);
-    setActiveNotification(false);
+    setActiveMobile(false);
+    setActiveEmail(true);
+    setActiveDP(false);
   };
-  const ToggleClass4 = () => {
-    setActive(false);
+  const ToggleDP = () => {
+    setActiveGeneral(false);
     setActivePassword(false);
-    setActiveInfo(false);
-    setActiveSocial(false);
-    setActiveConnection(true);
-    setActiveNotification(false);
+    setActiveMobile(false);
+    setActiveEmail(false);
+    setActiveDP(true);
   };
 
-  const ToggleClass5 = () => {
-    setActive(false);
-    setActivePassword(false);
-    setActiveInfo(false);
-    setActiveSocial(false);
-    setActiveConnection(false);
-    setActiveNotification(true);
-  };
   return (
     <div className="container light-style flex-grow-1 container-p-y">
       <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
@@ -70,16 +56,15 @@ function ProfilePage() {
           <div className="col-md-3 pt-0">
             <div className="list-group list-group-flush account-settings-links">
               <Link
-                id="a"
                 smooth
                 className={
-                  isActive
+                  isActiveGeneral
                     ? "list-group-item list-group-item-action active"
                     : "list-group-item list-group-item-action"
                 }
                 data-toggle="list"
                 to="#account-general"
-                onClick={ToggleClass}
+                onClick={ToggleGeneral}
               >
                 General
               </Link>
@@ -91,133 +76,111 @@ function ProfilePage() {
                 }
                 data-toggle="list"
                 to="#account-change-password"
-                onClick={ToggleClass1}
+                onClick={TogglePassword}
               >
-                Change password
+                Change Password
               </Link>
               <Link
                 className={
-                  isActiveInfo
+                  isActiveMobile
                     ? "list-group-item list-group-item-action active"
                     : "list-group-item list-group-item-action"
                 }
                 data-toggle="list"
-                to="#account-info"
-                onClick={ToggleClass2}
+                to="#account-change-mobile"
+                onClick={ToggleMobile}
               >
-                Info
+                Change/Add Mobile Number
               </Link>
               <Link
                 className={
-                  isActiveSocial
+                  isActiveEmail
                     ? "list-group-item list-group-item-action active"
                     : "list-group-item list-group-item-action"
                 }
                 data-toggle="list"
-                to="#account-social-links"
-                onClick={ToggleClass3}
+                to="#account-change-email"
+                onClick={ToggleEmail}
               >
-                Social links
+                Change Email ID
               </Link>
               <Link
                 className={
-                  isActiveConnection
+                  isActiveDP
                     ? "list-group-item list-group-item-action active"
                     : "list-group-item list-group-item-action"
                 }
                 data-toggle="list"
-                to="#account-connections"
-                onClick={ToggleClass4}
+                to="#account-change-dp"
+                onClick={ToggleDP}
               >
-                Connections
-              </Link>
-              <Link
-                className={
-                  isActiveNotification
-                    ? "list-group-item list-group-item-action active"
-                    : "list-group-item list-group-item-action"
-                }
-                data-toggle="list"
-                to="#account-notifications"
-                onClick={ToggleClass5}
-              >
-                Notifications
+                Change/Add Profile picture
               </Link>
             </div>
           </div>
-          <div className="col-md-9">
+          <div className="col-md-9" style={{ backgroundColor: "beige" }}>
             <div className="tab-content">
               <div
                 className={
-                  isActive ? "tab-pane fade active show" : "tab-pane fade"
+                  isActiveGeneral
+                    ? "tab-pane fade active show"
+                    : "tab-pane fade"
                 }
                 id="account-general"
               >
-                <div className="card-body media align-items-center">
-                  <img
-                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                    alt
-                    className="d-block ui-w-80"
-                  />
-                  <div className="media-body ml-4">
-                    <label className="btn btn-outline-primary">
-                      Upload new photo
-                      <input
-                        type="file"
-                        className="account-settings-fileinput"
-                      />
-                    </label>{" "}
-                    &nbsp;
-                    <button
-                      type="button"
-                      className="btn btn-default md-btn-flat"
-                    >
-                      Reset
-                    </button>
-                    <div className="text-light small mt-1">
-                      Allowed JPG, GIF or PNG. Max size of 800K
-                    </div>
-                  </div>
-                </div>
                 <hr className="border-light m-0" />
                 <div className="card-body">
                   <div className="form-group">
-                    <label className="form-label">Username</label>
+                    <label className="form-label" htmlFor="firstName">
+                      First Name
+                    </label>
                     <input
+                      id="firstName"
                       type="text"
                       className="form-control mb-1"
-                      defaultValue="nmaxwell"
+                      // defaultValue="nmaxwell"
                     />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Name</label>
+                    <label className="form-label" htmlFor="lastName">
+                      Last Name
+                    </label>
                     <input
+                      id="lastName"
                       type="text"
                       className="form-control"
-                      defaultValue="Nelle Maxwell"
+                      // defaultValue="Nelle Maxwell"
                     />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">E-mail</label>
+                    <label className="form-label" htmlFor="dob">
+                      Date of Birth
+                    </label>
                     <input
-                      type="text"
+                      id="dob"
+                      type="date"
                       className="form-control mb-1"
-                      defaultValue="nmaxwell@mail.com"
+                      // defaultValue="nmaxwell@mail.com"
                     />
-                    <div className="alert alert-warning mt-3">
-                      Your email is not confirmed. Please check your inbox.
-                      <br />
-                      <a href="javascript:void(0)">Resend confirmation</a>
-                    </div>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Company</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue="Company Ltd."
-                    />
+                    <label className="form-label" htmlFor="gender">
+                      Gender
+                    </label>
+                    <select className="form-control">
+                      <option value="">Select Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
                   </div>
+                  <button
+                    type="button"
+                    style={{ marginTop: 20, marginLeft: 60 }}
+                    className="btn btn-success"
+                  >
+                    Update
+                  </button>
                 </div>
               </div>
               <div
@@ -241,256 +204,99 @@ function ProfilePage() {
                     <label className="form-label">Repeat new password</label>
                     <input type="password" className="form-control" />
                   </div>
-                </div>
-              </div>
-              <div
-                className={
-                  isActiveInfo ? "tab-pane fade active show" : "tab-pane fade"
-                }
-                id="account-info"
-              >
-                <div className="card-body pb-2">
-                  <div className="form-group">
-                    <label className="form-label">Bio</label>
-                    <textarea
-                      className="form-control"
-                      rows={5}
-                      defaultValue={
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus."
-                      }
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Birthday</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue="May 3, 1995"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Country</label>
-                    <select className="custom-select">
-                      <option>USA</option>
-                      <option selected>Canada</option>
-                      <option>UK</option>
-                      <option>Germany</option>
-                      <option>France</option>
-                    </select>
-                  </div>
-                </div>
-                <hr className="border-light m-0" />
-                <div className="card-body pb-2">
-                  <h6 className="mb-4">Contacts</h6>
-                  <div className="form-group">
-                    <label className="form-label">Phone</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue="+0 (123) 456 7891"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Website</label>
-                    <input type="text" className="form-control" defaultValue />
-                  </div>
-                </div>
-              </div>
-              <div
-                className={
-                  isActiveSocial ? "tab-pane fade active show" : "tab-pane fade"
-                }
-                id="account-social-links"
-              >
-                <div className="card-body pb-2">
-                  <div className="form-group">
-                    <label className="form-label">Twitter</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue="https://twitter.com/user"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Facebook</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue="https://www.facebook.com/user"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Google+</label>
-                    <input type="text" className="form-control" defaultValue />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">LinkedIn</label>
-                    <input type="text" className="form-control" defaultValue />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Instagram</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue="https://www.instagram.com/user"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
-                className={
-                  isActiveConnection
-                    ? "tab-pane fade active show"
-                    : "tab-pane fade"
-                }
-                id="account-connections"
-              >
-                <div className="card-body">
-                  <button type="button" className="btn btn-twitter">
-                    Connect to <strong>Twitter</strong>
+                  <button
+                    type="button"
+                    style={{ marginTop: 20, marginLeft: 60 }}
+                    className="btn btn-success"
+                  >
+                    Update
                   </button>
                 </div>
-                <hr className="border-light m-0" />
-                <div className="card-body">
-                  <h5 className="mb-2">
-                    <a
-                      href="javascript:void(0)"
-                      className="float-right text-muted text-tiny"
+              </div>
+              <div
+                className={
+                  isActiveMobile ? "tab-pane fade active show" : "tab-pane fade"
+                }
+                id="account-change-mobile"
+              >
+                <div className="card-body pb-2">
+                  <div className="form-group">
+                    <label className="form-label" html for="mobile">
+                      Mobile Number
+                    </label>
+                    <input id="mobile" type="text" className="form-control" />
+                    <label className="form-label" html for="otp">
+                      Enter OTP
+                    </label>
+                    <input id="otp" type="text" className="form-control" />
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{ marginTop: 20, marginLeft: 20 }}
                     >
-                      <i className="ion ion-md-close" /> Remove
-                    </a>
-                    <i className="ion ion-logo-google text-google" />
-                    You are connected to Google:
-                  </h5>
-                  nmaxwell@mail.com
+                      Get OTP
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      style={{ marginTop: 20, marginLeft: 20 }}
+                      disabled
+                    >
+                      Update
+                    </button>
+                  </div>
                 </div>
-                <hr className="border-light m-0" />
-                <div className="card-body">
-                  <button type="button" className="btn btn-facebook">
-                    Connect to <strong>Facebook</strong>
-                  </button>
-                </div>
-                <hr className="border-light m-0" />
-                <div className="card-body">
-                  <button type="button" className="btn btn-instagram">
-                    Connect to <strong>Instagram</strong>
+              </div>
+              <div
+                className={
+                  isActiveEmail ? "tab-pane fade active show" : "tab-pane fade"
+                }
+                id="account-change-email"
+              >
+                <div className="card-body pb-2">
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="email">
+                      Email Id
+                    </label>
+                    <input type="text" className="form-control" />
+                  </div>
+                  <button
+                    type="button"
+                    style={{ marginTop: 20, marginLeft: 60 }}
+                    className="btn btn-success"
+                  >
+                    Update
                   </button>
                 </div>
               </div>
               <div
                 className={
-                  isActiveNotification
-                    ? "tab-pane fade active show"
-                    : "tab-pane fade"
+                  isActiveDP ? "tab-pane fade active show" : "tab-pane fade"
                 }
-                id="account-notifications"
+                id="account-change-dp"
               >
-                <div className="card-body pb-2">
-                  <h6 className="mb-4">Activity</h6>
-                  <div className="form-group">
-                    <label className="switcher">
-                      <input
-                        type="checkbox"
-                        className="switcher-input"
-                        defaultChecked
-                      />
-                      <span className="switcher-indicator">
-                        <span className="switcher-yes" />
-                        <span className="switcher-no" />
-                      </span>
-                      <span className="switcher-label">
-                        Email me when someone comments on my article
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group">
-                    <label className="switcher">
-                      <input
-                        type="checkbox"
-                        className="switcher-input"
-                        defaultChecked
-                      />
-                      <span className="switcher-indicator">
-                        <span className="switcher-yes" />
-                        <span className="switcher-no" />
-                      </span>
-                      <span className="switcher-label">
-                        Email me when someone answers on my forum thread
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group">
-                    <label className="switcher">
-                      <input type="checkbox" className="switcher-input" />
-                      <span className="switcher-indicator">
-                        <span className="switcher-yes" />
-                        <span className="switcher-no" />
-                      </span>
-                      <span className="switcher-label">
-                        Email me when someone follows me
-                      </span>
-                    </label>
-                  </div>
-                </div>
-                <hr className="border-light m-0" />
-                <div className="card-body pb-2">
-                  <h6 className="mb-4">Application</h6>
-                  <div className="form-group">
-                    <label className="switcher">
-                      <input
-                        type="checkbox"
-                        className="switcher-input"
-                        defaultChecked
-                      />
-                      <span className="switcher-indicator">
-                        <span className="switcher-yes" />
-                        <span className="switcher-no" />
-                      </span>
-                      <span className="switcher-label">
-                        News and announcements
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group">
-                    <label className="switcher">
-                      <input type="checkbox" className="switcher-input" />
-                      <span className="switcher-indicator">
-                        <span className="switcher-yes" />
-                        <span className="switcher-no" />
-                      </span>
-                      <span className="switcher-label">
-                        Weekly product updates
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group">
-                    <label className="switcher">
-                      <input
-                        type="checkbox"
-                        className="switcher-input"
-                        defaultChecked
-                      />
-                      <span className="switcher-indicator">
-                        <span className="switcher-yes" />
-                        <span className="switcher-no" />
-                      </span>
-                      <span className="switcher-label">Weekly blog digest</span>
-                    </label>
-                  </div>
-                </div>
+                <p>
+                  {" "}
+                  <img
+                    src={profilePicSample}
+                    class="rounded-circle"
+                    alt="Cinque Terre"
+                    width="200"
+                    height="200"
+                  ></img>
+                  <br />
+                  <button
+                    type="button"
+                    style={{ marginTop: 20, marginLeft: 60 }}
+                    className="btn btn-success"
+                  >
+                    Update
+                  </button>
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="text-right mt-3">
-        <button type="button" className="btn btn-primary">
-          Save changes
-        </button>
-        &nbsp;
-        <button type="button" className="btn btn-default">
-          Cancel
-        </button>
       </div>
     </div>
   );
