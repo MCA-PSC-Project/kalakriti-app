@@ -6,8 +6,23 @@ import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
 import authHeader from "../services/auth-header";
 import api from "../utils/api";
+import Toast from "../components/Toast";
 
 function Wishlist() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastProperties, setToastProperties] = useState({});
+
+  useEffect(() => {
+    if (showToast) {
+      const timeoutId = setTimeout(() => {
+        setShowToast(false);
+        setToastProperties({});
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showToast]);
+
   const [wishlist, setWishlist] = useState([]);
   useEffect(() => {
     api
@@ -20,27 +35,63 @@ function Wishlist() {
         console.error(err);
       });
   }, []);
+
+  const handleDelete = (productItemId) => {
+    api
+      .delete(`/wishlists/${productItemId}`, { headers: authHeader() })
+      .then((response) => {
+        setWishlist(
+          wishlist.filter((item) => item.product_item.id !== productItemId)
+        );
+        setShowToast(true);
+        setToastProperties({
+          toastType: "success",
+          toastMessage: "Item successfully removed from wishlist",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        setShowToast(true);
+        setToastProperties({
+          toastType: "error",
+          toastMessage: "some error occured in removing item from wishlist",
+        });
+      });
+  };
+
   return (
     <>
+      {showToast && (
+        <Toast
+          toastType={toastProperties.toastType}
+          message={toastProperties.toastMessage}
+          onClose={() => setShowToast(false)}
+        />
+      )}
       <NavBar />
       <h1>Wishlist</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          {wishlist.map((wish) => {
-            return (
-              <WishlistHorizontalCard
-                key={wish.product_id}
-                imgSrc={wish.product_item.media.path}
-                cardTitle={wish.product_name}
-                sellerName={wish.seller.seller_name}
-                originalPrice={wish.product_item.originalPrice}
-                offerPrice={wish.product_item.offerPrice}
-                average_rating={wish.average_rating}
-                ratingCount={wish.rating_count}
-                stockStatus={false}
-              />
-            );
-          })}
+          {wishlist && wishlist.length > 0 ? (
+            wishlist.map((wish) => {
+              return (
+                <WishlistHorizontalCard
+                  key={wish.product_id}
+                  imgSrc={wish.product_item.media.path}
+                  cardTitle={wish.product_name}
+                  sellerName={wish.seller.seller_name}
+                  originalPrice={wish.product_item.originalPrice}
+                  offerPrice={wish.product_item.offerPrice}
+                  average_rating={wish.average_rating}
+                  ratingCount={wish.rating_count}
+                  stockStatus={false}
+                  onDelete={() => handleDelete(wish.product_item.id)}
+                />
+              );
+            })
+          ) : (
+            <h1>No items in wishlist</h1>
+          )}
           {/* <WishlistHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
@@ -87,6 +138,7 @@ function WishlistHorizontalCard({
   average_rating,
   ratingCount,
   stockStatus,
+  onDelete,
 }) {
   return (
     <div className="card mb-3" style={{ maxWidth: 850 }}>
@@ -130,7 +182,11 @@ function WishlistHorizontalCard({
                 className="btn border px-2 shadow-0 me-1"
                 title="Remove From Wishlist"
               >
-                <button type="button" className="btn btn-outline-danger">
+                <button
+                  type="button"
+                  className="btn btn-outline-danger"
+                  onClick={onDelete}
+                >
                   Remove From Wishlist
                 </button>
               </Link>
