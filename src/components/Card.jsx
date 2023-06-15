@@ -18,8 +18,7 @@ function Card({
   minOrderQuantity,
 }) {
   const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastType, setToastType] = useState("");
+  const [toastProperties, setToastProperties] = useState({});
 
   useEffect(() => {
     if (showToast) {
@@ -35,8 +34,8 @@ function Card({
     <>
       {showToast && (
         <Toast
-          toastType={toastType}
-          message={toastMessage}
+          toastType={toastProperties.toastType}
+          message={toastProperties.toastMessage}
           onClose={() => setShowToast(false)}
         />
       )}
@@ -78,15 +77,19 @@ function Card({
                         if (response.data) {
                           console.log("item added to cart successfully");
                           setShowToast(true);
-                          setToastMessage("Item added to Cart successfully");
-                          setToastType("success");
+                          setToastProperties({
+                            toastType: "success",
+                            toastMessage: "Item added to Cart successfully",
+                          });
                         }
                       })
                       .catch((error) => {
                         console.error("some error occured in adding to cart");
                         setShowToast(true);
-                        setToastMessage("some error occured in adding to cart");
-                        setToastType("error");
+                        setToastProperties({
+                          toastType: "error",
+                          toastMessage: "some error occured in adding to cart",
+                        });
                       });
                   }}
                 >
