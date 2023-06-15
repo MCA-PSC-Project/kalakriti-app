@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import "./Settings.css";
 import { BrowserRouter } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import profilePicSample from "../assets/profilePicSample.jpg";
+import api from "../utils/api";
+import Toast from "../components/Toast";
+
 
 function Settings() {
   const [isActiveGeneral, setActiveGeneral] = useState(true);
@@ -10,6 +13,32 @@ function Settings() {
   const [isActiveMobile, setActiveMobile] = useState(false);
   const [isActiveEmail, setActiveEmail] = useState(false);
   const [isActiveDP, setActiveDP] = useState(false);
+  const [general, setGeneral] = useState({});
+  const [showToast, setShowToast] = useState(false);
+  const [toastProperties, setToastProperties] = useState({});
+
+  useEffect(() => {
+    if (showToast) {
+      const timeoutId = setTimeout(() => {
+        setShowToast(false);
+        setToastProperties({});
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    api
+      .get(`/customers/profile`)
+      .then((response) => {
+        setGeneral(response.data === null ? {} : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   const ToggleGeneral = () => {
     setActiveGeneral(true);
@@ -49,6 +78,14 @@ function Settings() {
   };
 
   return (
+    <>
+    {showToast && (
+      <Toast
+        toastType={toastProperties.toastType}
+        message={toastProperties.toastMessage}
+        onClose={() => setShowToast(false)}
+      />
+    )}
     <div className="container light-style flex-grow-1 container-p-y">
       <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
       <div className="card overflow-hidden">
@@ -138,7 +175,7 @@ function Settings() {
                       id="firstName"
                       type="text"
                       className="form-control mb-1"
-                      // defaultValue="nmaxwell"
+                       defaultValue={general.first_name}
                     />
                   </div>
                   <div className="form-group">
@@ -149,7 +186,7 @@ function Settings() {
                       id="lastName"
                       type="text"
                       className="form-control"
-                      // defaultValue="Nelle Maxwell"
+                       defaultValue={general.last_name}
                     />
                   </div>
                   <div className="form-group">
@@ -160,15 +197,16 @@ function Settings() {
                       id="dob"
                       type="date"
                       className="form-control mb-1"
-                      // defaultValue="nmaxwell@mail.com"
+                       defaultValue={general.dob}
                     />
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="gender">
                       Gender
                     </label>
-                    <select className="form-control">
-                      <option value="">Select Gender</option>
+                    <select className="form-control"  id="gender">
+                      <option value=""  >Select Gender</option>
+                      <option value="" selected >{general.gender}</option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                       <option value="other">Other</option>
@@ -178,6 +216,33 @@ function Settings() {
                     type="button"
                     style={{ marginTop: 20, marginLeft: 60 }}
                     className="btn btn-success"
+                    onClick={() => {
+                      api
+                        .put("/customers/profile", {
+                          first_name: firstName,
+                          last_name: lastName,
+                          dob:dob,
+                          gender: gender,
+                        })
+                        .then((response) => {
+                          if (response.data) {
+                            console.log("profile updated successfully");
+                            setShowToast(true);
+                            setToastProperties({
+                              toastType: "success",
+                              toastMessage: "Profile Updated successfully",
+                            });
+                          }
+                        })
+                        .catch((error) => {
+                          console.error("some error occured in updating profile");
+                          setShowToast(true);
+                          setToastProperties({
+                            toastType: "error",
+                            toastMessage: "some error occured in updating profile",
+                          });
+                        });
+                    }}
                   >
                     Update
                   </button>
@@ -299,6 +364,7 @@ function Settings() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
