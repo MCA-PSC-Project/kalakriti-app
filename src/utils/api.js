@@ -1,5 +1,6 @@
 import axios from "axios";
 import TokenService from "../services/token-service";
+import AuthService from "../services/auth-service";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -56,9 +57,11 @@ instance.interceptors.response.use(
           TokenService.updateLocalAccessToken(access_token);
 
           return instance(originalConfig);
-        } catch (_error) {
-          console.log(_error);
-          return Promise.reject(_error);
+        } catch (error) {
+          console.log(error);
+          AuthService.logout();
+          window.location.href = "/login";
+          return Promise.reject(error);
         }
       }
     }
