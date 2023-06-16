@@ -80,7 +80,7 @@ function OrdersHorizontalCard({
   orderStatus,
 }) {
   return (
-    <div className="card mb-3" style={{ maxWidth: 850 }}>
+    <div className="card mb-3" style={{ maxWidth: 1000 }}>
       <div className="row g-0">
         <div className="col-md-4">
           <img src={imgSrc} className="img-fluid rounded-start" alt="..." />
@@ -88,12 +88,12 @@ function OrdersHorizontalCard({
         <div className="col-md-8">
           <div className="card-header">
             <ul className="nav nav-tabs card-header-tabs">
-              <li className="nav-item me-3">
+              <li className="nav-item me-5">
                 Order #
                 <br />
                 <strong>{orderId}</strong>
               </li>
-              <li className="nav-item me-3">
+              <li className="nav-item me-5">
                 Order Placed
                 <br />
                 <strong>{orderedAt}</strong>
