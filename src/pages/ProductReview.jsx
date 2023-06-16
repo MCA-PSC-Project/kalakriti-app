@@ -9,11 +9,13 @@ function ProductReview() {
   console.log(orderItemId);
   const [rating, setRating] = useState(0);
   const [ratingText, setRatingText] = useState("");
+  const [ratingGiven, setRatingGiven] = useState(false);
 
   function handleRatingChange(rating, text) {
     console.log({ rating, text });
     setRating(rating);
     setRatingText(text);
+    setRatingGiven(true);
   }
 
   return (
@@ -58,6 +60,21 @@ function ProductReview() {
               </div>
 
               <div className="col-12"></div>
+              <label
+                htmlFor="review"
+                className="form-label required"
+                style={{ fontSize: "25px" }}
+              >
+                Review
+              </label>
+              <textarea
+                className="form-control"
+                placeholder="Add review for the product here"
+                id="review"
+                style={{ height: 400 }}
+                defaultValue={""}
+                disabled={!ratingGiven}
+              />
             </div>
           </form>
         </div>
@@ -68,7 +85,7 @@ function ProductReview() {
 
 function ProductMiniCard({ imgSrc, cardTitle, sellerName }) {
   return (
-    <div className="card mb-3" style={{ maxWidth: 500 }}>
+    <div className="card mb-3" style={{ maxWidth: 550 }}>
       <div className="row g-0">
         <div className="col-md-3">
           <img src={imgSrc} className="img-fluid rounded-start" alt="..." />
