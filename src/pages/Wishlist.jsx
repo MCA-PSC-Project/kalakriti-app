@@ -168,28 +168,17 @@ function WishlistHorizontalCard({
               </p>
             </p>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <Link
-                to=""
-                className="btn border px-2 shadow-0 me-1"
-                title="Add to cart"
+              <button type="button" className="btn btn-outline-primary me-2">
+                Add To Cart
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-outline-danger me-2"
+                onClick={onDelete}
               >
-                <button type="button" className="btn btn-outline-primary">
-                  Add To Cart
-                </button>
-              </Link>
-              <Link
-                to=""
-                className="btn border px-2 shadow-0 me-1"
-                title="Remove From Wishlist"
-              >
-                <button
-                  type="button"
-                  className="btn btn-outline-danger"
-                  onClick={onDelete}
-                >
-                  Remove From Wishlist
-                </button>
-              </Link>
+                Remove From Wishlist
+              </button>
             </div>
           </div>
         </div>
