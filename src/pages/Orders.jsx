@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { convertToDateTime, formatDateTime } from "../utils/common";
-import GiveRating from "../components/GiveRating";
 
 function Orders() {
   const [ordersList, setOrdersList] = useState([]);
@@ -31,8 +30,9 @@ function Orders() {
             const orderedAt = formatDateTime(convertToDateTime(order.added_at));
             return (
               <OrdersHorizontalCard
-                key={order.order_id}
-                orderId={order.order_id}
+                key={order.order_id + "-" + order.order_item_id}
+                orderId={order.order_id + "-" + order.order_item_id}
+                orderItemId={order.order_item_id}
                 imgSrc={order.media.path}
                 cardTitle={order.product_name}
                 sellerName={order.seller.seller_name}
@@ -77,9 +77,11 @@ function OrdersHorizontalCard({
   cardTitle,
   sellerName,
   orderId,
+  orderItemId,
   orderedAt,
   orderStatus,
 }) {
+  const navigate = useNavigate();
   return (
     <div className="card mb-3" style={{ maxWidth: 1000 }}>
       <div className="row g-0">
@@ -123,12 +125,17 @@ function OrdersHorizontalCard({
                 Buy Again
               </button>
 
-              <ProductReviewModal />
               <button
                 type="button"
                 className="btn btn-primary me-2"
-                data-bs-toggle="modal"
-                data-bs-target="#ProductReviewModalCenteredScrollable"
+                onClick={() => {
+                  navigate("/product-reviews", {
+                    state: {
+                      orderItemId: orderItemId,
+                      productItem: { imgSrc, cardTitle, sellerName },
+                    },
+                  });
+                }}
               >
                 Rate/Review Product
               </button>
@@ -141,50 +148,6 @@ function OrdersHorizontalCard({
         </div>
       </div>
     </div>
-  );
-}
-
-function ProductReviewModal() {
-  return (
-    <>
-      {/* Vertically centered scrollable modal */}
-      <div
-        className="modal fade"
-        id="ProductReviewModalCenteredScrollable"
-        tabIndex={-1}
-        aria-labelledby="exampleModalCenteredScrollableTitle"
-        style={{ display: "none" }}
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5
-                className="modal-title"
-                id="exampleModalCenteredScrollableTitle"
-              >
-                Add Product Rating/Review
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              />
-            </div>
-            <div className="modal-body">{<ProductReviewForm />}</div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function ProductReviewForm() {
-  return (
-    <>
-      <GiveRating />
-    </>
   );
 }
 

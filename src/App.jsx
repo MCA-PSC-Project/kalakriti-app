@@ -19,6 +19,7 @@ import { SubCategories } from "./pages/Categories";
 import Checkout from "./pages/Checkout";
 import Product from "./pages/Product";
 import AuthConsumer from "./hooks/useAuth";
+import ProductReview from "./pages/ProductReview";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -55,6 +56,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <Orders />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/product-reviews"
+            element={
+              <RequireAuth>
+                <ProductReview />
               </RequireAuth>
             }
           />

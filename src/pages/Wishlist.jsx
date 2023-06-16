@@ -105,11 +105,11 @@ function Wishlist() {
                   imgSrc={wish.product_item.media.path}
                   cardTitle={wish.product_name}
                   sellerName={wish.seller.seller_name}
-                  originalPrice={wish.product_item.originalPrice}
-                  offerPrice={wish.product_item.offerPrice}
+                  originalPrice={wish.product_item.original_price}
+                  offerPrice={wish.product_item.offer_price}
                   average_rating={wish.average_rating}
                   ratingCount={wish.rating_count}
-                  stockStatus={false}
+                  stockStatus={true}
                   onDelete={() => handleDelete(wish.product_item.id)}
                   onAddToCart={() => handleAddToCart(wish.product_item.id, 1)}
                 />
@@ -182,7 +182,7 @@ function WishlistHorizontalCard({
             ) : (
               <h5 className="text-danger">Out Of Stock</h5>
             )}
-            <p className="card-text">
+            <div className="card-text">
               <Rating ratingValue={average_rating} ratingCount={ratingCount} />
               <p
                 className="card-text"
@@ -193,7 +193,7 @@ function WishlistHorizontalCard({
                 <span>&#8377;</span>
                 {offerPrice}
               </p>
-            </p>
+            </div>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
               <button
                 type="button"
