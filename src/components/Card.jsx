@@ -2,7 +2,6 @@ import WishlistSvg from "../assets/Heart.svg";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import authHeader from "../services/auth-header";
 import api from "../utils/api";
 import Toast from "./Toast";
 import { useEffect, useState } from "react";

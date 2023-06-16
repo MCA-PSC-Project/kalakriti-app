@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
-import authHeader from "../services/auth-header";
 import api from "../utils/api";
 import Toast from "../components/Toast";
 
@@ -26,7 +25,7 @@ function Cart() {
   const [cartItemsList, setCartItemsList] = useState([]);
   useEffect(() => {
     api
-      .get(`/carts`, { headers: authHeader() })
+      .get(`/carts`)
       .then((response) => {
         setCartItemsList(response.data === null ? [] : response.data);
         console.log(response.data);
@@ -39,7 +38,7 @@ function Cart() {
 
   const handleDelete = (productItemId) => {
     api
-      .delete(`/carts/${productItemId}`, { headers: authHeader() })
+      .delete(`/carts/${productItemId}`)
       .then((response) => {
         setCartItemsList(
           cartItemsList.filter((item) => item.product_item.id !== productItemId)

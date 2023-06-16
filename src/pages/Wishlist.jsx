@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
-import authHeader from "../services/auth-header";
 import api from "../utils/api";
 import Toast from "../components/Toast";
 
@@ -26,7 +25,7 @@ function Wishlist() {
   const [wishlist, setWishlist] = useState([]);
   useEffect(() => {
     api
-      .get(`/wishlists`, { headers: authHeader() })
+      .get(`/wishlists`)
       .then((response) => {
         setWishlist(response.data === null ? [] : response.data);
         console.log(response.data);
@@ -38,7 +37,7 @@ function Wishlist() {
 
   const handleDelete = (productItemId) => {
     api
-      .delete(`/wishlists/${productItemId}`, { headers: authHeader() })
+      .delete(`/wishlists/${productItemId}`)
       .then((response) => {
         setWishlist(
           wishlist.filter((item) => item.product_item.id !== productItemId)

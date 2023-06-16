@@ -3,14 +3,13 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import { Link } from "react-router-dom";
-import authHeader from "../services/auth-header";
 import api from "../utils/api";
 
 function Orders() {
   const [ordersList, setOrdersList] = useState([]);
   useEffect(() => {
     api
-      .get(`/customer-orders`, { headers: authHeader() })
+      .get(`/customer-orders`)
       .then((response) => {
         setOrdersList(response.data === null ? [] : response.data);
         console.log(response.data);
