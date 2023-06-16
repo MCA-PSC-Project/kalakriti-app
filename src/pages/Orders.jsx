@@ -5,6 +5,7 @@ import Logo from "../assets/logo.jpeg";
 import { Link } from "react-router-dom";
 import api from "../utils/api";
 import { convertToDateTime, formatDateTime } from "../utils/common";
+import GiveRating from "../components/GiveRating";
 
 function Orders() {
   const [ordersList, setOrdersList] = useState([]);
@@ -127,7 +128,7 @@ function OrdersHorizontalCard({
                 type="button"
                 className="btn btn-primary me-2"
                 data-bs-toggle="modal"
-                data-bs-target="#exampleModalCenteredScrollable"
+                data-bs-target="#ProductReviewModalCenteredScrollable"
               >
                 Rate/Review Product
               </button>
@@ -149,7 +150,7 @@ function ProductReviewModal() {
       {/* Vertically centered scrollable modal */}
       <div
         className="modal fade"
-        id="exampleModalCenteredScrollable"
+        id="ProductReviewModalCenteredScrollable"
         tabIndex={-1}
         aria-labelledby="exampleModalCenteredScrollableTitle"
         style={{ display: "none" }}
@@ -180,7 +181,11 @@ function ProductReviewModal() {
 }
 
 function ProductReviewForm() {
-  return <></>;
+  return (
+    <>
+      <GiveRating />
+    </>
+  );
 }
 
 export default Orders;
