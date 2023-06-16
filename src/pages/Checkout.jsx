@@ -53,38 +53,7 @@ function Checkout() {
             </label>
           </div>
 
-          {/* Vertically centered scrollable modal */}
-          <div
-            className="modal fade"
-            id="exampleModalCenteredScrollable"
-            tabIndex={-1}
-            aria-labelledby="exampleModalCenteredScrollableTitle"
-            style={{ display: "none" }}
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5
-                    className="modal-title"
-                    id="exampleModalCenteredScrollableTitle"
-                  >
-                    Add New Address
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  />
-                </div>
-                <div className="modal-body">
-                  <AddressForm />
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <AddressModal />
           <button
             type="button"
             className="btn btn-outline-primary"
@@ -159,6 +128,44 @@ function Checkout() {
         </main>
       </div>
       <Footer />
+    </>
+  );
+}
+
+function AddressModal() {
+  return (
+    <>
+      {/* Vertically centered scrollable modal */}
+      <div
+        className="modal fade"
+        id="exampleModalCenteredScrollable"
+        tabIndex={-1}
+        aria-labelledby="exampleModalCenteredScrollableTitle"
+        style={{ display: "none" }}
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className="modal-title"
+                id="exampleModalCenteredScrollableTitle"
+              >
+                Add New Address
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <AddressForm />
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

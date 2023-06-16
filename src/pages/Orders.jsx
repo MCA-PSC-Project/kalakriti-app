@@ -122,7 +122,13 @@ function OrdersHorizontalCard({
                 Buy Again
               </button>
 
-              <button type="button" className="btn btn-primary me-2">
+              <ProductReviewModal />
+              <button
+                type="button"
+                className="btn btn-primary me-2"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModalCenteredScrollable"
+              >
                 Rate/Review Product
               </button>
 
@@ -135,6 +141,46 @@ function OrdersHorizontalCard({
       </div>
     </div>
   );
+}
+
+function ProductReviewModal() {
+  return (
+    <>
+      {/* Vertically centered scrollable modal */}
+      <div
+        className="modal fade"
+        id="exampleModalCenteredScrollable"
+        tabIndex={-1}
+        aria-labelledby="exampleModalCenteredScrollableTitle"
+        style={{ display: "none" }}
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className="modal-title"
+                id="exampleModalCenteredScrollableTitle"
+              >
+                Add Product Rating/Review
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">{<ProductReviewForm />}</div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function ProductReviewForm() {
+  return <></>;
 }
 
 export default Orders;
