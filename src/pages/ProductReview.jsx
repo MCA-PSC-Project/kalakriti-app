@@ -8,6 +8,10 @@ function ProductReview() {
   const { orderItemId, productItem } = state;
   console.log(orderItemId);
 
+  function handleRatingChange(rating, text) {
+    // do something with rating and text
+    console.log({ rating, text });
+  }
   return (
     <>
       <NavBar />
@@ -33,7 +37,14 @@ function ProductReview() {
                 <label htmlFor="rating" className="form-label">
                   Rating
                 </label>
-                <GiveRating />
+                <GiveRating onRatingChange={handleRatingChange} />
+                <input
+                  type="hidden"
+                  className="form-control"
+                  id="rating"
+                  defaultValue={0}
+                  required=""
+                />
               </div>
 
               <div className="col-12"></div>

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as faStarFilled } from "@fortawesome/free-solid-svg-icons";
 
-function StarIcon({ index, icon, color, setRating, setHoverRating }) {
+function StarIcon({ index, icon, color, setRating, setHoverRating, onRatingChange }) {
   const handleMouseEnter = () => {
     setHoverRating(index);
   };
@@ -14,6 +14,27 @@ function StarIcon({ index, icon, color, setRating, setHoverRating }) {
 
   const handleClick = () => {
     setRating(index);
+    let text;
+    switch (index) {
+      case 1:
+        text = "Poor";
+        break;
+      case 2:
+        text = "Not good";
+        break;
+      case 3:
+        text = "Satisfactory";
+        break;
+      case 4:
+        text = "Very good";
+        break;
+      case 5:
+        text = "Excellent";
+        break;
+      default:
+        break;
+    }
+    onRatingChange(index, text);
   };
 
   return (
@@ -30,7 +51,7 @@ function StarIcon({ index, icon, color, setRating, setHoverRating }) {
   );
 }
 
-function GiveRating() {
+function GiveRating({onRatingChange}) {
   const [rating, setRating] = useState();
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -45,6 +66,7 @@ function GiveRating() {
           color={index <= (hoverRating || rating) ? "#ffff00" : "#000000"}
           setRating={setRating}
           setHoverRating={setHoverRating}
+          onRatingChange={onRatingChange}
         />
       ))}
     </div>
