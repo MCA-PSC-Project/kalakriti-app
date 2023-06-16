@@ -2,7 +2,6 @@ import WishlistSvg from "../assets/Heart.svg";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import authHeader from "../services/auth-header";
 import api from "../utils/api";
 import Toast from "./Toast";
 import { useEffect, useState } from "react";
@@ -60,51 +59,41 @@ function Card({
               </span>
             </p>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <Link
-                to=""
-                className="btn border px-2 pt-2 icon-hover"
-                title="Add to cart"
-              >
-                {/* Add to cart */}
-                <button
-                  className="btn btn-warning"
-                  onClick={() => {
-                    api
-                      .post("/carts", {
-                        product_item_id: productItemId,
-                        quantity: minOrderQuantity,
-                      })
-                      .then((response) => {
-                        if (response.data) {
-                          console.log("item added to cart successfully");
-                          setShowToast(true);
-                          setToastProperties({
-                            toastType: "success",
-                            toastMessage: "Item added to Cart successfully",
-                          });
-                        }
-                      })
-                      .catch((error) => {
-                        console.error("some error occured in adding to cart");
+              {/* Add to cart */}
+              <button
+                type="button"
+                className="btn btn-warning me-2"
+                onClick={() => {
+                  api
+                    .post("/carts", {
+                      product_item_id: productItemId,
+                      quantity: minOrderQuantity,
+                    })
+                    .then((response) => {
+                      if (response.data) {
+                        console.log("item added to cart successfully");
                         setShowToast(true);
                         setToastProperties({
-                          toastType: "error",
-                          toastMessage: "some error occured in adding to cart",
+                          toastType: "success",
+                          toastMessage: "Item added to Cart successfully",
                         });
+                      }
+                    })
+                    .catch((error) => {
+                      console.error("some error occured in adding to cart");
+                      setShowToast(true);
+                      setToastProperties({
+                        toastType: "error",
+                        toastMessage: "some error occured in adding to cart",
                       });
-                  }}
-                >
-                  Add to cart
-                </button>
-              </Link>
-              <Link
-                to=""
-                // className="btn btn-light border px-2 pt-2 icon-hover"
-                className="btn border px-2 pt-2 icon-hover"
-                title="Buy Now"
+                    });
+                }}
               >
-                <button className="btn btn-success">Buy Now</button>
-              </Link>
+                Add to cart
+              </button>
+              <button type="button" className="btn btn-success me-2">
+                Buy Now
+              </button>
             </div>
           </div>
         </div>

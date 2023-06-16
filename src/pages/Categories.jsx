@@ -24,16 +24,20 @@ function Categories() {
         <div className="container">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
             {/* change ..md-n to display n items in a row */}
-            {categoriesList.map((category) => {
-              return (
-                <CategoryCard
-                  key={category.id}
-                  imgSrc={category.cover.path}
-                  cardTitle={category.name}
-                  subCategories={category.subcategories}
-                />
-              );
-            })}
+            {categoriesList && categoriesList.length > 0 ? (
+              categoriesList.map((category) => {
+                return (
+                  <CategoryCard
+                    key={category.id}
+                    imgSrc={category.cover.path}
+                    cardTitle={category.name}
+                    subCategories={category.subcategories}
+                  />
+                );
+              })
+            ) : (
+              <h1>No categories</h1>
+            )}
           </div>
         </div>
       </div>
@@ -99,15 +103,19 @@ export function SubCategories() {
         <div className="container">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
             {/* change ..md-n to display n items in a row */}
-            {subCategoriesList.map((subCategory) => {
-              return (
-                <SubCategoryCard
-                  key={subCategory.id}
-                  imgSrc={subCategory.cover.path}
-                  cardTitle={subCategory.name}
-                />
-              );
-            })}
+            {subCategoriesList && subCategoriesList.length > 0 ? (
+              subCategoriesList.map((subCategory) => {
+                return (
+                  <SubCategoryCard
+                    key={subCategory.id}
+                    imgSrc={subCategory.cover.path}
+                    cardTitle={subCategory.name}
+                  />
+                );
+              })
+            ) : (
+              <h1>No subcategories</h1>
+            )}
           </div>
         </div>
       </div>

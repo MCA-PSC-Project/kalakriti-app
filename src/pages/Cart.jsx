@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
-import authHeader from "../services/auth-header";
 import api from "../utils/api";
 import Toast from "../components/Toast";
 
@@ -26,10 +25,11 @@ function Cart() {
   const [cartItemsList, setCartItemsList] = useState([]);
   useEffect(() => {
     api
-      .get(`/carts`, { headers: authHeader() })
+      .get(`/carts`)
       .then((response) => {
         setCartItemsList(response.data === null ? [] : response.data);
         console.log(response.data);
+        // console.log("cartItemsList= ", cartItemsList);
       })
       .catch((err) => {
         console.error(err);
@@ -38,7 +38,7 @@ function Cart() {
 
   const handleDelete = (productItemId) => {
     api
-      .delete(`/carts/${productItemId}`, { headers: authHeader() })
+      .delete(`/carts/${productItemId}`)
       .then((response) => {
         setCartItemsList(
           cartItemsList.filter((item) => item.product_item.id !== productItemId)
@@ -72,28 +72,32 @@ function Cart() {
       <h1>Cart</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          {cartItemsList.map((cartItem) => {
-            return (
-              <CartHorizontalCard
-                key={cartItem.product_id}
-                imgSrc={cartItem.product_item.media.path}
-                cardTitle={cartItem.product_name}
-                sellerName={cartItem.seller.seller_name}
-                originalPrice={cartItem.product_item.original_price}
-                offerPrice={cartItem.product_item.offer_price}
-                minOrderQuantity={cartItem.min_order_quantity}
-                maxOrderQuantity={cartItem.max_order_quantity}
-                quantity={cartItem.quantity}
-                stockStatus={
-                  cartItem.product_item.quantity_in_stock >=
-                  cartItem.min_order_quantity
-                    ? true
-                    : false
-                }
-                onDelete={() => handleDelete(cartItem.product_item.id)}
-              />
-            );
-          })}
+          {cartItemsList && cartItemsList.length > 0 ? (
+            cartItemsList.map((cartItem) => {
+              return (
+                <CartHorizontalCard
+                  key={cartItem.product_id}
+                  imgSrc={cartItem.product_item.media.path}
+                  cardTitle={cartItem.product_name}
+                  sellerName={cartItem.seller.seller_name}
+                  originalPrice={cartItem.product_item.original_price}
+                  offerPrice={cartItem.product_item.offer_price}
+                  minOrderQuantity={cartItem.min_order_quantity}
+                  maxOrderQuantity={cartItem.max_order_quantity}
+                  quantity={cartItem.quantity}
+                  stockStatus={
+                    cartItem.product_item.quantity_in_stock >=
+                    cartItem.min_order_quantity
+                      ? true
+                      : false
+                  }
+                  onDelete={() => handleDelete(cartItem.product_item.id)}
+                />
+              );
+            })
+          ) : (
+            <h1>Cart Empty</h1>
+          )}
           {/* <CartHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
@@ -162,7 +166,7 @@ function CartHorizontalCard({
   }
 
   return (
-    <div className="card mb-3" style={{ maxWidth: 850 }}>
+    <div className="card mb-3" style={{ maxWidth: 1000 }}>
       <div className="row g-0">
         <div className="col-md-4">
           <img src={imgSrc} className="img-fluid rounded-start" alt="..." />
@@ -191,9 +195,9 @@ function CartHorizontalCard({
                   type="button"
                   className="btn btn-outline-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
-                  disabled={stockStatus ? null : false}
+                  disabled={!stockStatus}
                 >
-                  Quantity: {quantity}
+                  Quantity: {quantitySelected}
                 </button>
                 <ul className="dropdown-menu">{elements}</ul>
               </div>
