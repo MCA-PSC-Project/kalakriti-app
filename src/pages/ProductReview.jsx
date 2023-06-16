@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import { useLocation } from "react-router-dom";
 import GiveRating from "../components/GiveRating";
@@ -7,11 +7,15 @@ function ProductReview() {
   const { state } = useLocation();
   const { orderItemId, productItem } = state;
   console.log(orderItemId);
+  const [rating, setRating] = useState(0);
+  const [ratingText, setRatingText] = useState("");
 
   function handleRatingChange(rating, text) {
-    // do something with rating and text
     console.log({ rating, text });
+    setRating(rating);
+    setRatingText(text);
   }
+
   return (
     <>
       <NavBar />
@@ -34,7 +38,11 @@ function ProductReview() {
           >
             <div className="row g-3">
               <div className="col-12">
-                <label htmlFor="rating" className="form-label">
+                <label
+                  htmlFor="rating"
+                  className="form-label"
+                  style={{ fontSize: "25px" }}
+                >
                   Rating
                 </label>
                 <GiveRating onRatingChange={handleRatingChange} />
@@ -43,8 +51,10 @@ function ProductReview() {
                   className="form-control"
                   id="rating"
                   defaultValue={0}
+                  value={rating}
                   required=""
                 />
+                <p>{ratingText}</p>
               </div>
 
               <div className="col-12"></div>
