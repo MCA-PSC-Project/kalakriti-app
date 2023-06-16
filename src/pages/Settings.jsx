@@ -247,7 +247,7 @@ function Settings() {
                       style={{ marginTop: 20, marginLeft: 60 }}
                       className="btn btn-success"
                       onClick={() => {
-                        console.log("clicked");
+                        console.log({firstName, lastName, dob, gender});
                         api
                           .put("/customers/profile", {
                             first_name: firstName,
