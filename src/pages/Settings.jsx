@@ -31,7 +31,7 @@ function Settings() {
 
   useEffect(() => {
     api
-      .get(`/customers/profile`,{ headers: authHeader() })
+      .get(`/customers/profile`)
       .then((response) => {
         setGeneral(response.data === null ? {} : response.data);
         console.log(response.data);
@@ -247,6 +247,7 @@ function Settings() {
                       style={{ marginTop: 20, marginLeft: 60 }}
                       className="btn btn-success"
                       onClick={() => {
+                        console.log("clicked");
                         api
                           .put("/customers/profile", {
                             first_name: firstName,
@@ -255,6 +256,7 @@ function Settings() {
                             gender: gender,
                           })
                           .then((response) => {
+                            console.log(response);
                             if (response.data) {
                               console.log("profile updated successfully");
                               setShowToast(true);
@@ -265,9 +267,7 @@ function Settings() {
                             }
                           })
                           .catch((error) => {
-                            console.error(
-                              "some error occured in updating profile"
-                            );
+                            console.error(error);
                             setShowToast(true);
                             setToastProperties({
                               toastType: "error",
@@ -281,54 +281,54 @@ function Settings() {
                     </button>
                   </div>
                 </div>
-                  <div
-                    className={
-                      isActiveAddress
-                        ? "tab-pane fade active show"
-                        : "tab-pane fade"
-                    }
-                    id="account-change-address"
-                  >
-                    <div className="card-body pb-2">
-                      <div className="form-group">
-                        <label className="form-label">Address Line 1</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                      <div className="form-group">
-                        <label className="form-label">Address Line 2</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                      <div className="form-group">
-                        <label className="form-label">District</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                      <div className="form-group">
-                        <label className="form-label">State</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                      <div className="form-group">
-                        <label className="form-label">Country</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                      <div className="form-group">
-                        <label className="form-label">Pincode</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                      <div className="form-group">
-                        <label className="form-label">Landmark</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                      
-                      <button
-                        type="button"
-                        style={{ marginTop: 20, marginLeft: 60 }}
-                        className="btn btn-success"
-                      >
-                        Update
-                      </button>
+                <div
+                  className={
+                    isActiveAddress
+                      ? "tab-pane fade active show"
+                      : "tab-pane fade"
+                  }
+                  id="account-change-address"
+                >
+                  <div className="card-body pb-2">
+                    <div className="form-group">
+                      <label className="form-label">Address Line 1</label>
+                      <input type="text" className="form-control" />
                     </div>
+                    <div className="form-group">
+                      <label className="form-label">Address Line 2</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">District</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">State</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Country</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Pincode</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Landmark</label>
+                      <input type="text" className="form-control" />
+                    </div>
+
+                    <button
+                      type="button"
+                      style={{ marginTop: 20, marginLeft: 60 }}
+                      className="btn btn-success"
+                    >
+                      Update
+                    </button>
                   </div>
-               
+                </div>
+
                 <div
                   className={
                     isActivePassword
