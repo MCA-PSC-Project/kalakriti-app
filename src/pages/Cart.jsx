@@ -195,9 +195,9 @@ function CartHorizontalCard({
                   type="button"
                   className="btn btn-outline-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
-                  disabled={stockStatus ? null : false}
+                  disabled={!stockStatus}
                 >
-                  Quantity: {quantity}
+                  Quantity: {quantitySelected}
                 </button>
                 <ul className="dropdown-menu">{elements}</ul>
               </div>
