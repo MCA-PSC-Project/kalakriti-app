@@ -59,6 +59,32 @@ function Wishlist() {
       });
   };
 
+  const handleAddToCart = (productItemId, minOrderQuantity) => {
+    api
+      .post("/carts", {
+        product_item_id: productItemId,
+        quantity: minOrderQuantity,
+      })
+      .then((response) => {
+        if (response.data) {
+          console.log("item added to cart successfully");
+          setShowToast(true);
+          setToastProperties({
+            toastType: "success",
+            toastMessage: "Item added to Cart successfully",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("some error occured in adding to cart");
+        setShowToast(true);
+        setToastProperties({
+          toastType: "error",
+          toastMessage: "some error occured in adding to cart",
+        });
+      });
+  };
+
   return (
     <>
       {showToast && (
@@ -86,6 +112,7 @@ function Wishlist() {
                   ratingCount={wish.rating_count}
                   stockStatus={false}
                   onDelete={() => handleDelete(wish.product_item.id)}
+                  onAddToCart={() => handleAddToCart(wish.product_item.id, 1)}
                 />
               );
             })
@@ -139,6 +166,7 @@ function WishlistHorizontalCard({
   ratingCount,
   stockStatus,
   onDelete,
+  onAddToCart,
 }) {
   return (
     <div className="card mb-3" style={{ maxWidth: 850 }}>
@@ -168,8 +196,16 @@ function WishlistHorizontalCard({
               </p>
             </p>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <button type="button" className="btn btn-outline-primary me-2">
+              <button
+                type="button"
+                className="btn btn-outline-primary me-2"
+                onClick={onAddToCart}
+              >
                 Add To Cart
+              </button>
+
+              <button type="button" className="btn btn-outline-success me-2">
+                Buy Now
               </button>
 
               <button
