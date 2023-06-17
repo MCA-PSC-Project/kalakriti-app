@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import { useLocation } from "react-router-dom";
 import GiveRating from "../components/GiveRating";
+import api from "../utils/api";
+import Modal from "../components/Modal";
 
 function ProductReview() {
   const { state } = useLocation();
@@ -10,6 +12,8 @@ function ProductReview() {
   const [rating, setRating] = useState(0);
   const [ratingText, setRatingText] = useState("");
   const [ratingGiven, setRatingGiven] = useState(false);
+  const [review, setReview] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   function handleRatingChange(rating, text) {
     console.log({ rating, text });
@@ -17,6 +21,36 @@ function ProductReview() {
     setRatingText(text);
     setRatingGiven(true);
   }
+
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    // console.log({ id, value });
+    if (id === "review") {
+      setReview(value);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    api
+      .post("/product-reviews", {
+        order_item_id: orderItemId,
+        rating: rating,
+        review: review,
+        media_list: [],
+      })
+      .then((response) => {
+        if (response.data) {
+          console.log("Product review added successfully");
+          setShowModal(true);
+        }
+      })
+      .catch((error) => {
+        console.error("some error occured in adding product review");
+        console.error(error);
+        setShowModal(true);
+      });
+  };
 
   return (
     <>
@@ -74,7 +108,32 @@ function ProductReview() {
                 style={{ height: 400 }}
                 defaultValue={""}
                 disabled={!ratingGiven}
+                onChange={(event) => handleInputChange(event)}
               />
+            </div>
+            <div className="col-6 m-4">
+              <button
+                type="button"
+                className="btn btn-danger me-2"
+                onClick={(e) => handleSubmit(e)}
+              >
+                Close
+              </button>
+
+              <button
+                type="submit"
+                className="btn btn-success"
+                onClick={(e) => handleSubmit(e)}
+              >
+                Submit
+              </button>
+              {showModal && (
+                <Modal
+                  title="Message"
+                  body="successful"
+                  cancelButtonPresent={false}
+                />
+              )}
             </div>
           </form>
         </div>
@@ -85,7 +144,7 @@ function ProductReview() {
 
 function ProductMiniCard({ imgSrc, cardTitle, sellerName }) {
   return (
-    <div className="card mb-3" style={{ maxWidth: 550 }}>
+    <div className="card mb-3" style={{ maxWidth: 525 }}>
       <div className="row g-0">
         <div className="col-md-3">
           <img src={imgSrc} className="img-fluid rounded-start" alt="..." />
