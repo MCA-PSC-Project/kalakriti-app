@@ -58,8 +58,9 @@ function StarIcon({
   );
 }
 
-function GiveRating({ onRatingChange }) {
-  const [rating, setRating] = useState();
+function GiveRating({ onRatingChange, initialRating = 0 }) {
+  console.log({ initialRating });
+  const [rating, setRating] = useState(initialRating);
   const [hoverRating, setHoverRating] = useState(0);
 
   return (

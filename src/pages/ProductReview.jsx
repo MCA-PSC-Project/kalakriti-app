@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import GiveRating from "../components/GiveRating";
 import api from "../utils/api";
 import Modal from "../components/Modal";
+import Rating from "../components/Rating";
 
 function ProductReview() {
   const { state } = useLocation();
-  const { orderItemId, productItem } = state;
+  const { orderItemId, productId, productItem } = state;
   console.log(orderItemId);
   const [rating, setRating] = useState(0);
   const [ratingText, setRatingText] = useState("");
@@ -16,6 +17,29 @@ function ProductReview() {
   const [showModal, setShowModal] = useState(true);
   const [modalProperties, setModalProperties] = useState({});
   const navigate = useNavigate();
+
+  const [editMode, setEditMode] = useState(false);
+  const [isEditButtonPresent, setIsEditButtonPresent] = useState(false);
+  const [productReviewInitialResponse, setProductReviewInitialResponse] =
+    useState({});
+  useEffect(() => {
+    api
+      .get(`/product-review/${productId}`)
+      .then((response) => {
+        setProductReviewInitialResponse(
+          response.data === null ? {} : response.data
+        );
+        if (response.data) {
+          // edit button should be present only when there is reply of existing product rating and/or review
+          setIsEditButtonPresent(true);
+        }
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+        setProductReviewInitialResponse({});
+      });
+  }, []);
 
   function handleRatingChange(rating, text) {
     console.log({ rating, text });
@@ -66,6 +90,7 @@ function ProductReview() {
 
   return (
     <>
+      {/* {console.log({ productReviewInitialResponse })}; */}
       <NavBar />
       <h1>Feedback</h1>
       <div className="d-flex justify-content-center align-items-center">
@@ -93,7 +118,19 @@ function ProductReview() {
                 >
                   Rating
                 </label>
-                <GiveRating onRatingChange={handleRatingChange} />
+                {editMode ? (
+                  <GiveRating
+                    initialRating={
+                      productReviewInitialResponse
+                        ? productReviewInitialResponse?.rating
+                        : 0
+                    }
+                    onRatingChange={handleRatingChange}
+                  />
+                ) : (
+                  <Rating ratingValue={productReviewInitialResponse?.rating} />
+                )}
+
                 <input
                   type="hidden"
                   className="form-control"
@@ -117,8 +154,12 @@ function ProductReview() {
                 placeholder="Add review for the product here"
                 id="review"
                 style={{ height: 400 }}
-                defaultValue={""}
-                disabled={!ratingGiven}
+                defaultValue={
+                  productReviewInitialResponse
+                    ? productReviewInitialResponse?.review
+                    : ""
+                }
+                disabled={!editMode && !ratingGiven}
                 onChange={(event) => handleInputChange(event)}
               />
             </div>
@@ -132,6 +173,18 @@ function ProductReview() {
               >
                 Close
               </button>
+
+              {isEditButtonPresent && (
+                <button
+                  type="button"
+                  className="btn btn-warning me-2"
+                  onClick={() => {
+                    setEditMode(true);
+                  }}
+                >
+                  Edit
+                </button>
+              )}
 
               <button
                 type="submit"
