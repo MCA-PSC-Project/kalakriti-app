@@ -13,7 +13,8 @@ function ProductReview() {
   const [ratingText, setRatingText] = useState("");
   const [ratingGiven, setRatingGiven] = useState(false);
   const [review, setReview] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
+  const [modalProperties, setModalProperties] = useState({});
   const navigate = useNavigate();
 
   function handleRatingChange(rating, text) {
@@ -44,12 +45,22 @@ function ProductReview() {
         if (response.data) {
           console.log("Product review added successfully");
           setShowModal(true);
+          setModalProperties({
+            title: "Message",
+            body: "Product review added successfully",
+            cancelButtonPresent: false,
+          });
         }
       })
       .catch((error) => {
-        console.error("some error occured in adding product review");
+        console.error("Some error occured in adding product review");
         console.error(error);
         setShowModal(true);
+        setModalProperties({
+          title: "Message",
+          body: "Some error occured in adding product review",
+          cancelButtonPresent: false,
+        });
       });
   };
 
@@ -132,11 +143,13 @@ function ProductReview() {
               >
                 Submit
               </button>
+
               {showModal && (
                 <Modal
-                  title="Message"
-                  body="successful"
-                  cancelButtonPresent={false}
+                  title={modalProperties.title}
+                  body={modalProperties.body}
+                  cancelButtonPresent={modalProperties.cancelButtonPresent}
+                  onClose={() => setShowModal(false)}
                 />
               )}
             </div>

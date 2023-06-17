@@ -1,7 +1,8 @@
 import React from "react";
 
-function Modal({ title, body, cancelButtonPresent }) {
+function Modal({ title, body, cancelButtonPresent, onClose }) {
   console.log("modal called");
+  console.log({ title, body, cancelButtonPresent });
   return (
     <>
       {/* Modal */}
@@ -23,6 +24,10 @@ function Modal({ title, body, cancelButtonPresent }) {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => {
+                  onClose();
+                  window.location.reload();
+                }}
               />
             </div>
             <div className="modal-body">{body}</div>
@@ -32,6 +37,7 @@ function Modal({ title, body, cancelButtonPresent }) {
                   type="button"
                   className="btn btn-danger"
                   data-bs-dismiss="modal"
+                  onClick={onClose}
                 >
                   Cancel
                 </button>
@@ -40,6 +46,7 @@ function Modal({ title, body, cancelButtonPresent }) {
                 type="button"
                 className="btn btn-success"
                 onClick={() => {
+                  onClose();
                   window.location.reload();
                 }}
               >
