@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import NavBar from "../components/NavBar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import GiveRating from "../components/GiveRating";
 import api from "../utils/api";
 import Modal from "../components/Modal";
@@ -14,6 +14,7 @@ function ProductReview() {
   const [ratingGiven, setRatingGiven] = useState(false);
   const [review, setReview] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   function handleRatingChange(rating, text) {
     console.log({ rating, text });
@@ -86,7 +87,6 @@ function ProductReview() {
                   type="hidden"
                   className="form-control"
                   id="rating"
-                  defaultValue={0}
                   value={rating}
                   required=""
                 />
@@ -115,7 +115,9 @@ function ProductReview() {
               <button
                 type="button"
                 className="btn btn-danger me-2"
-                onClick={(e) => handleSubmit(e)}
+                onClick={() => {
+                  navigate("/orders");
+                }}
               >
                 Close
               </button>
@@ -123,7 +125,10 @@ function ProductReview() {
               <button
                 type="submit"
                 className="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#modal"
                 onClick={(e) => handleSubmit(e)}
+                disabled={!ratingGiven}
               >
                 Submit
               </button>
