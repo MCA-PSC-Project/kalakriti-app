@@ -9,7 +9,7 @@ import Rating from "../components/Rating";
 function ProductReview() {
   const { state } = useLocation();
   const { orderItemId, productId, productItem } = state;
-  console.log(orderItemId);
+  // console.log(orderItemId);
   const [rating, setRating] = useState(0);
   const [ratingText, setRatingText] = useState("");
   const [ratingGiven, setRatingGiven] = useState(false);
@@ -18,7 +18,8 @@ function ProductReview() {
   const [modalProperties, setModalProperties] = useState({});
   const navigate = useNavigate();
 
-  const [editMode, setEditMode] = useState(false);
+  const [createMode, setCreateMode] = useState(true);
+  const [updateMode, setUpdateMode] = useState(false);
   const [isEditButtonPresent, setIsEditButtonPresent] = useState(false);
   const [productReviewInitialResponse, setProductReviewInitialResponse] =
     useState({});
@@ -32,17 +33,19 @@ function ProductReview() {
         if (response.data) {
           // edit button should be present only when there is reply of existing product rating and/or review
           setIsEditButtonPresent(true);
+          setCreateMode(false);
         }
         console.log(response.data);
       })
       .catch((err) => {
         console.error(err);
         setProductReviewInitialResponse({});
+        setCreateMode(true);
       });
   }, []);
 
   function handleRatingChange(rating, text) {
-    console.log({ rating, text });
+    // console.log({ rating, text });
     setRating(rating);
     setRatingText(text);
     setRatingGiven(true);
@@ -58,34 +61,64 @@ function ProductReview() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    api
-      .post("/product-reviews", {
-        order_item_id: orderItemId,
-        rating: rating,
-        review: review,
-        media_list: [],
-      })
-      .then((response) => {
-        if (response.data) {
-          console.log("Product review added successfully");
+    if (createMode && !updateMode) {
+      api
+        .post(`/product-reviews`, {
+          order_item_id: orderItemId,
+          rating: rating,
+          review: review,
+          media_list: [],
+        })
+        .then((response) => {
+          if (response.data) {
+            console.log("Product review added successfully");
+            setShowModal(true);
+            setModalProperties({
+              title: "Message",
+              body: "Product review added successfully",
+              cancelButtonPresent: false,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Some error occured in adding product review");
+          console.error(error);
           setShowModal(true);
           setModalProperties({
             title: "Message",
-            body: "Product review added successfully",
+            body: "Some error occured in adding product review",
             cancelButtonPresent: false,
           });
-        }
-      })
-      .catch((error) => {
-        console.error("Some error occured in adding product review");
-        console.error(error);
-        setShowModal(true);
-        setModalProperties({
-          title: "Message",
-          body: "Some error occured in adding product review",
-          cancelButtonPresent: false,
         });
-      });
+    } else if (!createMode && updateMode) {
+      api
+        .put(`/product-reviews/${productReviewInitialResponse.review_id}`, {
+          rating: rating || productReviewInitialResponse.rating,
+          review: review || productReviewInitialResponse.review,
+          media_list: [],
+        })
+        .then((response) => {
+          if (response.data) {
+            console.log("Product rating/review updated successfully");
+            setShowModal(true);
+            setModalProperties({
+              title: "Message",
+              body: "Product rating/review updated successfully",
+              cancelButtonPresent: false,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Some error occured in updating product rating/review");
+          console.error(error);
+          setShowModal(true);
+          setModalProperties({
+            title: "Message",
+            body: "Some error occured in adding product rating/review",
+            cancelButtonPresent: false,
+          });
+        });
+    }
   };
 
   return (
@@ -118,7 +151,7 @@ function ProductReview() {
                 >
                   Rating
                 </label>
-                {editMode ? (
+                {createMode || updateMode ? (
                   <GiveRating
                     initialRating={
                       productReviewInitialResponse
@@ -159,7 +192,7 @@ function ProductReview() {
                     ? productReviewInitialResponse?.review
                     : ""
                 }
-                disabled={!editMode && !ratingGiven}
+                disabled={!updateMode && !ratingGiven}
                 onChange={(event) => handleInputChange(event)}
               />
             </div>
@@ -179,8 +212,10 @@ function ProductReview() {
                   type="button"
                   className="btn btn-warning me-2"
                   onClick={() => {
-                    setEditMode(true);
+                    setUpdateMode(true);
+                    setCreateMode(false);
                   }}
+                  disabled={updateMode}
                 >
                   Edit
                 </button>
@@ -192,7 +227,7 @@ function ProductReview() {
                 data-bs-toggle="modal"
                 data-bs-target="#modal"
                 onClick={(e) => handleSubmit(e)}
-                disabled={!ratingGiven}
+                disabled={!ratingGiven && !updateMode}
               >
                 Submit
               </button>
