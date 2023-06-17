@@ -38,6 +38,7 @@ function Settings() {
       setGender(value);
     }
   };
+
   useEffect(() => {
     if (showToast) {
       const timeoutId = setTimeout(() => {
@@ -55,6 +56,10 @@ function Settings() {
       .then((response) => {
         setGeneral(response.data === null ? {} : response.data);
         console.log(response.data);
+        setFirstName(response.data.first_name);
+        setLastName(response.data.last_name);
+        setDob(response.data.dob);
+        setGender(response.data.gender);
       })
       .catch((err) => {
         console.error(err);
