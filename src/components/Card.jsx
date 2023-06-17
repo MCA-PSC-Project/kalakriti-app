@@ -81,6 +81,7 @@ function Card({
                     })
                     .catch((error) => {
                       console.error("some error occured in adding to cart");
+                      console.error(error);
                       setShowToast(true);
                       setToastProperties({
                         toastType: "error",

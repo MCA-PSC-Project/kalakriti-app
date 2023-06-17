@@ -33,6 +33,7 @@ function Orders() {
                 key={order.order_id + "-" + order.order_item_id}
                 orderId={order.order_id + "-" + order.order_item_id}
                 orderItemId={order.order_item_id}
+                productId={order.product_id}
                 imgSrc={order.media.path}
                 cardTitle={order.product_name}
                 sellerName={order.seller.seller_name}
@@ -78,6 +79,7 @@ function OrdersHorizontalCard({
   sellerName,
   orderId,
   orderItemId,
+  productId,
   orderedAt,
   orderStatus,
 }) {
@@ -132,6 +134,7 @@ function OrdersHorizontalCard({
                   navigate("/product-reviews", {
                     state: {
                       orderItemId: orderItemId,
+                      productId: productId,
                       productItem: { imgSrc, cardTitle, sellerName },
                     },
                   });
