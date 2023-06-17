@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import profilePicSample from "../assets/profilePicSample.jpg";
 import api from "../utils/api";
-import authHeader from "../services/auth-header";
 import Toast from "../components/Toast";
 
 function Settings() {
@@ -18,6 +17,27 @@ function Settings() {
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [dob, setDob] = useState(null);
+  const [gender, setGender] = useState(null);
+
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+
+    if (id === "firstName") {
+      setFirstName(value);
+    }
+    if (id === "lastName") {
+      setLastName(value);
+    }
+    if (id === "dob") {
+      setDob(value);
+    }
+    if (id === "gender") {
+      setGender(value);
+    }
+  };
   useEffect(() => {
     if (showToast) {
       const timeoutId = setTimeout(() => {
@@ -193,94 +213,104 @@ function Settings() {
                   id="account-general"
                 >
                   <hr className="border-light m-0" />
-                  <div className="card-body">
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="firstName">
-                        First Name
-                      </label>
-                      <input
-                        id="firstName"
-                        type="text"
-                        className="form-control mb-1"
-                        defaultValue={general.first_name}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="lastName">
-                        Last Name
-                      </label>
-                      <input
-                        id="lastName"
-                        type="text"
-                        className="form-control"
-                        defaultValue={general.last_name}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="dob">
-                        Date of Birth
-                      </label>
-                      <input
-                        id="dob"
-                        type="date"
-                        className="form-control mb-1"
-                        defaultValue={general.dob}
-                      />
-                    </div>
+                  <form>
+                    <div className="card-body">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="firstName">
+                          First Name
+                        </label>
+                        <input
+                          id="firstName"
+                          type="text"
+                          className="form-control mb-1"
+                          defaultValue={general.first_name}
+                          onChange={(event) => handleInputChange(event)}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="lastName">
+                          Last Name
+                        </label>
+                        <input
+                          id="lastName"
+                          type="text"
+                          className="form-control"
+                          defaultValue={general.last_name}
+                          onChange={(event) => handleInputChange(event)}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="dob">
+                          Date of Birth
+                        </label>
+                        <input
+                          id="dob"
+                          type="date"
+                          className="form-control mb-1"
+                          defaultValue={general.dob}
+                          onChange={(event) => handleInputChange(event)}
+                        />
+                      </div>
 
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="gender">
-                        Gender
-                      </label>
-                      <select className="form-control" id="gender">
-                        <option value="">Select Gender</option>
-                        <option value="" selected>
-                          {general.gender}
-                        </option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                    <button
-                      type="button"
-                      style={{ marginTop: 20, marginLeft: 60 }}
-                      className="btn btn-success"
-                      onClick={() => {
-                        console.log({firstName, lastName, dob, gender});
-                        api
-                          .put("/customers/profile", {
-                            first_name: firstName,
-                            last_name: lastName,
-                            dob: dob,
-                            gender: gender,
-                          })
-                          .then((response) => {
-                            console.log(response);
-                            if (response.data) {
-                              console.log("profile updated successfully");
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="gender">
+                          Gender
+                        </label>
+                        <select
+                          className="form-control"
+                          id="gender"
+                          onChange={(event) => handleInputChange(event)}
+                        >
+                          <option value="">Select Gender</option>
+                          <option value="" selected>
+                            {general.gender}
+                          </option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+                      <button
+                        type="button"
+                        style={{ marginTop: 20, marginLeft: 60 }}
+                        className="btn btn-success"
+                        onClick={() => {
+                          console.log({ firstName, lastName, dob, gender });
+                          api
+                            .put("/customers/profile", {
+                              first_name: firstName,
+                              last_name: lastName,
+                              dob: dob,
+                              gender: gender,
+                            })
+                            .then((response) => {
+                              console.log(response);
+                              if (response.data) {
+                                console.log("profile updated successfully");
+                                setShowToast(true);
+                                setToastProperties({
+                                  toastType: "success",
+                                  toastMessage: "Profile Updated successfully",
+                                });
+                              }
+                            })
+                            .catch((error) => {
+                              console.error(error);
                               setShowToast(true);
                               setToastProperties({
-                                toastType: "success",
-                                toastMessage: "Profile Updated successfully",
+                                toastType: "error",
+                                toastMessage:
+                                  "some error occured in updating profile",
                               });
-                            }
-                          })
-                          .catch((error) => {
-                            console.error(error);
-                            setShowToast(true);
-                            setToastProperties({
-                              toastType: "error",
-                              toastMessage:
-                                "some error occured in updating profile",
                             });
-                          });
-                      }}
-                    >
-                      Update
-                    </button>
-                  </div>
+                        }}
+                      >
+                        Update
+                      </button>
+                    </div>
+                  </form>
                 </div>
+
                 <div
                   className={
                     isActiveAddress
