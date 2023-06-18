@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MediaCarousel from "../components/MediaCarousel";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
@@ -18,8 +18,12 @@ import Review from "../components/Review";
 import { useEffect, useState } from "react";
 import "./Product.css";
 import api from "../utils/api";
+import AuthConsumer from "../hooks/useAuth";
 
-function Product({ productId, isLoggedIn }) {
+function Product() {
+  const { productId } = useParams();
+  const { authed, logout } = AuthConsumer();
+  const isLoggedIn = authed ? true : false;
   const [product, setProduct] = useState({});
   const [selectedProductItem, setSelectedProductItem] = useState(null);
   const [productReviewsList, setProductReviewsList] = useState([]);

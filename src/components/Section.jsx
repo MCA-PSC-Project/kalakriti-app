@@ -29,6 +29,8 @@ function Section({ sectionTitle, linkPath, endpoint }) {
           {ProductsList.map((product) => {
             return (
               <Card
+                key={product.id}
+                productId={product.id}
                 productItemId={product.base_product_item.id}
                 imgSrc={product.base_product_item.media.path}
                 cardTitle={product.product_name}
