@@ -5,6 +5,9 @@ import { HashLink as Link } from "react-router-hash-link";
 import profilePicSample from "../assets/profilePicSample.jpg";
 import api from "../utils/api";
 import Toast from "../components/Toast";
+import { useDebugValue } from "react";
+import AddressCard from "../components/AddressCard";
+
 
 function Settings() {
   const [isActiveGeneral, setActiveGeneral] = useState(true);
@@ -13,7 +16,8 @@ function Settings() {
   const [isActiveMobile, setActiveMobile] = useState(false);
   const [isActiveEmail, setActiveEmail] = useState(false);
   const [isActiveDP, setActiveDP] = useState(false);
-  const [general, setGeneral] = useState({});
+  const [general, setGeneral] = useState([]);
+  const [address, setAddress] = useState({});
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
@@ -21,6 +25,7 @@ function Settings() {
   const [lastName, setLastName] = useState(null);
   const [dob, setDob] = useState(null);
   const [gender, setGender] = useState(null);
+ 
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -65,6 +70,23 @@ function Settings() {
         console.error(err);
       });
   }, []);
+
+  useEffect(() => {
+    api
+      .get(`/addresses`)
+      .then((response) => {
+        setAddress(response.data === null ? [] : response.data);
+        console.log(response.data);
+        // setFirstName(response.data.first_name);
+        // setLastName(response.data.last_name);
+        // setDob(response.data.dob);
+        // setGender(response.data.gender);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
 
   const ToggleGeneral = () => {
     setActiveGeneral(true);
@@ -116,6 +138,8 @@ function Settings() {
     setActiveDP(true);
   };
 
+ 
+
   return (
     <>
       {showToast && (
@@ -155,7 +179,7 @@ function Settings() {
                   to="#account-change-address"
                   onClick={ToggleAddress}
                 >
-                  Change/Add Address
+                  My Addresses
                 </Link>
                 <Link
                   className={
@@ -270,9 +294,9 @@ function Settings() {
                           <option value="" selected>
                             {general.gender}
                           </option>
-                          <option value="male">Male</option>
-                          <option value="female">Female</option>
-                          <option value="other">Other</option>
+                          {general.gender !=="male"  &&   <option value="male">Male</option>}
+                         {general.gender !=="female" && <option value="female">Female</option>}
+                          {general.gender!=="other" && <option value="other">Other</option>}
                         </select>
                       </div>
                       <button
@@ -323,45 +347,31 @@ function Settings() {
                       : "tab-pane fade"
                   }
                   id="account-change-address"
-                >
-                  <div className="card-body pb-2">
-                    <div className="form-group">
-                      <label className="form-label">Address Line 1</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Address Line 2</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">District</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">State</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Country</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Pincode</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Landmark</label>
-                      <input type="text" className="form-control" />
-                    </div>
+               
 
-                    <button
-                      type="button"
-                      style={{ marginTop: 20, marginLeft: 60 }}
-                      className="btn btn-success"
-                    >
-                      Update
-                    </button>
-                  </div>
+                >{address && address.length > 0 ? (
+                  address.map((add) => {
+                    return (
+              
+                    <AddressCard
+                    addressId={add.address_id}
+                    customerName={general.first_name}
+                    addressLine1={add.address_line1}
+                    addressLine2={add.address_line2}
+                    district={add.district}
+                    city={add.city}
+                    state={add.state}
+                    country={add.country}
+                    pincode={add.pincode}
+                    landmark ={add.landmark}
+                    />
+                    );
+                  })
+                ) : (
+                  <h1>No items in address</h1>
+                )}
+
+               
                 </div>
 
                 <div
@@ -488,5 +498,7 @@ function Settings() {
     </>
   );
 }
+
+
 
 export default Settings;
