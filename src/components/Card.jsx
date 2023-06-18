@@ -40,11 +40,11 @@ function Card({
           onClose={() => setShowToast(false)}
         />
       )}
-      <Link
-        to={`/products/${productId}`}
-        style={{ color: "inherit", textDecoration: "none" }}
-      >
-        <div className="col-lg-3 col-md-6 col-sm-6 d-flex">
+      <div className="col-lg-3 col-md-6 col-sm-6 d-flex">
+        <Link
+          to={`/products/${productId}`}
+          style={{ color: "inherit", textDecoration: "none" }}
+        >
           <div className="card w-100 my-2 shadow-2-strong">
             <img
               src={imgSrc}
@@ -68,7 +68,8 @@ function Card({
                 <button
                   type="button"
                   className="btn btn-warning me-2"
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation();
                     api
                       .post("/carts", {
                         product_item_id: productItemId,
@@ -97,14 +98,20 @@ function Card({
                 >
                   Add to cart
                 </button>
-                <button type="button" className="btn btn-success me-2">
+                <button
+                  type="button"
+                  className="btn btn-success me-2"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                >
                   Buy Now
                 </button>
               </div>
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </>
   );
 }
