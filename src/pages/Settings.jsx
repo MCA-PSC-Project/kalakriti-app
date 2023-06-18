@@ -26,6 +26,7 @@ function Settings() {
   const [dob, setDob] = useState(null);
   const [gender, setGender] = useState(null);
  
+ 
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -77,10 +78,7 @@ function Settings() {
       .then((response) => {
         setAddress(response.data === null ? [] : response.data);
         console.log(response.data);
-        // setFirstName(response.data.first_name);
-        // setLastName(response.data.last_name);
-        // setDob(response.data.dob);
-        // setGender(response.data.gender);
+      
       })
       .catch((err) => {
         console.error(err);
@@ -358,18 +356,19 @@ function Settings() {
                     customerName={general.first_name}
                     addressLine1={add.address_line1}
                     addressLine2={add.address_line2}
-                    district={add.district}
-                    city={add.city}
-                    state={add.state}
-                    country={add.country}
-                    pincode={add.pincode}
-                    landmark ={add.landmark}
+                    districtf={add.district}
+                    cityf={add.city}
+                    statef={add.state}
+                    countryf={add.country}
+                    pincodef={add.pincode}
+                    landmarkf ={add.landmark}
                     />
                     );
                   })
                 ) : (
                   <h1>No items in address</h1>
                 )}
+                
 
                
                 </div>

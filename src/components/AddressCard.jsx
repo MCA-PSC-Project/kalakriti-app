@@ -5,21 +5,64 @@ function AddressCard(
   {addressId,
   customerName,
   addressLine1,
-  addressLine2,district,city,
-  state,
-  country,
-  pincode,
-  landmark
+  addressLine2,
+  districtf,
+  cityf,
+  statef,
+  countryf,
+  pincodef,
+  landmarkf
   }) 
-
 
   {
     const [showToast, setShowToast] = useState(false);
     const [toastProperties, setToastProperties] = useState({});
     const [disable,setDisable] = useState(true);
+
+    const [addL1,setAddL1] =useState(null);
+    const [addL2,setAddL2] = useState(null);
+    const [district,setDistrict] = useState(null);
+    const[city,setCity] = useState(null);
+    const [state,setState] = useState(null);
+    const [country,setCountry] = useState(null);
+    const [pincode , setPincode] = useState(null);
+    const [landmark,setLandmark] = useState(null);
+
     const handleClick =() =>{
             setDisable(!disable);
     };
+
+
+    const handleInputChange = (event) => {
+      const { id, value } = event.target;
+  
+      if (id === "addL1") {
+        setAddL1(value);
+      }
+      if (id === "addL2") {
+        setAddL2(value);
+      }
+      if (id === "district") {
+        setDistrict(value);
+      }
+      if (id === "city") {
+        setCity(value);
+      }
+      if (id === "state") {
+        setState(value);
+      }
+      if (id === "country") {
+        setCountry(value);
+      }
+      if (id === "pincode") {
+        setPincode(value);
+      }
+      if (id === "landmark") {
+        setLandmark(value);
+      }
+    };
+
+    
     useEffect(() => {
       if (showToast) {
         const timeoutId = setTimeout(() => {
@@ -30,6 +73,8 @@ function AddressCard(
         return () => clearTimeout(timeoutId);
       }
     }, [showToast]);
+
+
 return (
   <>
   {showToast && (
@@ -46,12 +91,12 @@ return (
          <b>{customerName}</b><br/>
          {addressLine1}<br/>
          {addressLine2}<br/>
-         {district}<br/>
-         {city}<br/>
-         {state}<br/>
-         {country}<br/>
-         {pincode} <br/>
-         {landmark}
+         {districtf}<br/>
+         {cityf}<br/>
+         {statef}<br/>
+         {countryf}<br/>
+         {pincodef} <br/>
+         {landmarkf}
       
       </p>
   
@@ -59,37 +104,64 @@ return (
             <div className={(disable) ? 'd-none' : 'card-body pb-2'} id="address-form">
                   <div className="form-group">
                     <label className="form-label" htmlFor="addL1">Address Line 1</label>
-                    <input type="text" className="form-control" id="addL1" defaultValue={addressLine1}/>
+                    <input type="text" className="form-control" id="addL1" defaultValue={addressLine1}
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="addL2">Address Line 2</label>
-                    <input type="text" className="form-control" id="addL2" defaultValue={addressLine2} />
+                    <input type="text" className="form-control" id="addL2" defaultValue={addressLine2} 
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
                   </div>
                   <div className="form-group">
                     <label className="form-label"htmlFor="district">District</label>
-                    <input type="text" className="form-control" id ="district" defaultValue={district}/>
+                    <input type="text" className="form-control" id ="district" defaultValue={districtf}
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label"htmlFor="district">City</label>
+                    <input type="text" className="form-control" id ="city" defaultValue={cityf}
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="state">State</label>
-                    <input type="text" className="form-control" id="state" defaultValue={state}/>
+                    <input type="text" className="form-control" id="state" defaultValue={statef}
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="country">Country</label>
-                    <input type="text" className="form-control" id="country" defaultValue={country}/>
+                    <input type="text" className="form-control" id="country" defaultValue={countryf}
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="pincode">Pincode</label>
-                    <input type="text" className="form-control" id="pincode" defaultValue={pincode} />
+                    <input type="text" className="form-control" id="pincode" defaultValue={pincodef} 
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="landmark">Landmark</label>
-                    <input type="text" className="form-control" id="landmark" defaultValue={landmark} />
+                    <input type="text" className="form-control" id="landmark" defaultValue={landmarkf} 
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
                   </div>
                   <button type="button" class="btn btn-success"
                   onClick={() => {
-                    // console.log({ firstName, lastName, dob, gender });
                     api
-                      .put("/addresses/{address.address_id}", {
+                      .put(`/addresses/${addressId}`, {
+                        address_line1:addL1,
+                        address_line2:addL2,
+                        district:district,
+                        city:city,
+                        state:state,
+                        country:country,
+                        pincode:pincode,
+                        landmark:landmark,
                       
                       })
                       .then((response) => {
