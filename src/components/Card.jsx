@@ -55,7 +55,10 @@ function Card({
           navigate(`/products/${productId}`);
         }}
       >
-        <div className="card w-100 my-2 shadow-2-strong">
+        <div
+          className="card w-100 my-2 shadow-2-strong"
+          style={{ cursor: "pointer" }}
+        >
           <img
             src={imgSrc}
             className="card-img-top"
