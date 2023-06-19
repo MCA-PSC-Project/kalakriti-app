@@ -19,8 +19,23 @@ import { useEffect, useState } from "react";
 import "./Product.css";
 import api from "../utils/api";
 import AuthConsumer from "../hooks/useAuth";
+import Toast from "../components/Toast";
 
 function Product() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastProperties, setToastProperties] = useState({});
+
+  useEffect(() => {
+    if (showToast) {
+      const timeoutId = setTimeout(() => {
+        setShowToast(false);
+        setToastProperties({});
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showToast]);
+
   const { productId } = useParams();
   const { authed, logout } = AuthConsumer();
   const isLoggedIn = authed ? true : false;
@@ -30,7 +45,7 @@ function Product() {
   const [quantity, setQuantity] = useState(null);
   const [isProductReviewsShown, setIsProductReviewsShown] = useState(false);
   const [mediaSrcList, setMediaSrcList] = useState([]);
-  const [wishlistClicked, setWishlistCLicked] = useState(false);
+  const [isItemInWishlist, setIsItemInWishlist] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,18 +76,12 @@ function Product() {
   }, [product]);
 
   useEffect(() => {
-    api
-      .get(`/products/${productId}/product-reviews`)
-      .then((response) => {
-        setProductReviewsList(response.data === null ? [] : response.data);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [isProductReviewsShown]);
-
-  useEffect(() => {
+    window.scrollTo(0, 0);
+    // window.scrollTo({
+    //   top: 0,
+    //   left: 0,
+    //   behavior: "smooth",
+    // });
     if (selectedProductItem) {
       console.log("selected pi=", selectedProductItem);
       const localMediaSrcList = [];
@@ -84,14 +93,90 @@ function Product() {
       }
       setMediaSrcList(localMediaSrcList);
     }
+
+    api
+      .get(`/check-wishlists/${selectedProductItem?.id}`)
+      .then((response) => {
+        setIsItemInWishlist(response.data === null ? false : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        setIsItemInWishlist(false);
+        console.error(err);
+      });
   }, [selectedProductItem]);
 
+  useEffect(() => {
+    api
+      .get(`/products/${productId}/product-reviews`)
+      .then((response) => {
+        setProductReviewsList(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [isProductReviewsShown]);
+
   const handleWishlistClick = () => {
-    setWishlistCLicked(!wishlistClicked);
+    if (!isItemInWishlist) {
+      api
+        .post(`/wishlists`, { product_item_id: selectedProductItem?.id })
+        .then((response) => {
+          console.log(response);
+          if (response.data) {
+            setIsItemInWishlist(true);
+            console.log("item added to wishlist successfully");
+            setShowToast(true);
+            setToastProperties({
+              toastType: "success",
+              toastMessage: "item added to wishlist successfully",
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          setShowToast(true);
+          setToastProperties({
+            toastType: "error",
+            toastMessage: "some error occured in adding item to wishlist",
+          });
+        });
+    } else if (isItemInWishlist) {
+      api
+        .delete(`/wishlists/${selectedProductItem?.id}`)
+        .then((response) => {
+          console.log(response);
+          if (response.data) {
+            console.log("item removed from wishlist successfully");
+            setIsItemInWishlist(false);
+            setShowToast(true);
+            setToastProperties({
+              toastType: "success",
+              toastMessage: "item removed from wishlist successfully",
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          setShowToast(true);
+          setToastProperties({
+            toastType: "error",
+            toastMessage: "some error occured in removing item from wishlist",
+          });
+        });
+    }
   };
 
   return (
     <>
+      {showToast && (
+        <Toast
+          toastType={toastProperties.toastType}
+          message={toastProperties.toastMessage}
+          onClose={() => setShowToast(false)}
+        />
+      )}
       <NavBar />
       {/* content */}
       <section className="py-5">
@@ -133,34 +218,32 @@ function Product() {
                   {/* <span className="text-success ms-2">In stock</span> */}
                 </div>
                 <div className="mb-3">
-                  <Link to="">
-                    <button
-                      type="button"
-                      className="btn border px-2 me-2"
-                      title={
-                        wishlistClicked
-                          ? "Remove From wishlist"
-                          : "Add To wishlist"
-                      }
-                      onClick={() => handleWishlistClick()}
-                    >
-                      {wishlistClicked ? (
-                        <FontAwesomeIcon
-                          icon={faHeartFilled}
-                          size="xl"
-                          style={{ color: "#ff0000" }}
-                          // beatFade
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faHeart}
-                          size="xl"
-                          style={{ color: "#ff0000" }}
-                          // beatFade
-                        />
-                      )}
-                    </button>
-                  </Link>
+                  <button
+                    type="button"
+                    className="btn border px-2 me-2"
+                    title={
+                      isItemInWishlist
+                        ? "Remove From wishlist"
+                        : "Add To wishlist"
+                    }
+                    onClick={() => handleWishlistClick()}
+                  >
+                    {isItemInWishlist ? (
+                      <FontAwesomeIcon
+                        icon={faHeartFilled}
+                        size="xl"
+                        style={{ color: "#ff0000" }}
+                        // beatFade
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        size="xl"
+                        style={{ color: "#ff0000" }}
+                        // beatFade
+                      />
+                    )}
+                  </button>
 
                   <button
                     type="button"
