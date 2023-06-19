@@ -95,8 +95,8 @@ const App = () => {
           <Route path="/popular-products" element={<Orders />} />
           <Route path="/new-products" element={<Orders />} />
           <Route
-            path="/products"
-            element={<Product productId={3} isLoggedIn={false} />}
+            path="/products/:productId"
+            element={<Product />}
           />
           <Route path="/categories" element={<Categories />} />
           <Route path="/subcategories" element={<SubCategories />} />

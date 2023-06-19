@@ -21,6 +21,7 @@ import { appName } from "../App";
 import { useEffect, useState } from "react";
 // import useAuth from "../hooks/useAuth";
 import AuthConsumer from "../hooks/useAuth";
+import api from "../utils/api";
 
 function NavBar() {
   const [wishlistIconHovered, setWishlistIconHovered] = useState(false);
@@ -46,6 +47,24 @@ function NavBar() {
     logout();
     navigate("/");
   };
+
+  const [cartItemsQuantity, setCartItemsQuantity] = useState(0);
+  useEffect(() => {
+    if (isLoggedIn) {
+      api
+        .get(`/carts/items-quantity`)
+        .then((response) => {
+          setCartItemsQuantity(response.data === null ? 0 : response.data);
+          // console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setCartItemsQuantity(0);
+    }
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -160,7 +179,7 @@ function NavBar() {
                       shake={cartIconHovered ? "shake" : undefined}
                     />
                     <span className="badge bg-dark text-white ms-1 rounded-pill">
-                      2
+                      {cartItemsQuantity}
                     </span>
                   </button>
                 </Link>

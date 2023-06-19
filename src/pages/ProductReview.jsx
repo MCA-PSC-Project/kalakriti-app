@@ -121,6 +121,32 @@ function ProductReview() {
     }
   };
 
+  const handleRemove = async () => {
+    api
+      .delete(`/product-reviews/${productReviewInitialResponse.review_id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Product rating/review deleted successfully");
+          setShowModal(true);
+          setModalProperties({
+            title: "Message",
+            body: "Product rating/review deleted successfully",
+            cancelButtonPresent: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Some error occured in deleting product rating/review");
+        console.error(error);
+        setShowModal(true);
+        setModalProperties({
+          title: "Message",
+          body: "Some error occured in deleted product rating/review",
+          cancelButtonPresent: false,
+        });
+      });
+  };
+
   return (
     <>
       {/* {console.log({ productReviewInitialResponse })}; */}
@@ -196,10 +222,10 @@ function ProductReview() {
                 onChange={(event) => handleInputChange(event)}
               />
             </div>
-            <div className="col-6 m-4">
+            <div className="col-8 m-4">
               <button
                 type="button"
-                className="btn btn-danger me-2"
+                className="btn btn-secondary m-2"
                 onClick={() => {
                   navigate("/orders");
                 }}
@@ -210,7 +236,7 @@ function ProductReview() {
               {isEditButtonPresent && (
                 <button
                   type="button"
-                  className="btn btn-warning me-2"
+                  className="btn btn-warning m-2"
                   onClick={() => {
                     setUpdateMode(true);
                     setCreateMode(false);
@@ -221,12 +247,29 @@ function ProductReview() {
                 </button>
               )}
 
+              {isEditButtonPresent && (
+                <button
+                  type="button"
+                  className="btn btn-danger m-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modal"
+                  onClick={() => {
+                    // setUpdateMode(true);
+                    // setCreateMode(false);
+                    handleRemove();
+                  }}
+                  disabled={updateMode}
+                >
+                  Remove
+                </button>
+              )}
+
               <button
                 type="submit"
-                className="btn btn-success"
+                className="btn btn-success m-2"
                 data-bs-toggle="modal"
                 data-bs-target="#modal"
-                onClick={(e) => handleSubmit(e)}
+                onClick={(event) => handleSubmit(event)}
                 disabled={!ratingGiven && !updateMode}
               >
                 Submit

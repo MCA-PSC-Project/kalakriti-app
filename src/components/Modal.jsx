@@ -1,8 +1,8 @@
 import React from "react";
 
 function Modal({ title, body, cancelButtonPresent, onClose }) {
-//   console.log("modal called");
-//   console.log({ title, body, cancelButtonPresent });
+  // console.log("modal called");
+  // console.log({ title, body, cancelButtonPresent });
   return (
     <>
       {/* Modal */}

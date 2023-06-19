@@ -1,5 +1,5 @@
 import WishlistSvg from "../assets/Heart.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Rating from "./Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import api from "../utils/api";
@@ -7,6 +7,7 @@ import Toast from "./Toast";
 import { useEffect, useState } from "react";
 
 function Card({
+  productId,
   productItemId,
   imgSrc,
   cardTitle,
@@ -16,6 +17,7 @@ function Card({
   ratingCount,
   minOrderQuantity,
 }) {
+  const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
@@ -39,8 +41,24 @@ function Card({
           onClose={() => setShowToast(false)}
         />
       )}
-      <div className="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div className="card w-100 my-2 shadow-2-strong">
+      <div
+        className="col-lg-3 col-md-6 col-sm-6 d-flex"
+        onClick={(event) => {
+          // Check if clicked element is button like "Add to cart"
+          if (event.target.closest(".btn")) {
+            // Do not navigate if clicked element is button like "Add to cart"
+            // console.log("button click event");
+            return;
+          }
+
+          // Navigate to product page
+          navigate(`/products/${productId}`);
+        }}
+      >
+        <div
+          className="card w-100 my-2 shadow-2-strong"
+          style={{ cursor: "pointer" }}
+        >
           <img
             src={imgSrc}
             className="card-img-top"
@@ -92,7 +110,13 @@ function Card({
               >
                 Add to cart
               </button>
-              <button type="button" className="btn btn-success me-2">
+              <button
+                type="button"
+                className="btn btn-success me-2"
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+              >
                 Buy Now
               </button>
             </div>
