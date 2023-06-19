@@ -19,6 +19,7 @@ function AddressCard(
     const [showToast, setShowToast] = useState(false);
     const [toastProperties, setToastProperties] = useState({});
     const [disable,setDisable] = useState(true);
+    const [cardDisable,setCardDisable] = useState(false);
 
     const[fullName,setFullName] = useState(null);
     const [mobile,setMobile] = useState(null);
@@ -34,6 +35,7 @@ function AddressCard(
 
     const handleClick =() =>{
             setDisable(!disable);
+            setCardDisable(true);
     };
 
 
@@ -94,7 +96,7 @@ return (
     />
   )}
   <div className="card" style={{ width: "40rem" , marginTop :30}}>
-    <div className="card-body">
+    <div className= {(cardDisable) ? 'd-none' : 'card-body pb-2'}>
       <h5 className="card-title">Address {addressId}</h5>
       <p className="card-text">
          <b>{fullNamef}</b><br/>
@@ -109,15 +111,17 @@ return (
          {landmarkf}
       
       </p>
-  
+      <hr />
          <button type="button" class="btn btn-danger" onClick={handleClick}>Edit</button>
-            <div className={(disable) ? 'd-none' : 'card-body pb-2'} id="address-form">
+         <button type="button" class="btn btn-danger">Remove</button>
+    </div>
+            <div className={(disable) ? 'd-none' : 'card-body pb-2]'} id="address-form">
             <div className="form-group">
                     <label className="form-label"htmlFor="district">Full Name</label>
                     <input type="text" className="form-control" id ="fullName" defaultValue={fullNamef}
                                               onChange={(event) => handleInputChange(event)}
                                               />
-                  </div>
+                </div>
                   <div className="form-group">
                     <label className="form-label"htmlFor="district">Mobile</label>
                     <input type="text" className="form-control" id ="mobile" defaultValue={mobilef}
@@ -215,7 +219,7 @@ return (
    
       
     
-    </div>
+    {/* </div> */}
   </div>
   </>
 );
