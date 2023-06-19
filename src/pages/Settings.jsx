@@ -17,7 +17,7 @@ function Settings() {
   const [isActiveEmail, setActiveEmail] = useState(false);
   const [isActiveDP, setActiveDP] = useState(false);
   const [general, setGeneral] = useState([]);
-  const [address, setAddress] = useState({});
+  const [addresses, setAddress] = useState({});
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
@@ -347,21 +347,22 @@ function Settings() {
                   id="account-change-address"
                
 
-                >{address && address.length > 0 ? (
-                  address.map((add) => {
+                >{addresses && addresses.length > 0 ? (
+                  addresses.map((address) => {
                     return (
               
                     <AddressCard
-                    addressId={add.address_id}
-                    customerName={general.first_name}
-                    addressLine1={add.address_line1}
-                    addressLine2={add.address_line2}
-                    districtf={add.district}
-                    cityf={add.city}
-                    statef={add.state}
-                    countryf={add.country}
-                    pincodef={add.pincode}
-                    landmarkf ={add.landmark}
+                    addressId={address.address_id}
+                    fullNamef={address.full_name}
+                    mobilef={address.mobile_no}
+                    addressLine1={address.address_line1}
+                    addressLine2={address.address_line2}
+                    districtf={address.district}
+                    cityf={address.city}
+                    statef={address.state}
+                    countryf={address.country}
+                    pincodef={address.pincode}
+                    landmarkf ={address.landmark}
                     />
                     );
                   })

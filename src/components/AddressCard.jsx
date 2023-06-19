@@ -3,7 +3,8 @@ import Toast from "../components/Toast";
 import api from "../utils/api";
 function AddressCard(
   {addressId,
-  customerName,
+  fullNamef,
+  mobilef,
   addressLine1,
   addressLine2,
   districtf,
@@ -19,6 +20,8 @@ function AddressCard(
     const [toastProperties, setToastProperties] = useState({});
     const [disable,setDisable] = useState(true);
 
+    const[fullName,setFullName] = useState(null);
+    const [mobile,setMobile] = useState(null);
     const [addL1,setAddL1] =useState(null);
     const [addL2,setAddL2] = useState(null);
     const [district,setDistrict] = useState(null);
@@ -28,6 +31,7 @@ function AddressCard(
     const [pincode , setPincode] = useState(null);
     const [landmark,setLandmark] = useState(null);
 
+
     const handleClick =() =>{
             setDisable(!disable);
     };
@@ -35,7 +39,12 @@ function AddressCard(
 
     const handleInputChange = (event) => {
       const { id, value } = event.target;
-  
+       if (id === "fullName") {
+        setFullName(value);
+      }
+      if (id === "mobile") {
+        setMobile(value);
+      }
       if (id === "addL1") {
         setAddL1(value);
       }
@@ -62,7 +71,7 @@ function AddressCard(
       }
     };
 
-    
+
     useEffect(() => {
       if (showToast) {
         const timeoutId = setTimeout(() => {
@@ -88,7 +97,8 @@ return (
     <div className="card-body">
       <h5 className="card-title">Address {addressId}</h5>
       <p className="card-text">
-         <b>{customerName}</b><br/>
+         <b>{fullNamef}</b><br/>
+         {mobilef}<br/>
          {addressLine1}<br/>
          {addressLine2}<br/>
          {districtf}<br/>
@@ -102,6 +112,18 @@ return (
   
          <button type="button" class="btn btn-danger" onClick={handleClick}>Edit</button>
             <div className={(disable) ? 'd-none' : 'card-body pb-2'} id="address-form">
+            <div className="form-group">
+                    <label className="form-label"htmlFor="district">Full Name</label>
+                    <input type="text" className="form-control" id ="fullName" defaultValue={fullNamef}
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label"htmlFor="district">Mobile</label>
+                    <input type="text" className="form-control" id ="mobile" defaultValue={mobilef}
+                                              onChange={(event) => handleInputChange(event)}
+                                              />
+                  </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="addL1">Address Line 1</label>
                     <input type="text" className="form-control" id="addL1" defaultValue={addressLine1}
@@ -154,14 +176,16 @@ return (
                   onClick={() => {
                     api
                       .put(`/addresses/${addressId}`, {
-                        address_line1:addL1,
-                        address_line2:addL2,
-                        district:district,
-                        city:city,
-                        state:state,
-                        country:country,
-                        pincode:pincode,
-                        landmark:landmark,
+                        full_name:fullName || fullNamef,
+                        mobile_no:mobile || mobilef,
+                        address_line1:addL1 || addressLine1,
+                        address_line2:addL2 || addressLine2,
+                        district:district || districtf,
+                        city:city || cityf,
+                        state:state || statef,
+                        country:country || countryf,
+                        pincode:pincode || pincodef,
+                        landmark:landmark || landmarkf,
                       
                       })
                       .then((response) => {
@@ -184,7 +208,8 @@ return (
                             "some error occured in updating profile",
                         });
                       });
-                  }} >Save</button>
+                  }}
+                   >Save</button>
 
                 </div> 
    
