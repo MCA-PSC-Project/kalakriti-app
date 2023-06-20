@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Settings.css";
-import { BrowserRouter } from "react-router-dom";
+import addAddress from "../assets/addAddress.png";
 import { HashLink as Link } from "react-router-hash-link";
 import profilePicSample from "../assets/profilePicSample.jpg";
 import api from "../utils/api";
 import Toast from "../components/Toast";
-import { useDebugValue } from "react";
+import Modal from "../components/Modal";
 import AddressCard from "../components/AddressCard";
 
 
@@ -20,6 +20,8 @@ function Settings() {
   const [addresses, setAddress] = useState({});
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
+  const [showModal, setShowModal] = useState(true);
+  const [modalProperties, setModalProperties] = useState({});
 
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -27,6 +29,62 @@ function Settings() {
   const [gender, setGender] = useState(null);
  
  
+  const [isAddAddress,setAddAddress] =useState(true);
+  const [isAddressForm,setAdressForm] = useState(false);
+
+  const  handleAddAddress =() =>{
+
+    setAddAddress(false);
+    setAdressForm(true);
+  };
+
+  const[fullName,setFullName] = useState(null);
+  const [mobile,setMobile] = useState(null);
+  const [addL1,setAddL1] =useState(null);
+  const [addL2,setAddL2] = useState(null);
+  const [district,setDistrict] = useState(null);
+  const[city,setCity] = useState(null);
+  const [state,setState] = useState(null);
+  const [country,setCountry] = useState(null);
+  const [pincode , setPincode] = useState(null);
+  const [landmark,setLandmark] = useState(null);
+
+
+
+  
+  const handleInputChangeAddress = (event) => {
+    const { id, value } = event.target;
+     if (id === "fullName") {
+      setFullName(value);
+    }
+    if (id === "mobile") {
+      setMobile(value);
+    }
+    if (id === "addL1") {
+      setAddL1(value);
+    }
+    if (id === "addL2") {
+      setAddL2(value);
+    }
+    if (id === "district") {
+      setDistrict(value);
+    }
+    if (id === "city") {
+      setCity(value);
+    }
+    if (id === "state") {
+      setState(value);
+    }
+    if (id === "country") {
+      setCountry(value);
+    }
+    if (id === "pincode") {
+      setPincode(value);
+    }
+    if (id === "landmark") {
+      setLandmark(value);
+    }
+  };
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -44,6 +102,8 @@ function Settings() {
       setGender(value);
     }
   };
+
+
 
   useEffect(() => {
     if (showToast) {
@@ -86,6 +146,43 @@ function Settings() {
   }, []);
 
 
+  const addNewAddress =()=>{
+    api
+    .post(`/addresses`, {
+      full_name:fullName,
+      mobile_no:mobile ,
+      address_line1:addL1 ,
+      address_line2:addL2 ,
+      district:district ,
+      city:city ,
+      state:state,
+      country:country ,
+      pincode:pincode ,
+      landmark:landmark,
+    
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log("Address added successfully");
+        setShowModal(true);
+        setModalProperties({
+          title: "Message",
+          body: "Address added successfully",
+          cancelButtonPresent: false,
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Some error occured in adding address");
+      console.error(error);
+      setShowModal(true);
+      setModalProperties({
+        title: "Message",
+        body: "Some error occured in adding address",
+        cancelButtonPresent: false,
+      });
+    });
+  };
   const ToggleGeneral = () => {
     setActiveGeneral(true);
     setActiveAddress(false);
@@ -147,6 +244,14 @@ function Settings() {
           onClose={() => setShowToast(false)}
         />
       )}
+      {showModal && (
+                <Modal
+                  title={modalProperties.title}
+                  body={modalProperties.body}
+                  cancelButtonPresent={modalProperties.cancelButtonPresent}
+                  onClose={() => setShowModal(false)}
+                />
+              )}
       <div className="container light-style flex-grow-1 container-p-y">
         <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
         <div className="card overflow-hidden">
@@ -347,7 +452,104 @@ function Settings() {
                   id="account-change-address"
                
 
-                >{addresses && addresses.length > 0 ? (
+                >
+    <div className='card' style={{ width: "40rem" , marginTop :30}}>
+    <div className= {isAddAddress?'card-body pb-2':'d-none'}>
+      <h5 className="card-title">Add Address</h5>
+      <hr />
+      <p className="card-text">
+         <button type="button" onClick={()=>{
+             handleAddAddress();
+
+         }}> <img src={addAddress} style={{height:80, width:80}}></img></button>
+      </p>
+
+    </div>
+    </div>     
+
+             <div className= {isAddressForm? 'card-body pb-2':'d-none'} id="address-form"  style={{ backgroundColor: "beige" }}>
+                <div className="form-group">
+                    <label className="form-label"htmlFor="district">Full Name</label>
+                    <input type="text" className="form-control" id ="fullName" 
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                </div>
+                  <div className="form-group">
+                    <label className="form-label"htmlFor="district">Mobile</label>
+                    <input type="text" className="form-control" id ="mobile" 
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="addL1">Address Line 1</label>
+                    <input type="text" className="form-control" id="addL1"
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="addL2">Address Line 2</label>
+                    <input type="text" className="form-control" id="addL2" 
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label"htmlFor="district">District</label>
+                    <input type="text" className="form-control" id ="district"
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label"htmlFor="district">City</label>
+                    <input type="text" className="form-control" id ="city" 
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="state">State</label>
+                    <input type="text" className="form-control" id="state" 
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="country">Country</label>
+                    <input type="text" className="form-control" id="country" 
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="pincode">Pincode</label>
+                    <input type="text" className="form-control" id="pincode" 
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="landmark">Landmark</label>
+                    <input type="text" className="form-control" id="landmark" 
+                                              onChange={(event) => handleInputChangeAddress(event)}
+                                              />
+                  </div>
+                  <button type="button" class="btn btn-success"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal"
+                  onClick={()=>{
+                    setAddAddress(true);
+                    setAdressForm(false);
+                    addNewAddress();
+                  }
+                  }
+                   >Save</button> &nbsp; &nbsp;
+      
+
+                   <button type="button" class="btn btn-danger" onClick={()=>{
+                       setDisable(true);
+                       setCardDisable(false);
+                       addNewAddress();
+                   }
+                   }>Close</button>
+
+              </div>      
+                  
+                  {addresses && addresses.length > 0 ? (
                   addresses.map((address) => {
                     return (
               

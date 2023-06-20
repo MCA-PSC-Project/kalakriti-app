@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Toast from "../components/Toast";
 import api from "../utils/api";
+import Modal from "../components/Modal";
+
 function AddressCard(
   {addressId,
   fullNamef,
@@ -16,8 +17,9 @@ function AddressCard(
   }) 
 
   {
-    const [showToast, setShowToast] = useState(false);
-    const [toastProperties, setToastProperties] = useState({});
+   
+    const [showModal, setShowModal] = useState(true);
+    const [modalProperties, setModalProperties] = useState({});
     const [disable,setDisable] = useState(true);
     const [cardDisable,setCardDisable] = useState(false);
 
@@ -37,6 +39,45 @@ function AddressCard(
             setDisable(!disable);
             setCardDisable(true);
     };
+
+    const editAddress =()=>{
+      api
+      .put(`/addresses/${addressId}`, {
+        full_name:fullName || fullNamef,
+        mobile_no:mobile || mobilef,
+        address_line1:addL1 || addressLine1,
+        address_line2:addL2 || addressLine2,
+        district:district || districtf,
+        city:city || cityf,
+        state:state || statef,
+        country:country || countryf,
+        pincode:pincode || pincodef,
+        landmark:landmark || landmarkf,
+      
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Address updated successfully");
+          setShowModal(true);
+          setModalProperties({
+            title: "Message",
+            body: "Address updated successfully",
+            cancelButtonPresent: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Some error occured in updating address");
+        console.error(error);
+        setShowModal(true);
+        setModalProperties({
+          title: "Message",
+          body: "Some error occured in updating address",
+          cancelButtonPresent: false,
+        });
+      });
+    };
+
 
 
     const handleInputChange = (event) => {
@@ -74,27 +115,18 @@ function AddressCard(
     };
 
 
-    useEffect(() => {
-      if (showToast) {
-        const timeoutId = setTimeout(() => {
-          setShowToast(false);
-          setToastProperties({});
-        }, 2000);
-  
-        return () => clearTimeout(timeoutId);
-      }
-    }, [showToast]);
-
 
 return (
   <>
-  {showToast && (
-    <Toast
-      toastType={toastProperties.toastType}
-      message={toastProperties.toastMessage}
-      onClose={() => setShowToast(false)}
-    />
-  )}
+    {showModal && (
+                <Modal
+                  title={modalProperties.title}
+                  body={modalProperties.body}
+                  cancelButtonPresent={modalProperties.cancelButtonPresent}
+                  onClose={() => setShowModal(false)}
+                />
+              )}
+
   <div className="card" style={{ width: "40rem" , marginTop :30}}>
     <div className= {(cardDisable) ? 'd-none' : 'card-body pb-2'}>
       <h5 className="card-title">Address {addressId}</h5>
@@ -112,10 +144,43 @@ return (
       
       </p>
       <hr />
-         <button type="button" class="btn btn-danger" onClick={handleClick}>Edit</button>
-         <button type="button" class="btn btn-danger">Remove</button>
+         <button type="button" class="btn btn-warning" onClick={handleClick}>Edit</button> &nbsp;&nbsp;
+         <button type="button" class="btn btn-danger" id="Remove"
+             data-bs-toggle="modal"
+             data-bs-target="#modal"
+         onClick={()=>{
+          console.log(addressId);
+          api
+          .patch(`/addresses/${addressId}`,{
+            trashed:"true",
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              console.log("Address deleted successfully");
+              setShowModal(true);
+              setModalProperties({
+                title: "Message",
+                body: "Address  deleted successfully",
+                cancelButtonPresent: false,
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Some error occured in deleting address");
+            console.error(error);
+            setShowModal(true);
+            setModalProperties({
+              title: "Message",
+              body: "Some error occured in deleting address",
+              cancelButtonPresent: false,
+            });
+          });
+          
+         }
+         }>Remove</button>
     </div>
-            <div className={(disable) ? 'd-none' : 'card-body pb-2]'} id="address-form">
+
+          <div className={(disable) ? 'd-none' : 'card-body pb-2'} id="address-form"  style={{ backgroundColor: "beige" }}>
             <div className="form-group">
                     <label className="form-label"htmlFor="district">Full Name</label>
                     <input type="text" className="form-control" id ="fullName" defaultValue={fullNamef}
@@ -177,49 +242,28 @@ return (
                                               />
                   </div>
                   <button type="button" class="btn btn-success"
-                  onClick={() => {
-                    api
-                      .put(`/addresses/${addressId}`, {
-                        full_name:fullName || fullNamef,
-                        mobile_no:mobile || mobilef,
-                        address_line1:addL1 || addressLine1,
-                        address_line2:addL2 || addressLine2,
-                        district:district || districtf,
-                        city:city || cityf,
-                        state:state || statef,
-                        country:country || countryf,
-                        pincode:pincode || pincodef,
-                        landmark:landmark || landmarkf,
-                      
-                      })
-                      .then((response) => {
-                        console.log(response);
-                        if (response.data) {
-                          console.log("profile updated successfully");
-                          setShowToast(true);
-                          setToastProperties({
-                            toastType: "success",
-                            toastMessage: "Profile Updated successfully",
-                          });
-                        }
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                        setShowToast(true);
-                        setToastProperties({
-                          toastType: "error",
-                          toastMessage:
-                            "some error occured in updating profile",
-                        });
-                      });
-                  }}
-                   >Save</button>
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal"
+                  onClick={()=>{
+                    editAddress();
+                    setDisable(true);
+                    setCardDisable(false);
+                  }
+                  }
+                   >Save</button> &nbsp; &nbsp;
+      
+
+                   <button type="button" class="btn btn-danger" onClick={()=>{
+                       setDisable(true);
+                       setCardDisable(false);
+                   }
+                   }>Close</button>
 
                 </div> 
    
       
     
-    {/* </div> */}
+
   </div>
   </>
 );
