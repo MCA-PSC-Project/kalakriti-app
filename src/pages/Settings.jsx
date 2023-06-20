@@ -20,6 +20,7 @@ function Settings() {
   const [addresses, setAddress] = useState({});
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
+  
   const [showModal, setShowModal] = useState(true);
   const [modalProperties, setModalProperties] = useState({});
 
@@ -30,12 +31,12 @@ function Settings() {
  
  
   const [isAddAddress,setAddAddress] =useState(true);
-  const [isAddressForm,setAdressForm] = useState(false);
+  const [isAddressForm,setAddressForm] = useState(false);
 
   const  handleAddAddress =() =>{
 
     setAddAddress(false);
-    setAdressForm(true);
+    setAddressForm(true);
   };
 
   const[fullName,setFullName] = useState(null);
@@ -162,7 +163,7 @@ function Settings() {
     
     })
     .then((response) => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("Address added successfully");
         setShowModal(true);
         setModalProperties({
@@ -533,7 +534,7 @@ function Settings() {
                       data-bs-target="#modal"
                   onClick={()=>{
                     setAddAddress(true);
-                    setAdressForm(false);
+                    setAddressForm(false);
                     addNewAddress();
                   }
                   }
@@ -541,9 +542,8 @@ function Settings() {
       
 
                    <button type="button" class="btn btn-danger" onClick={()=>{
-                       setDisable(true);
-                       setCardDisable(false);
-                       addNewAddress();
+                     setAddAddress(true);
+                     setAddressForm(false);
                    }
                    }>Close</button>
 

@@ -125,7 +125,7 @@ return (
                   cancelButtonPresent={modalProperties.cancelButtonPresent}
                   onClose={() => setShowModal(false)}
                 />
-              )}
+         )}
 
   <div className="card" style={{ width: "40rem" , marginTop :30}}>
     <div className= {(cardDisable) ? 'd-none' : 'card-body pb-2'}>
@@ -242,8 +242,8 @@ return (
                                               />
                   </div>
                   <button type="button" class="btn btn-success"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modal"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modal"
                   onClick={()=>{
                     editAddress();
                     setDisable(true);
