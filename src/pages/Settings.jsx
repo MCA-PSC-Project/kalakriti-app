@@ -8,7 +8,6 @@ import Toast from "../components/Toast";
 import Modal from "../components/Modal";
 import AddressCard from "../components/AddressCard";
 
-
 function Settings() {
   const [isActiveGeneral, setActiveGeneral] = useState(true);
   const [isActiveAddress, setActiveAddress] = useState(false);
@@ -20,7 +19,7 @@ function Settings() {
   const [addresses, setAddress] = useState({});
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
-  
+
   const [showModal, setShowModal] = useState(true);
   const [modalProperties, setModalProperties] = useState({});
 
@@ -28,34 +27,57 @@ function Settings() {
   const [lastName, setLastName] = useState(null);
   const [dob, setDob] = useState(null);
   const [gender, setGender] = useState(null);
- 
- 
-  const [isAddAddress,setAddAddress] =useState(true);
-  const [isAddressForm,setAddressForm] = useState(false);
 
-  const  handleAddAddress =() =>{
+  const [isAddAddress, setAddAddress] = useState(true);
+  const [isAddressForm, setAddressForm] = useState(false);
 
+  const handleAddAddress = () => {
     setAddAddress(false);
     setAddressForm(true);
   };
 
-  const[fullName,setFullName] = useState(null);
-  const [mobile,setMobile] = useState(null);
-  const [addL1,setAddL1] =useState(null);
-  const [addL2,setAddL2] = useState(null);
-  const [district,setDistrict] = useState(null);
-  const[city,setCity] = useState(null);
-  const [state,setState] = useState(null);
-  const [country,setCountry] = useState(null);
-  const [pincode , setPincode] = useState(null);
-  const [landmark,setLandmark] = useState(null);
+  const [fullName, setFullName] = useState(null);
+  const [mobile, setMobile] = useState(null);
+  const [addL1, setAddL1] = useState(null);
+  const [addL2, setAddL2] = useState(null);
+  const [district, setDistrict] = useState(null);
+  const [city, setCity] = useState(null);
+  const [state, setState] = useState(null);
+  const [country, setCountry] = useState(null);
+  const [pincode, setPincode] = useState(null);
+  const [landmark, setLandmark] = useState(null);
 
+  const [selectedImage, setSelectedImage] = useState(profilePicSample);
+  const formData = new FormData();
+formData.append("file", selectedImage.file);
 
+const config = {
+   headers: {
+    "Content-Type" : "multipart/form-data",
+   }
+};
 
-  
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let img = event.target.files[0];
+      setSelectedImage(URL.createObjectURL(img));
+      api.post("/uploads/image",formData,config)
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("image selected");
+        }
+      })
+      .catch((error) => {
+        console.log(config);
+        console.error("Some error occured ");
+        console.error(error);
+      });
+    }
+  };
+
   const handleInputChangeAddress = (event) => {
     const { id, value } = event.target;
-     if (id === "fullName") {
+    if (id === "fullName") {
       setFullName(value);
     }
     if (id === "mobile") {
@@ -104,8 +126,6 @@ function Settings() {
     }
   };
 
-
-
   useEffect(() => {
     if (showToast) {
       const timeoutId = setTimeout(() => {
@@ -139,50 +159,47 @@ function Settings() {
       .then((response) => {
         setAddress(response.data === null ? [] : response.data);
         console.log(response.data);
-      
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
 
-
-  const addNewAddress =()=>{
+  const addNewAddress = () => {
     api
-    .post(`/addresses`, {
-      full_name:fullName,
-      mobile_no:mobile ,
-      address_line1:addL1 ,
-      address_line2:addL2 ,
-      district:district ,
-      city:city ,
-      state:state,
-      country:country ,
-      pincode:pincode ,
-      landmark:landmark,
-    
-    })
-    .then((response) => {
-      if (response.status === 201) {
-        console.log("Address added successfully");
+      .post(`/addresses`, {
+        full_name: fullName,
+        mobile_no: mobile,
+        address_line1: addL1,
+        address_line2: addL2,
+        district: district,
+        city: city,
+        state: state,
+        country: country,
+        pincode: pincode,
+        landmark: landmark,
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("Address added successfully");
+          setShowModal(true);
+          setModalProperties({
+            title: "Message",
+            body: "Address added successfully",
+            cancelButtonPresent: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Some error occured in adding address");
+        console.error(error);
         setShowModal(true);
         setModalProperties({
           title: "Message",
-          body: "Address added successfully",
+          body: "Some error occured in adding address",
           cancelButtonPresent: false,
         });
-      }
-    })
-    .catch((error) => {
-      console.error("Some error occured in adding address");
-      console.error(error);
-      setShowModal(true);
-      setModalProperties({
-        title: "Message",
-        body: "Some error occured in adding address",
-        cancelButtonPresent: false,
       });
-    });
   };
   const ToggleGeneral = () => {
     setActiveGeneral(true);
@@ -234,8 +251,6 @@ function Settings() {
     setActiveDP(true);
   };
 
- 
-
   return (
     <>
       {showToast && (
@@ -246,13 +261,13 @@ function Settings() {
         />
       )}
       {showModal && (
-                <Modal
-                  title={modalProperties.title}
-                  body={modalProperties.body}
-                  cancelButtonPresent={modalProperties.cancelButtonPresent}
-                  onClose={() => setShowModal(false)}
-                />
-              )}
+        <Modal
+          title={modalProperties.title}
+          body={modalProperties.body}
+          cancelButtonPresent={modalProperties.cancelButtonPresent}
+          onClose={() => setShowModal(false)}
+        />
+      )}
       <div className="container light-style flex-grow-1 container-p-y">
         <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
         <div className="card overflow-hidden">
@@ -398,9 +413,15 @@ function Settings() {
                           <option value="" selected>
                             {general.gender}
                           </option>
-                          {general.gender !=="male"  &&   <option value="male">Male</option>}
-                         {general.gender !=="female" && <option value="female">Female</option>}
-                          {general.gender!=="other" && <option value="other">Other</option>}
+                          {general.gender !== "male" && (
+                            <option value="male">Male</option>
+                          )}
+                          {general.gender !== "female" && (
+                            <option value="female">Female</option>
+                          )}
+                          {general.gender !== "other" && (
+                            <option value="other">Other</option>
+                          )}
                         </select>
                       </div>
                       <button
@@ -451,129 +472,193 @@ function Settings() {
                       : "tab-pane fade"
                   }
                   id="account-change-address"
-               
-
                 >
-    <div className='card' style={{ width: "40rem" , marginTop :30}}>
-    <div className= {isAddAddress?'card-body pb-2':'d-none'}>
-      <h5 className="card-title">Add Address</h5>
-      <hr />
-      <p className="card-text">
-         <button type="button" onClick={()=>{
-             handleAddAddress();
+                  <div
+                    className="card"
+                    style={{ width: "40rem", marginTop: 30 }}
+                  >
+                    <div className={isAddAddress ? "card-body pb-2" : "d-none"}>
+                      <h5 className="card-title">Add Address</h5>
+                      <hr />
+                      <p className="card-text">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleAddAddress();
+                          }}
+                        >
+                          {" "}
+                          <img
+                            src={addAddress}
+                            style={{ height: 80, width: 80 }}
+                          ></img>
+                        </button>
+                      </p>
+                    </div>
+                  </div>
 
-         }}> <img src={addAddress} style={{height:80, width:80}}></img></button>
-      </p>
-
-    </div>
-    </div>     
-
-             <div className= {isAddressForm? 'card-body pb-2':'d-none'} id="address-form"  style={{ backgroundColor: "beige" }}>
-                <div className="form-group">
-                    <label className="form-label"htmlFor="district">Full Name</label>
-                    <input type="text" className="form-control" id ="fullName" 
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                </div>
-                  <div className="form-group">
-                    <label className="form-label"htmlFor="district">Mobile</label>
-                    <input type="text" className="form-control" id ="mobile" 
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="addL1">Address Line 1</label>
-                    <input type="text" className="form-control" id="addL1"
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="addL2">Address Line 2</label>
-                    <input type="text" className="form-control" id="addL2" 
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label"htmlFor="district">District</label>
-                    <input type="text" className="form-control" id ="district"
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label"htmlFor="district">City</label>
-                    <input type="text" className="form-control" id ="city" 
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="state">State</label>
-                    <input type="text" className="form-control" id="state" 
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="country">Country</label>
-                    <input type="text" className="form-control" id="country" 
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="pincode">Pincode</label>
-                    <input type="text" className="form-control" id="pincode" 
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="landmark">Landmark</label>
-                    <input type="text" className="form-control" id="landmark" 
-                                              onChange={(event) => handleInputChangeAddress(event)}
-                                              />
-                  </div>
-                  <button type="button" class="btn btn-success"
+                  <div
+                    className={isAddressForm ? "card-body pb-2" : "d-none"}
+                    id="address-form"
+                    style={{ backgroundColor: "beige" }}
+                  >
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="district">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="fullName"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="district">
+                        Mobile
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="mobile"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="addL1">
+                        Address Line 1
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="addL1"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="addL2">
+                        Address Line 2
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="addL2"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="district">
+                        District
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="district"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="district">
+                        City
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="city"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="state">
+                        State
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="state"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="country">
+                        Country
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="country"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="pincode">
+                        Pincode
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="pincode"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="landmark">
+                        Landmark
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="landmark"
+                        onChange={(event) => handleInputChangeAddress(event)}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-success"
                       data-bs-toggle="modal"
                       data-bs-target="#modal"
-                  onClick={()=>{
-                    setAddAddress(true);
-                    setAddressForm(false);
-                    addNewAddress();
-                  }
-                  }
-                   >Save</button> &nbsp; &nbsp;
-      
+                      onClick={() => {
+                        setAddAddress(true);
+                        setAddressForm(false);
+                        addNewAddress();
+                      }}
+                    >
+                      Save
+                    </button>{" "}
+                    &nbsp; &nbsp;
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      onClick={() => {
+                        setAddAddress(true);
+                        setAddressForm(false);
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
 
-                   <button type="button" class="btn btn-danger" onClick={()=>{
-                     setAddAddress(true);
-                     setAddressForm(false);
-                   }
-                   }>Close</button>
-
-              </div>      
-                  
                   {addresses && addresses.length > 0 ? (
-                  addresses.map((address) => {
-                    return (
-              
-                    <AddressCard
-                    addressId={address.address_id}
-                    fullNamef={address.full_name}
-                    mobilef={address.mobile_no}
-                    addressLine1={address.address_line1}
-                    addressLine2={address.address_line2}
-                    districtf={address.district}
-                    cityf={address.city}
-                    statef={address.state}
-                    countryf={address.country}
-                    pincodef={address.pincode}
-                    landmarkf ={address.landmark}
-                    />
-                    );
-                  })
-                ) : (
-                  <h1>No items in address</h1>
-                )}
-                
-
-               
+                    addresses.map((address) => {
+                      return (
+                        <AddressCard
+                          addressId={address.address_id}
+                          fullNamef={address.full_name}
+                          mobilef={address.mobile_no}
+                          addressLine1={address.address_line1}
+                          addressLine2={address.address_line2}
+                          districtf={address.district}
+                          cityf={address.city}
+                          statef={address.state}
+                          countryf={address.country}
+                          pincodef={address.pincode}
+                          landmarkf={address.landmark}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h1>No items in address</h1>
+                  )}
                 </div>
 
                 <div
@@ -675,13 +760,21 @@ function Settings() {
                 >
                   <p>
                     {" "}
-                    <img
-                      src={profilePicSample}
-                      class="rounded-circle"
-                      alt="Cinque Terre"
-                      width="200"
-                      height="200"
-                    ></img>
+                    {selectedImage && (
+                      <img
+                        src={selectedImage}
+                        class="rounded-circle"
+                        alt="preview"
+                        width="200"
+                        height="200"
+                      />
+                    )}<br/>
+                    <input
+                      accept="image/*"
+                      type="file"
+                      id="select-image"
+                      onChange={handleImageChange}
+                    />
                     <br />
                     <button
                       type="button"
@@ -700,7 +793,5 @@ function Settings() {
     </>
   );
 }
-
-
 
 export default Settings;
