@@ -83,17 +83,35 @@ function Settings() {
             .then((response) => {
               if (response.status === 200) {
                 console.log("dp successfully updated");
+                setShowModal(true);
+                setModalProperties({
+                  title: "Message",
+                  body: "dp successfully updated",
+                  cancelButtonPresent: false,
+                });
               }
             })
             .catch((error) => {
               console.error("Some error occured ");
               console.error(error);
+              setShowModal(true);
+              setModalProperties({
+                title: "Message",
+                body: "Some error occured in updating dp",
+                cancelButtonPresent: false,
+              });
             });
         }
       })
       .catch((error) => {
         console.error("Some error occured ");
         console.error(error);
+        setShowModal(true);
+        setModalProperties({
+          title: "Message",
+          body: "Some error occured in updating dp",
+          cancelButtonPresent: false,
+        });
       });
   };
 
@@ -803,6 +821,8 @@ function Settings() {
                       type="button"
                       style={{ marginTop: 20, marginLeft: 60 }}
                       className="btn btn-success"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal"
                       disabled={!dpUpdateMode}
                       onClick={handleImageUpload}
                     >
