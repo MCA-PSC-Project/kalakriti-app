@@ -20,6 +20,7 @@ import Checkout from "./pages/Checkout";
 import Product from "./pages/Product";
 import AuthConsumer from "./hooks/useAuth";
 import ProductReview from "./pages/ProductReview";
+import ResetPassword from "./pages/reset/ResetPassword";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -41,6 +42,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ResetPassword />} />
           <Route path="/register" element={<Register />} />
           <Route
             path="/wishlist"
@@ -94,10 +96,7 @@ const App = () => {
           <Route path="/recommended-products" element={<Orders />} />
           <Route path="/popular-products" element={<Orders />} />
           <Route path="/new-products" element={<Orders />} />
-          <Route
-            path="/products/:productId"
-            element={<Product />}
-          />
+          <Route path="/products/:productId" element={<Product />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/subcategories" element={<SubCategories />} />
           <Route

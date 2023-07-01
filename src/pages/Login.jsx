@@ -90,6 +90,9 @@ function Login() {
             </label>
           </div>
           <div className="mb-3">
+            <Link to="/forgot-password">Forgot Password</Link>
+          </div>
+          <div className="mb-3">
             <Link to="/register">Don't have an account? Register</Link>
           </div>
           <input
