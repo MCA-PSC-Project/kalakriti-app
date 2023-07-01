@@ -48,20 +48,26 @@ function Settings() {
   const [landmark, setLandmark] = useState(null);
 
   const [selectedImage, setSelectedImage] = useState(profilePicSample);
-  const formData = new FormData();
-formData.append("file", selectedImage.file);
 
-const config = {
-   headers: {
-    "Content-Type" : "multipart/form-data",
-   }
-};
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
 
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
-      setSelectedImage(URL.createObjectURL(img));
-      api.post("/uploads/image",formData,config)
+      setSelectedImage(img);
+    }
+  };
+
+  useEffect(() => {
+    const formData = new FormData();
+    formData.append("file", selectedImage);
+    console.log("formdata= ", formData);
+    api
+      .post("/uploads/image", formData, config)
       .then((response) => {
         if (response.status === 201) {
           console.log("image selected");
@@ -72,8 +78,7 @@ const config = {
         console.error("Some error occured ");
         console.error(error);
       });
-    }
-  };
+  }, [selectedImage]);
 
   const handleInputChangeAddress = (event) => {
     const { id, value } = event.target;
@@ -768,7 +773,8 @@ const config = {
                         width="200"
                         height="200"
                       />
-                    )}<br/>
+                    )}
+                    <br />
                     <input
                       accept="image/*"
                       type="file"
