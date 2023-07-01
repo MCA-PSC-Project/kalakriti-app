@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import api from "../../utils/api";
 import Modal from "../../components/Modal";
+import { useNavigate } from "react-router-dom";
 
 function ResetPassword() {
   const [email, setEmail] = useState(null);
   const [showModal, setShowModal] = useState(true);
   const [modalProperties, setModalProperties] = useState({});
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -52,7 +54,10 @@ function ResetPassword() {
           title={modalProperties.title}
           body={modalProperties.body}
           cancelButtonPresent={modalProperties.cancelButtonPresent}
-          onClose={() => setShowModal(false)}
+          onClose={() => {
+            setShowModal(false);
+            navigate("/login");
+          }}
         />
       )}
       <h1>Reset Password</h1>
@@ -78,6 +83,8 @@ function ResetPassword() {
                 <button
                   type="submit"
                   className="btn btn-success"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modal"
                   onClick={(event) => handleSubmit(event)}
                 >
                   Send reset password link
