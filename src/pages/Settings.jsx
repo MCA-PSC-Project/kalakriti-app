@@ -46,8 +46,9 @@ function Settings() {
   const [country, setCountry] = useState(null);
   const [pincode, setPincode] = useState(null);
   const [landmark, setLandmark] = useState(null);
-
   const [selectedImage, setSelectedImage] = useState(profilePicSample);
+  const [dpUpdateMode, setDpUpdateMode] = useState(false);
+  const [imageURL, setImageURL] = useState(null);
 
   const config = {
     headers: {
@@ -59,26 +60,42 @@ function Settings() {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
       setSelectedImage(img);
+      setImageURL(URL.createObjectURL(img));
+      setDpUpdateMode(true);
     }
   };
 
-  useEffect(() => {
+  const handleImageUpload = () => {
     const formData = new FormData();
     formData.append("file", selectedImage);
     console.log("formdata= ", formData);
     api
-      .post("/uploads/image", formData, config)
+      .post(`/uploads/image`, formData, config)
       .then((response) => {
         if (response.status === 201) {
-          console.log("image selected");
+          // console.log("image selected");
+          console.log("response=", response.data);
+          const mediaId = response.data.id;
+          api
+            .patch(`/customers/profile`, {
+              dp_id: mediaId,
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                console.log("dp successfully updated");
+              }
+            })
+            .catch((error) => {
+              console.error("Some error occured ");
+              console.error(error);
+            });
         }
       })
       .catch((error) => {
-        console.log(config);
         console.error("Some error occured ");
         console.error(error);
       });
-  }, [selectedImage]);
+  };
 
   const handleInputChangeAddress = (event) => {
     const { id, value } = event.target;
@@ -152,6 +169,7 @@ function Settings() {
         setLastName(response.data.last_name);
         setDob(response.data.dob);
         setGender(response.data.gender);
+        setSelectedImage(response.data.dp?.path);
       })
       .catch((err) => {
         console.error(err);
@@ -764,10 +782,9 @@ function Settings() {
                   id="account-change-dp"
                 >
                   <p>
-                    {" "}
                     {selectedImage && (
                       <img
-                        src={selectedImage}
+                        src={imageURL ?? selectedImage}
                         class="rounded-circle"
                         alt="preview"
                         width="200"
@@ -786,6 +803,8 @@ function Settings() {
                       type="button"
                       style={{ marginTop: 20, marginLeft: 60 }}
                       className="btn btn-success"
+                      disabled={!dpUpdateMode}
+                      onClick={handleImageUpload}
                     >
                       Update
                     </button>
