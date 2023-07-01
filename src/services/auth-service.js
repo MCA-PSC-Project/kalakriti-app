@@ -12,11 +12,15 @@ const login = (email, password) => {
       password,
     })
     .then((response) => {
-      if (response.data.access_token) {
+      if (response.status === 202 && response.data.access_token) {
         TokenService.setUser(response.data);
       }
-
-      return response.data;
+      // when the user is not verified
+      else if (response.status === 201) {
+        window.alert(response.data);
+        return;
+      }
+      return response;
     });
 };
 

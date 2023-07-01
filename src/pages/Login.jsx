@@ -10,6 +10,7 @@ import AuthConsumer from "../hooks/useAuth";
 function Login() {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [loginUnsuccessful, setLoginUnsuccessful] = useState(false);
 
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -50,6 +51,8 @@ function Login() {
       navigate(state?.path || "/");
     } else {
       // Login failed
+      console.log("Login failed");
+      setLoginUnsuccessful(true);
     }
   };
   return (
@@ -64,6 +67,11 @@ function Login() {
           />
           <h3 className="h3 mb-3 fw-normal">KalaKriti</h3>
           <h2 className="h2 mb-2 fw-normal">Please sign in</h2>
+          {loginUnsuccessful && (
+            <div className="alert alert-danger" role="alert">
+              Login unsuccessful!!
+            </div>
+          )}
           <div className="form-floating">
             <input
               type="email"

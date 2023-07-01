@@ -11,7 +11,6 @@ function ResetPassword() {
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
-
     if (id === "email") {
       setEmail(value);
     }
