@@ -27,6 +27,8 @@ function Settings() {
   const [lastName, setLastName] = useState(null);
   const [dob, setDob] = useState(null);
   const [gender, setGender] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [newEmail, setNewEmail] = useState(null);
 
   const [isAddAddress, setAddAddress] = useState(true);
   const [isAddressForm, setAddressForm] = useState(false);
@@ -187,6 +189,7 @@ function Settings() {
         setLastName(response.data.last_name);
         setDob(response.data.dob);
         setGender(response.data.gender);
+        setEmail(response.data.email);
         setSelectedImage(response.data.dp?.path);
       })
       .catch((err) => {
@@ -780,14 +783,52 @@ function Settings() {
                   <div className="card-body pb-2">
                     <div className="form-group">
                       <label className="form-label" htmlFor="email">
-                        Email Id
+                        Enter New Email
                       </label>
-                      <input type="text" className="form-control" />
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter email here"
+                        onChange={(event) => {
+                          setNewEmail(event.target.value);
+                        }}
+                      />
                     </div>
                     <button
                       type="button"
                       style={{ marginTop: 20, marginLeft: 60 }}
                       className="btn btn-success"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal"
+                      onClick={() => {
+                        api
+                          .post(`/reset-email/request`, {
+                            email: newEmail,
+                          })
+                          .then((response) => {
+                            if (response.status === 201) {
+                              console.log(
+                                `Link to reset email sent to ${newEmail} sent successfully!`
+                              );
+                              setShowModal(true);
+                              setModalProperties({
+                                title: "Message",
+                                body: `Link to reset email sent to ${newEmail} sent successfully!`,
+                                cancelButtonPresent: false,
+                              });
+                            }
+                          })
+                          .catch((error) => {
+                            console.error("Some error occured ");
+                            console.error(error);
+                            setShowModal(true);
+                            setModalProperties({
+                              title: "Message",
+                              body: "Some error occured in sending link to reset email",
+                              cancelButtonPresent: false,
+                            });
+                          });
+                      }}
                     >
                       Update
                     </button>
