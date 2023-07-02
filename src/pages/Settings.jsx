@@ -884,6 +884,9 @@ function Settings() {
                   <div className="card-body pb-2">
                     <div className="form-group">
                       <label className="form-label" htmlFor="email">
+                        current email: {email}
+                      </label>
+                      <label className="form-label" htmlFor="email">
                         Enter New Email
                       </label>
                       <input
