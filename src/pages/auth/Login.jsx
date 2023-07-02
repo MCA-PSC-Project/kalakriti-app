@@ -1,11 +1,11 @@
-import Footer from "../components/Footer";
-import Logo from "../assets/logo.jpeg";
+import Footer from "../../components/Footer";
+import Logo from "../../assets/logo.jpeg";
 import "./Login.css";
 import { useState } from "react";
-import AuthService from "../services/auth-service";
+import AuthService from "../../services/auth-service";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/useAuth";
-import AuthConsumer from "../hooks/useAuth";
+import AuthConsumer from "../../hooks/useAuth";
 
 function Login() {
   const [email, setEmail] = useState(null);

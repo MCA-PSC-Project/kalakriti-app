@@ -1,11 +1,11 @@
-import Footer from "../components/Footer";
-import Logo from "../assets/logo.jpeg";
+import Footer from "../../components/Footer";
+import Logo from "../../assets/logo.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import AuthService from "../services/auth-service";
+import AuthService from "../../services/auth-service";
 
 const schema = yup
   .object({
