@@ -883,7 +883,7 @@ function Settings() {
                 >
                   <div className="card-body pb-2">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="email">
+                      <label className="form-label">
                         current email: {email}
                       </label>
                       <label className="form-label" htmlFor="email">

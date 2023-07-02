@@ -97,18 +97,23 @@ function Login() {
               <input type="checkbox" defaultValue="remember-me" /> Remember me
             </label>
           </div>
+          <div className="form-floating">
+            <input
+              className="w-100 btn btn-lg btn-primary"
+              type="submit"
+              value="Login"
+              onClick={(event) => handleLogin(event)}
+            />
+          </div>
           <div className="mb-3">
             <Link to="/forgot-password">Forgot Password</Link>
           </div>
           <div className="mb-3">
+            <Link to="/login/motp">Login using Mobile</Link>
+          </div>
+          <div className="mb-3">
             <Link to="/register">Don't have an account? Register</Link>
           </div>
-          <input
-            className="w-100 btn btn-lg btn-primary"
-            type="submit"
-            value="Login"
-            onClick={(event) => handleLogin(event)}
-          />
         </form>
       </main>
       {/* <div className="fixed-bottom"> */}
