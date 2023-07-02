@@ -280,7 +280,10 @@ function ProductReview() {
                   title={modalProperties.title}
                   body={modalProperties.body}
                   cancelButtonPresent={modalProperties.cancelButtonPresent}
-                  onClose={() => setShowModal(false)}
+                  onClose={() => {
+                    setShowModal(false);
+                    window.location.reload();
+                  }}
                 />
               )}
             </div>

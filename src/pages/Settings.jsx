@@ -7,6 +7,8 @@ import api from "../utils/api";
 import Toast from "../components/Toast";
 import Modal from "../components/Modal";
 import AddressCard from "../components/AddressCard";
+import AuthConsumer from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 function Settings() {
   const [isActiveGeneral, setActiveGeneral] = useState(true);
@@ -51,6 +53,11 @@ function Settings() {
   const [selectedImage, setSelectedImage] = useState(profilePicSample);
   const [dpUpdateMode, setDpUpdateMode] = useState(false);
   const [imageURL, setImageURL] = useState(null);
+  const [currentPassword, setCurrentPassword] = useState(null);
+  const [newPassword, setNewPassword] = useState(null);
+  const [confirmNewPassword, setConfirmNewPassword] = useState(null);
+  const { logout } = AuthConsumer();
+  const navigate = useNavigate();
 
   const config = {
     headers: {
@@ -90,6 +97,10 @@ function Settings() {
                   title: "Message",
                   body: "dp successfully updated",
                   cancelButtonPresent: false,
+                  onClose: () => {
+                    setShowModal(false);
+                    window.location.reload();
+                  },
                 });
               }
             })
@@ -101,6 +112,10 @@ function Settings() {
                 title: "Message",
                 body: "Some error occured in updating dp",
                 cancelButtonPresent: false,
+                onClose: () => {
+                  setShowModal(false);
+                  window.location.reload();
+                },
               });
             });
         }
@@ -295,6 +310,14 @@ function Settings() {
     setActiveDP(true);
   };
 
+  const handleModalClose = () => {
+    if (modalProperties.onClose) {
+      modalProperties.onClose();
+    } else {
+      // setShowModal(false);
+    }
+  };
+
   return (
     <>
       {showToast && (
@@ -309,7 +332,7 @@ function Settings() {
           title={modalProperties.title}
           body={modalProperties.body}
           cancelButtonPresent={modalProperties.cancelButtonPresent}
-          onClose={() => setShowModal(false)}
+          onClose={handleModalClose}
         />
       )}
       <div className="container light-style flex-grow-1 container-p-y">
@@ -715,23 +738,101 @@ function Settings() {
                 >
                   <div className="card-body pb-2">
                     <div className="form-group">
-                      <label className="form-label">Current password</label>
-                      <input type="password" className="form-control" />
+                      <label className="form-label" htmlFor="currentPassword">
+                        Current password
+                      </label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="currentPassword"
+                        onChange={(event) => {
+                          setCurrentPassword(event.target.value);
+                        }}
+                      />
                     </div>
                     <div className="form-group">
-                      <label className="form-label">New password</label>
-                      <input type="password" className="form-control" />
+                      <label className="form-label" htmlFor="newPassword">
+                        New password
+                      </label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="newPassword"
+                        onChange={(event) => {
+                          setNewPassword(event.target.value);
+                        }}
+                      />
                     </div>
                     <div className="form-group">
-                      <label className="form-label">Repeat new password</label>
-                      <input type="password" className="form-control" />
+                      <label
+                        className="form-label"
+                        htmlFor="confirmNewPassword"
+                      >
+                        Confirm new password
+                      </label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="confirmNewPassword"
+                        onChange={(event) => {
+                          setConfirmNewPassword(event.target.value);
+                        }}
+                      />
                     </div>
                     <button
                       type="button"
                       style={{ marginTop: 20, marginLeft: 60 }}
                       className="btn btn-success"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal"
+                      onClick={() => {
+                        // TODO: add validation here
+                        if (newPassword !== confirmNewPassword) {
+                          setShowModal(true);
+                          setModalProperties({
+                            title: "Message",
+                            body: "new password and confirm new password did not match",
+                            cancelButtonPresent: false,
+                          });
+                          return;
+                        }
+                        api
+                          .post(`/reset-password/logged-in`, {
+                            current_password: currentPassword,
+                            new_password: newPassword,
+                          })
+                          .then((response) => {
+                            if (response.status === 200) {
+                              console.log(response.data);
+                              setShowModal(true);
+                              setModalProperties({
+                                title: "Message",
+                                body: response.data.message,
+                                cancelButtonPresent: false,
+                                onClose: () => {
+                                  setShowModal(false);
+                                  console.log("logging out");
+                                  logout();
+                                  navigate("/login");
+                                },
+                              });
+                            }
+                          })
+                          .catch((error) => {
+                            console.error("Some error occured ");
+                            console.error(error);
+                            setShowModal(true);
+                            setModalProperties({
+                              title: "Message",
+                              body:
+                                error?.response?.data?.message ||
+                                "Some error occured in resetting password",
+                              cancelButtonPresent: false,
+                            });
+                          });
+                      }}
                     >
-                      Update
+                      Reset Password
                     </button>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 import React from "react";
 
 function Modal({ title, body, cancelButtonPresent, onClose }) {
-  // console.log("modal called");
+  // console.log("static backdrop modal called");
   // console.log({ title, body, cancelButtonPresent });
   return (
     <>
@@ -9,6 +9,8 @@ function Modal({ title, body, cancelButtonPresent, onClose }) {
       <div
         className="modal fade"
         id="modal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -26,7 +28,7 @@ function Modal({ title, body, cancelButtonPresent, onClose }) {
                 aria-label="Close"
                 onClick={() => {
                   onClose();
-                  window.location.reload();
+                  // window.location.reload();
                 }}
               />
             </div>
@@ -45,9 +47,10 @@ function Modal({ title, body, cancelButtonPresent, onClose }) {
               <button
                 type="button"
                 className="btn btn-success"
+                data-bs-dismiss="modal"
                 onClick={() => {
                   onClose();
-                  window.location.reload();
+                  // window.location.reload();
                 }}
               >
                 Ok

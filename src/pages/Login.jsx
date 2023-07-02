@@ -66,7 +66,7 @@ function Login() {
             style={{ width: 200, height: 200 }}
           />
           <h3 className="h3 mb-3 fw-normal">KalaKriti</h3>
-          <h2 className="h2 mb-2 fw-normal">Please sign in</h2>
+          <h2 className="h2 mb-2 fw-normal">Please login</h2>
           {loginUnsuccessful && (
             <div className="alert alert-danger" role="alert">
               Login unsuccessful!!
