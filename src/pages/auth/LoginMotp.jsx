@@ -13,26 +13,87 @@ function LoginMotp() {
   const { mobileNo } = state; // Read values passed on state
   const maskedMobileNo = "******" + mobileNo.slice(6);
   const inputs = useRef([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  //   useEffect(() => {
+  //     inputs.current.forEach((input, index) => {
+  //       input.addEventListener("keydown", function (event) {
+  //         if (event.key === "Backspace") {
+  //           input.value = "";
+  //           if (index !== 0) inputs.current[index - 1].focus();
+  //         } else {
+  //           if (index === inputs.current.length - 1 && input.value !== "") {
+  //             return true;
+  //           } else if (event.keyCode > 47 && event.keyCode < 58) {
+  //             input.value = event.key;
+  //             if (index !== inputs.current.length - 1)
+  //               inputs.current[index + 1].focus();
+  //             event.preventDefault();
+  //           } else if (event.keyCode > 64 && event.keyCode < 91) {
+  //             input.value = String.fromCharCode(event.keyCode);
+  //             if (index !== inputs.current.length - 1)
+  //               inputs.current[index + 1].focus();
+  //             event.preventDefault();
+  //           }
+  //         }
+  //       });
+  //     });
+
+  //     inputs.current.forEach((input) => {
+  //       input.addEventListener("input", () => {
+  //         const isAllFilled = inputs.current.every(
+  //           (input) => input.value.trim() !== ""
+  //         );
+  //         setIsButtonDisabled(!isAllFilled);
+  //       });
+  //     });
+  //   }, []);
+
+  function setNativeValue(element, value) {
+    const valueSetter = Object.getOwnPropertyDescriptor(element, "value").set;
+    const prototype = Object.getPrototypeOf(element);
+    const prototypeValueSetter = Object.getOwnPropertyDescriptor(
+      prototype,
+      "value"
+    ).set;
+
+    if (valueSetter && valueSetter !== prototypeValueSetter) {
+      prototypeValueSetter.call(element, value);
+    } else {
+      valueSetter.call(element, value);
+    }
+
+    element.dispatchEvent(new Event("input", { bubbles: true }));
+  }
 
   useEffect(() => {
-    inputs.current.forEach((input, i) => {
+    inputs.current.forEach((input, index) => {
       input.addEventListener("keydown", function (event) {
         if (event.key === "Backspace") {
-          input.value = "";
-          if (i !== 0) inputs.current[i - 1].focus();
+          setNativeValue(input, "");
+          if (index !== 0) inputs.current[index - 1].focus();
         } else {
-          if (i === inputs.current.length - 1 && input.value !== "") {
+          if (index === inputs.current.length - 1 && input.value !== "") {
             return true;
           } else if (event.keyCode > 47 && event.keyCode < 58) {
-            input.value = event.key;
-            if (i !== inputs.current.length - 1) inputs.current[i + 1].focus();
+            setNativeValue(input, event.key);
+            if (index !== inputs.current.length - 1)
+              inputs.current[index + 1].focus();
             event.preventDefault();
           } else if (event.keyCode > 64 && event.keyCode < 91) {
-            input.value = String.fromCharCode(event.keyCode);
-            if (i !== inputs.current.length - 1) inputs.current[i + 1].focus();
+            setNativeValue(input, String.fromCharCode(event.keyCode));
+            if (index !== inputs.current.length - 1)
+              inputs.current[index + 1].focus();
             event.preventDefault();
           }
         }
+      });
+
+      input.addEventListener("input", () => {
+        const isAllFilled = inputs.current.every(
+          (input) => input.value.trim() !== ""
+        );
+        setIsButtonDisabled(!isAllFilled);
       });
     });
   }, []);
@@ -97,7 +158,19 @@ function LoginMotp() {
               />
             </div>
             <div className="mt-4">
-              <button className="btn btn-danger px-4 validate">Validate</button>
+              <button
+                className="btn btn-danger px-4 validate"
+                disabled={isButtonDisabled}
+                onClick={() => {
+                  let motp = "";
+                  inputs.current.forEach((input) => {
+                    motp += input.value;
+                  });
+                  console.log("input motp= ", motp);
+                }}
+              >
+                Validate
+              </button>
             </div>
           </div>
           <div className="card-2">
