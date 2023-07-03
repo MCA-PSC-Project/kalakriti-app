@@ -14,6 +14,9 @@ function LoginMotp() {
   const maskedMobileNo = "******" + mobileNo.slice(6);
   const inputs = useRef([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [loginUnsuccessful, setLoginUnsuccessful] = useState(false);
+  const { loginMotp } = AuthConsumer();
+  const navigate = useNavigate();
 
   //   useEffect(() => {
   //     inputs.current.forEach((input, index) => {
@@ -98,11 +101,37 @@ function LoginMotp() {
     });
   }, []);
 
+  const { login } = AuthConsumer();
+
+  const handleMotpLogin = async (event) => {
+    event.preventDefault();
+    let motp = "";
+    inputs.current.forEach((input) => {
+      motp += input.value;
+    });
+    console.log("input motp= ", motp);
+    const success = await loginMotp(mobileNo, motp);
+    if (success) {
+      // Login was successful
+      // navigate("/");
+      navigate(state?.path || "/");
+    } else {
+      // Login failed
+      console.log("Login failed");
+      setLoginUnsuccessful(true);
+    }
+  };
+
   return (
     <>
       <div className="container height-100 d-flex justify-content-center align-items-center">
         <div className="position-relative">
           <div className="card p-2 text-center">
+            {loginUnsuccessful && (
+              <div className="alert alert-danger" role="alert">
+                Login unsuccessful!!
+              </div>
+            )}
             <h6>
               Please enter the one time password <br /> to verify your account
             </h6>
@@ -161,15 +190,9 @@ function LoginMotp() {
               <button
                 className="btn btn-danger px-4 validate"
                 disabled={isButtonDisabled}
-                onClick={() => {
-                  let motp = "";
-                  inputs.current.forEach((input) => {
-                    motp += input.value;
-                  });
-                  console.log("input motp= ", motp);
-                }}
+                onClick={handleMotpLogin}
               >
-                Validate
+                Login
               </button>
             </div>
           </div>

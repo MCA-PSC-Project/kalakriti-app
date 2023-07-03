@@ -30,6 +30,28 @@ function useAuth() {
       );
     });
   };
+
+  const loginMotp = async (mobileNo, motp) => {
+    return new Promise((resolve, reject) => {
+      AuthService.loginMotp(mobileNo, motp).then(
+        () => {
+          setAuthed(true);
+          resolve(true);
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          setAuthed(false);
+          resolve(false);
+        }
+      );
+    });
+  };
+
   const logout = () => {
     AuthService.logout();
     setAuthed(false);
@@ -37,6 +59,7 @@ function useAuth() {
   return {
     authed,
     login,
+    loginMotp,
     logout,
   };
 }

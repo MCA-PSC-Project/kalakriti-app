@@ -3,7 +3,7 @@ import Logo from "../../assets/logo.jpeg";
 import "./Login.css";
 import { useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth-service";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/useAuth";
 import AuthConsumer from "../../hooks/useAuth";
 import api from "../../utils/api";
@@ -18,25 +18,6 @@ function LoginMobile({ setHasVisitedMobile }) {
   const [loginUnsuccessful, setLoginUnsuccessful] = useState(false);
 
   const navigate = useNavigate();
-  const { state } = useLocation();
-  // const { login } = useAuth();
-  const { login } = AuthConsumer();
-
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    // setMobileNumber(mobileRef.current.value);
-    const mobileNumber = mobileRef.current.value;
-    const success = await login(mobileNumber);
-    if (success) {
-      // Login was successful
-      // navigate("/");
-      navigate(state?.path || "/");
-    } else {
-      // Login failed
-      console.log("Login failed");
-      setLoginUnsuccessful(true);
-    }
-  };
 
   return (
     <div className="text-center">
