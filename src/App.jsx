@@ -21,6 +21,9 @@ import Product from "./pages/Product";
 import AuthConsumer from "./hooks/useAuth";
 import ProductReview from "./pages/ProductReview";
 import ResetPassword from "./pages/reset/ResetPassword";
+import LoginMobile from "./pages/auth/LoginMobile";
+import { useState } from "react";
+import LoginMotp from "./pages/auth/LoginMotp";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -36,12 +39,25 @@ function RequireAuth({ children }) {
 }
 
 const App = () => {
+  const [hasVisitedMobile, setHasVisitedMobile] = useState(false);
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          {/* <Route path="/login/mobile" element={<LoginMobile />} />
+          <Route path="/login/motp" element={<LoginMotp />} /> */}
+          <Route
+            path="/login/mobile"
+            element={<LoginMobile setHasVisitedMobile={setHasVisitedMobile} />}
+          />
+          <Route
+            path="/login/motp"
+            element={
+              hasVisitedMobile ? <LoginMotp /> : <Navigate to="/login/mobile" />
+            }
+          />
           <Route path="/forgot-password" element={<ResetPassword />} />
           <Route path="/register" element={<Register />} />
           <Route

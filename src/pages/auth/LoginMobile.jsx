@@ -1,50 +1,32 @@
 import Footer from "../../components/Footer";
 import Logo from "../../assets/logo.jpeg";
 import "./Login.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth-service";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/useAuth";
 import AuthConsumer from "../../hooks/useAuth";
+import api from "../../utils/api";
 
-function Login() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+function LoginMobile({ setHasVisitedMobile }) {
+  useEffect(() => {
+    setHasVisitedMobile(true);
+  }, [setHasVisitedMobile]);
+
+  const mobileRef = useRef(null);
+  // const [mobileNumber, setMobileNumber] = useState(null);
   const [loginUnsuccessful, setLoginUnsuccessful] = useState(false);
 
   const navigate = useNavigate();
   const { state } = useLocation();
   // const { login } = useAuth();
   const { login } = AuthConsumer();
-  const handleInputChange = (event) => {
-    const { id, value } = event.target;
-
-    if (id === "email") {
-      setEmail(value);
-    }
-    if (id === "password") {
-      setPassword(value);
-    }
-  };
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   console.log({ email, password });
-
-  //   try {
-  //     const response = await AuthService.login(email, password);
-  //     // if (result.data) {
-  //     //   // navigate("/profile");
-  //     // }
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const success = await login(email, password);
+    // setMobileNumber(mobileRef.current.value);
+    const mobileNumber = mobileRef.current.value;
+    const success = await login(mobileNumber);
     if (success) {
       // Login was successful
       // navigate("/");
@@ -55,6 +37,7 @@ function Login() {
       setLoginUnsuccessful(true);
     }
   };
+
   return (
     <div className="text-center">
       <main className="form-signin">
@@ -74,23 +57,13 @@ function Login() {
           )}
           <div className="form-floating">
             <input
-              type="email"
+              type="tel"
               className="form-control"
-              id="email"
-              placeholder="name@example.com"
-              onChange={(event) => handleInputChange(event)}
+              id="mobile"
+              placeholder=""
+              ref={mobileRef}
             />
-            <label htmlFor="email">Email address</label>
-          </div>
-          <div className="form-floating">
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Password"
-              onChange={(event) => handleInputChange(event)}
-            />
-            <label htmlFor="password">Password</label>
+            <label htmlFor="mobile">Enter Mobile Number</label>
           </div>
           <div className="checkbox mb-3">
             <label>
@@ -101,15 +74,32 @@ function Login() {
             <input
               className="w-100 btn btn-lg btn-primary"
               type="submit"
-              value="Login"
-              onClick={(event) => handleLogin(event)}
+              value="Send OTP"
+              onClick={(event) => {
+                event.preventDefault();
+                // setMobileNumber(mobileRef.current.value);
+                const mobileNo = mobileRef.current.value;
+                api
+                  .post(`/auth/motp`, {
+                    mobile_no: mobileNo,
+                  })
+                  .then((response) => {
+                    if (response.status === 200) {
+                      console.log(`Otp sent successfully`);
+                      navigate("/login/motp", {
+                        state: { mobileNo: mobileNo },
+                      });
+                    }
+                  })
+                  .catch((error) => {
+                    console.error("Some error occured ");
+                    console.error(error);
+                  });
+              }}
             />
           </div>
           <div className="mb-3">
-            <Link to="/forgot-password">Forgot Password</Link>
-          </div>
-          <div className="mb-3">
-            <Link to="/login/mobile">Login using Mobile</Link>
+            <Link to="/login">Login using Email</Link>
           </div>
           <div className="mb-3">
             <Link to="/register">Don't have an account? Register</Link>
@@ -123,4 +113,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginMobile;
