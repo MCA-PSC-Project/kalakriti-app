@@ -2,11 +2,11 @@
     background-color: red
 } */
 
-.height-100 {
+.loginMotp .height-100 {
     height: 100vh
 }
 
-.card {
+.loginMotp .card {
     width: 400px;
     border: none;
     height: 300px;
@@ -17,12 +17,12 @@
     align-items: center
 }
 
-.card h6 {
+.loginMotp .card h6 {
     color: red;
     font-size: 20px
 }
 
-.inputs input {
+.loginMotp .inputs input {
     width: 40px;
     height: 40px
 }
@@ -35,7 +35,7 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0
 }
 
-.card-2 {
+.loginMotp .card-2 {
     background-color: #fff;
     padding: 10px;
     width: 350px;
@@ -46,20 +46,20 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 5px
 }
 
-.card-2 .content {
+.loginMotp .card-2 .content {
     margin-top: 50px
 }
 
-.card-2 .content a {
+.loginMotp .card-2 .content a {
     color: red
 }
 
-.form-control:focus {
+.loginMotp .form-control:focus {
     box-shadow: none;
     border: 2px solid red
 }
 
-.validate {
+.loginMotp .validate {
     border-radius: 20px;
     height: 40px;
     background-color: red;

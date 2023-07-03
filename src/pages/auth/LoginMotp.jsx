@@ -124,84 +124,86 @@ function LoginMotp() {
 
   return (
     <>
-      <div className="container height-100 d-flex justify-content-center align-items-center">
-        <div className="position-relative">
-          <div className="card p-2 text-center">
-            {loginUnsuccessful && (
-              <div className="alert alert-danger" role="alert">
-                Login unsuccessful!!
+      <div className="loginMotp">
+        <div className="container height-100 d-flex justify-content-center align-items-center">
+          <div className="position-relative">
+            <div className="card p-2 text-center">
+              {loginUnsuccessful && (
+                <div className="alert alert-danger" role="alert">
+                  Login unsuccessful!!
+                </div>
+              )}
+              <h6>
+                Please enter the one time password <br /> to verify your account
+              </h6>
+              <div>
+                <span>A code has been sent to</span>{" "}
+                <small>{maskedMobileNo}</small>
               </div>
-            )}
-            <h6>
-              Please enter the one time password <br /> to verify your account
-            </h6>
-            <div>
-              <span>A code has been sent to</span>{" "}
-              <small>{maskedMobileNo}</small>
-            </div>
-            <div
-              id="otp"
-              className="inputs d-flex flex-row justify-content-center mt-2"
-            >
-              <input
-                className="m-2 text-center form-control rounded"
-                type="text"
-                id="first"
-                maxLength={1}
-                ref={(el) => (inputs.current[0] = el)}
-              />
-              <input
-                className="m-2 text-center form-control rounded"
-                type="text"
-                id="second"
-                maxLength={1}
-                ref={(el) => (inputs.current[1] = el)}
-              />
-              <input
-                className="m-2 text-center form-control rounded"
-                type="text"
-                id="third"
-                maxLength={1}
-                ref={(el) => (inputs.current[2] = el)}
-              />
-              <input
-                className="m-2 text-center form-control rounded"
-                type="text"
-                id="fourth"
-                maxLength={1}
-                ref={(el) => (inputs.current[3] = el)}
-              />
-              <input
-                className="m-2 text-center form-control rounded"
-                type="text"
-                id="fifth"
-                maxLength={1}
-                ref={(el) => (inputs.current[4] = el)}
-              />
-              <input
-                className="m-2 text-center form-control rounded"
-                type="text"
-                id="sixth"
-                maxLength={1}
-                ref={(el) => (inputs.current[5] = el)}
-              />
-            </div>
-            <div className="mt-4">
-              <button
-                className="btn btn-danger px-4 validate"
-                disabled={isButtonDisabled}
-                onClick={handleMotpLogin}
+              <div
+                id="otp"
+                className="inputs d-flex flex-row justify-content-center mt-2"
               >
-                Login
-              </button>
+                <input
+                  className="m-2 text-center form-control rounded"
+                  type="text"
+                  id="first"
+                  maxLength={1}
+                  ref={(el) => (inputs.current[0] = el)}
+                />
+                <input
+                  className="m-2 text-center form-control rounded"
+                  type="text"
+                  id="second"
+                  maxLength={1}
+                  ref={(el) => (inputs.current[1] = el)}
+                />
+                <input
+                  className="m-2 text-center form-control rounded"
+                  type="text"
+                  id="third"
+                  maxLength={1}
+                  ref={(el) => (inputs.current[2] = el)}
+                />
+                <input
+                  className="m-2 text-center form-control rounded"
+                  type="text"
+                  id="fourth"
+                  maxLength={1}
+                  ref={(el) => (inputs.current[3] = el)}
+                />
+                <input
+                  className="m-2 text-center form-control rounded"
+                  type="text"
+                  id="fifth"
+                  maxLength={1}
+                  ref={(el) => (inputs.current[4] = el)}
+                />
+                <input
+                  className="m-2 text-center form-control rounded"
+                  type="text"
+                  id="sixth"
+                  maxLength={1}
+                  ref={(el) => (inputs.current[5] = el)}
+                />
+              </div>
+              <div className="mt-4">
+                <button
+                  className="btn btn-danger px-4 validate"
+                  disabled={isButtonDisabled}
+                  onClick={handleMotpLogin}
+                >
+                  Login
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="card-2">
-            <div className="content d-flex justify-content-center align-items-center">
-              <span>Didn't get the code</span>
-              <a href="#" className="text-decoration-none ms-3">
-                Resend(1/3)
-              </a>
+            <div className="card-2">
+              <div className="content d-flex justify-content-center align-items-center">
+                <span>Didn't get the code</span>
+                <a href="#" className="text-decoration-none ms-3">
+                  Resend(1/3)
+                </a>
+              </div>
             </div>
           </div>
         </div>
