@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Settings.css";
 import addAddress from "../assets/addAddress.png";
 import { HashLink as Link } from "react-router-hash-link";
@@ -31,6 +31,7 @@ function Settings() {
   const [gender, setGender] = useState(null);
   const [email, setEmail] = useState(null);
   const [newEmail, setNewEmail] = useState(null);
+  const [currentMobileNo, setCurrentMobileNo] = useState(null);
 
   const [isAddAddress, setAddAddress] = useState(true);
   const [isAddressForm, setAddressForm] = useState(false);
@@ -56,6 +57,10 @@ function Settings() {
   const [currentPassword, setCurrentPassword] = useState(null);
   const [newPassword, setNewPassword] = useState(null);
   const [confirmNewPassword, setConfirmNewPassword] = useState(null);
+  const [otpEnterMode, setOtpEnterMode] = useState(false);
+  const mobileRef = useRef(null);
+  const otpRef = useRef(null);
+
   const { logout } = AuthConsumer();
   const navigate = useNavigate();
 
@@ -205,6 +210,7 @@ function Settings() {
         setDob(response.data.dob);
         setGender(response.data.gender);
         setEmail(response.data.email);
+        setCurrentMobileNo(response.data.mobile_no);
         setSelectedImage(response.data.dp?.path);
       })
       .catch((err) => {
@@ -847,18 +853,68 @@ function Settings() {
                 >
                   <div className="card-body pb-2">
                     <div className="form-group">
-                      <label className="form-label" html for="mobile">
-                        Mobile Number
+                      <label className="form-label">
+                        current mobile number: {currentMobileNo ?? "Not set"}
                       </label>
-                      <input id="mobile" type="text" className="form-control" />
+                      <br />
+                      <label className="form-label" html for="mobile_no">
+                        Enter Mobile Number
+                      </label>
+                      <input
+                        type="tel"
+                        id="mobile_no"
+                        className="form-control"
+                        ref={mobileRef}
+                      />
                       <label className="form-label" html for="otp">
                         Enter OTP
                       </label>
-                      <input id="otp" type="text" className="form-control" />
+                      <input
+                        type="number"
+                        id="otp"
+                        ref={otpRef}
+                        className="form-control"
+                        maxLength={6}
+                        disabled={!otpEnterMode}
+                      />
                       <button
                         type="button"
                         className="btn btn-primary"
                         style={{ marginTop: 20, marginLeft: 20 }}
+                        disabled={otpEnterMode}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          const mobileNo = mobileRef.current.value;
+                          api
+                            .post(`/auth/motp`, {
+                              mobile_no: mobileNo,
+                            })
+                            .then((response) => {
+                              if (response.status === 200) {
+                                console.log(`Otp sent successfully`);
+                                setOtpEnterMode(true);
+                                setShowToast(true);
+                                setToastProperties({
+                                  toastType: "success",
+                                  toastMessage:
+                                    "Otp sent successfully. Please enter Otp",
+                                });
+                              }
+                            })
+                            .catch((error) => {
+                              console.error(
+                                "some error occured in sending otp"
+                              );
+                              console.error(error);
+                              setOtpEnterMode(false);
+                              setShowToast(true);
+                              setToastProperties({
+                                toastType: "error",
+                                toastMessage:
+                                  "some error occured in sending otp",
+                              });
+                            });
+                        }}
                       >
                         Get OTP
                       </button>
@@ -866,7 +922,45 @@ function Settings() {
                         type="button"
                         className="btn btn-success"
                         style={{ marginTop: 20, marginLeft: 20 }}
-                        disabled
+                        disabled={!otpEnterMode}
+                        onClick={() => {
+                          const mobileNo = mobileRef.current.value;
+                          const otp = otpRef.current.value;
+                          api
+                            .post(`/reset-mobile`, {
+                              mobile_no: mobileNo,
+                              motp: otp,
+                            })
+                            .then((response) => {
+                              if (response.status === 200) {
+                                console.log(
+                                  `Mobile number updated successfully`
+                                );
+                                setShowToast(true);
+                                setToastProperties({
+                                  toastType: "success",
+                                  toastMessage:
+                                    "Mobile number updated successfully",
+                                });
+                                setTimeout(() => {
+                                  window.location.reload();
+                                }, 2000);
+                              }
+                            })
+                            .catch((error) => {
+                              console.error(
+                                "some error occured in updating mobile number"
+                              );
+                              console.error(error);
+                              setOtpEnterMode(false);
+                              setShowToast(true);
+                              setToastProperties({
+                                toastType: "error",
+                                toastMessage:
+                                  "Some error occured in updating mobile number. Please try again.",
+                              });
+                            });
+                        }}
                       >
                         Update
                       </button>
@@ -886,6 +980,7 @@ function Settings() {
                       <label className="form-label">
                         current email: {email}
                       </label>
+                      <br />
                       <label className="form-label" htmlFor="email">
                         Enter New Email
                       </label>
