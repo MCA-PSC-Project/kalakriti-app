@@ -117,7 +117,7 @@ function Wishlist() {
               );
             })
           ) : (
-            <h1>No items in wishlist</h1>
+            <h1>No item in wishlist</h1>
           )}
           {/* <WishlistHorizontalCard
             imgSrc={Logo}

@@ -26,22 +26,28 @@ function Orders() {
       <h1>Orders</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
-          {ordersList.map((order) => {
-            const orderedAt = formatDateTime(convertToDateTime(order.added_at));
-            return (
-              <OrdersHorizontalCard
-                key={order.order_id + "-" + order.order_item_id}
-                orderId={order.order_id + "-" + order.order_item_id}
-                orderItemId={order.order_item_id}
-                productId={order.product_id}
-                imgSrc={order.media.path}
-                cardTitle={order.product_name}
-                sellerName={order.seller.seller_name}
-                orderedAt={orderedAt}
-                orderStatus={order.order_item_status}
-              />
-            );
-          })}
+          {ordersList && ordersList.length > 0 ? (
+            ordersList.map((order) => {
+              const orderedAt = formatDateTime(
+                convertToDateTime(order.added_at)
+              );
+              return (
+                <OrdersHorizontalCard
+                  key={order.order_id + "-" + order.order_item_id}
+                  orderId={order.order_id + "-" + order.order_item_id}
+                  orderItemId={order.order_item_id}
+                  productId={order.product_id}
+                  imgSrc={order.media.path}
+                  cardTitle={order.product_name}
+                  sellerName={order.seller.seller_name}
+                  orderedAt={orderedAt}
+                  orderStatus={order.order_item_status}
+                />
+              );
+            })
+          ) : (
+            <h1>No item in orders</h1>
+          )}
           {/* <OrdersHorizontalCard
             imgSrc={Logo}
             cardTitle="product"
