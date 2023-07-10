@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo.jpeg";
 import Footer from "../components/Footer";
+import AddressCard from "../components/AddressCard";
+import api from "../utils/api";
 
 function Checkout() {
+  const [addresses, setAddress] = useState({});
+
+  useEffect(() => {
+    api
+      .get(`/addresses`)
+      .then((response) => {
+        setAddress(response.data === null ? [] : response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   return (
     <>
       <div className="container">
@@ -29,39 +45,49 @@ function Checkout() {
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault1"
+              selected
             />
             <label className="form-check-label" htmlFor="flexRadioDefault1">
-              Address 1 : Lorem, ipsum dolor sit amet consectetur adipisicing
-              elit. Eos voluptatum, quo molestias amet iure dignissimos sed?
-              Quia debitis tempore maiores obcaecati assumenda iste delectus
-              quaerat natus, fuga officiis, omnis provident.
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault2"
-              defaultChecked=""
-            />
-            <label className="form-check-label" htmlFor="flexRadioDefault2">
-              Address 2 : Lorem ipsum dolor sit, amet consectetur adipisicing
-              elit. Laborum in reiciendis blanditiis animi soluta quia
-              dignissimos ab mollitia tempora ipsum perferendis quas itaque,
-              quaerat tempore asperiores saepe. Error, nesciunt dicta!
+              {addresses && addresses.length > 0 ? (
+                <AddressCard
+                  addressId={addresses[0].address_id}
+                  fullNamef={addresses[0].full_name}
+                  mobilef={addresses[0].mobile_no}
+                  addressLine1={addresses[0].address_line1}
+                  addressLine2={addresses[0].address_line2}
+                  districtf={addresses[0].district}
+                  cityf={addresses[0].city}
+                  statef={addresses[0].state}
+                  countryf={addresses[0].country}
+                  pincodef={addresses[0].pincode}
+                  landmarkf={addresses[0].landmark}
+                />
+              ) : (
+                <h1>No saved address</h1>
+              )}
             </label>
           </div>
 
-          <AddressModal />
+          {addresses && addresses.length > 0 && (
+            <button
+              type="button"
+              className="btn btn-large btn-outline-warning me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#saved-addresses-modal"
+            >
+              Select another from saved address
+            </button>
+          )}
+          <SavedAdressesModal addresses={addresses} />
           <button
             type="button"
-            className="btn btn-outline-primary"
+            className="btn btn-large btn-outline-primary"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModalCenteredScrollable"
+            data-bs-target="#add-address-modal"
           >
             Add new address
           </button>
+          <AddAddressModal />
 
           <div className="row g-5">
             <div className="col-md-5 col-lg-4 order-md-last">
@@ -132,15 +158,15 @@ function Checkout() {
   );
 }
 
-function AddressModal() {
+function SavedAdressesModal({ addresses }) {
   return (
     <>
       {/* Vertically centered scrollable modal */}
       <div
         className="modal fade"
-        id="exampleModalCenteredScrollable"
+        id="saved-addresses-modal"
         tabIndex={-1}
-        aria-labelledby="exampleModalCenteredScrollableTitle"
+        aria-labelledby="saved-addresses-modal-scrollable-title"
         style={{ display: "none" }}
         aria-hidden="true"
       >
@@ -149,7 +175,65 @@ function AddressModal() {
             <div className="modal-header">
               <h5
                 className="modal-title"
-                id="exampleModalCenteredScrollableTitle"
+                id="saved-addresses-modal-scrollable-title"
+              >
+                Select Address:
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              {addresses && addresses.length > 0 ? (
+                addresses.map((address) => {
+                  return (
+                    <AddressCard
+                      addressId={address.address_id}
+                      fullNamef={address.full_name}
+                      mobilef={address.mobile_no}
+                      addressLine1={address.address_line1}
+                      addressLine2={address.address_line2}
+                      districtf={address.district}
+                      cityf={address.city}
+                      statef={address.state}
+                      countryf={address.country}
+                      pincodef={address.pincode}
+                      landmarkf={address.landmark}
+                    />
+                  );
+                })
+              ) : (
+                <h1>No items in address</h1>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function AddAddressModal() {
+  return (
+    <>
+      {/* Vertically centered scrollable modal */}
+      <div
+        className="modal fade"
+        id="add-address-modal"
+        tabIndex={-1}
+        aria-labelledby="saved-addresses-modal-scrollable-title"
+        style={{ display: "none" }}
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className="modal-title"
+                id="saved-addresses-modal-scrollable-title"
               >
                 Add New Address
               </h5>
