@@ -9,6 +9,7 @@ import Modal from "../components/Modal";
 import AddressCard from "../components/AddressCard";
 import AuthConsumer from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 function Settings() {
   const [isActiveGeneral, setActiveGeneral] = useState(true);
@@ -341,6 +342,7 @@ function Settings() {
           onClose={handleModalClose}
         />
       )}
+      <NavBar />
       <div className="container light-style flex-grow-1 container-p-y">
         <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
         <div className="card overflow-hidden">
