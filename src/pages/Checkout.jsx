@@ -6,12 +6,14 @@ import api from "../utils/api";
 
 function Checkout() {
   const [addresses, setAddress] = useState({});
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
     api
       .get(`/addresses`)
       .then((response) => {
         setAddress(response.data === null ? [] : response.data);
+        setSelectedAddress(response.data[0]);
         console.log(response.data);
       })
       .catch((err) => {
@@ -40,32 +42,23 @@ function Checkout() {
           <h2>Shipping Address</h2>
           <h5>Saved addresses:</h5>
           <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault1"
-              selected
-            />
-            <label className="form-check-label" htmlFor="flexRadioDefault1">
-              {addresses && addresses.length > 0 ? (
-                <AddressCard
-                  addressId={addresses[0].address_id}
-                  fullNamef={addresses[0].full_name}
-                  mobilef={addresses[0].mobile_no}
-                  addressLine1={addresses[0].address_line1}
-                  addressLine2={addresses[0].address_line2}
-                  districtf={addresses[0].district}
-                  cityf={addresses[0].city}
-                  statef={addresses[0].state}
-                  countryf={addresses[0].country}
-                  pincodef={addresses[0].pincode}
-                  landmarkf={addresses[0].landmark}
-                />
-              ) : (
-                <h1>No saved address</h1>
-              )}
-            </label>
+            {addresses && addresses.length > 0 ? (
+              <AddressCard
+                addressId={selectedAddress.address_id}
+                fullNamef={selectedAddress.full_name}
+                mobilef={selectedAddress.mobile_no}
+                addressLine1={selectedAddress.address_line1}
+                addressLine2={selectedAddress.address_line2}
+                districtf={selectedAddress.district}
+                cityf={selectedAddress.city}
+                statef={selectedAddress.state}
+                countryf={selectedAddress.country}
+                pincodef={selectedAddress.pincode}
+                landmarkf={selectedAddress.landmark}
+              />
+            ) : (
+              <h1>No saved address</h1>
+            )}
           </div>
 
           {addresses && addresses.length > 0 && (
@@ -75,10 +68,11 @@ function Checkout() {
               data-bs-toggle="modal"
               data-bs-target="#saved-addresses-modal"
             >
-              Select another from saved address
+              Select another from saved addresses
             </button>
           )}
           <SavedAdressesModal addresses={addresses} />
+
           <button
             type="button"
             className="btn btn-large btn-outline-primary"
@@ -187,27 +181,42 @@ function SavedAdressesModal({ addresses }) {
               />
             </div>
             <div className="modal-body">
-              {addresses && addresses.length > 0 ? (
-                addresses.map((address) => {
-                  return (
-                    <AddressCard
-                      addressId={address.address_id}
-                      fullNamef={address.full_name}
-                      mobilef={address.mobile_no}
-                      addressLine1={address.address_line1}
-                      addressLine2={address.address_line2}
-                      districtf={address.district}
-                      cityf={address.city}
-                      statef={address.state}
-                      countryf={address.country}
-                      pincodef={address.pincode}
-                      landmarkf={address.landmark}
-                    />
-                  );
-                })
-              ) : (
-                <h1>No items in address</h1>
-              )}
+              <div className="form-check">
+                {addresses && addresses.length > 0 ? (
+                  addresses.map((address) => {
+                    return (
+                      <>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="flexRadioDefault"
+                          id={address.address_id}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor={address.address_id}
+                        >
+                          <AddressCard
+                            addressId={address.address_id}
+                            fullNamef={address.full_name}
+                            mobilef={address.mobile_no}
+                            addressLine1={address.address_line1}
+                            addressLine2={address.address_line2}
+                            districtf={address.district}
+                            cityf={address.city}
+                            statef={address.state}
+                            countryf={address.country}
+                            pincodef={address.pincode}
+                            landmarkf={address.landmark}
+                          />
+                        </label>
+                      </>
+                    );
+                  })
+                ) : (
+                  <h1>No items in address</h1>
+                )}
+              </div>
             </div>
           </div>
         </div>
