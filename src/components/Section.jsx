@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Card from "../components/Card";
+import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 import api from "../utils/api";
 
@@ -28,7 +28,7 @@ function Section({ sectionTitle, linkPath, endpoint }) {
         <div className="row">
           {ProductsList.map((product) => {
             return (
-              <Card
+              <ProductCard
                 key={product.id}
                 productId={product.id}
                 productItemId={product.base_product_item.id}

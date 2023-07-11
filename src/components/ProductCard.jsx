@@ -6,7 +6,7 @@ import api from "../utils/api";
 import Toast from "./Toast";
 import { useEffect, useState } from "react";
 
-function Card({
+function ProductCard({
   productId,
   productItemId,
   imgSrc,
@@ -115,6 +115,7 @@ function Card({
                 className="btn btn-success me-2"
                 onClick={(event) => {
                   event.stopPropagation();
+                  
                 }}
               >
                 Buy Now
@@ -127,4 +128,4 @@ function Card({
   );
 }
 
-export default Card;
+export default ProductCard;
