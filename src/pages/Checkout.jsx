@@ -5,21 +5,30 @@ import AddressCard from "../components/AddressCard";
 import api from "../utils/api";
 
 function Checkout() {
-  const [addresses, setAddress] = useState({});
+  const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
     api
       .get(`/addresses`)
       .then((response) => {
-        setAddress(response.data === null ? [] : response.data);
-        setSelectedAddress(response.data[0]);
+        setAddresses(response.data === null ? [] : response.data);
+        if (response.data && response.data.length > 0) {
+          setSelectedAddress(response.data[0]);
+        }
         console.log(response.data);
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
+
+  function handleSelectedAddressIndex(index) {
+    if (index >= 0 && index < addresses.length) {
+      // console.log("addresses[index]=", addresses[index]);
+      setSelectedAddress(addresses[index]);
+    }
+  }
 
   return (
     <>
@@ -42,7 +51,7 @@ function Checkout() {
           <h2>Shipping Address</h2>
           <h5>Saved addresses:</h5>
           <div className="form-check">
-            {addresses && addresses.length > 0 ? (
+            {selectedAddress ? (
               <AddressCard
                 addressId={selectedAddress.address_id}
                 fullNamef={selectedAddress.full_name}
@@ -71,7 +80,10 @@ function Checkout() {
               Select another from saved addresses
             </button>
           )}
-          <SavedAdressesModal addresses={addresses} />
+          <SavedAdressesModal
+            addresses={addresses}
+            onSelectedIndex={handleSelectedAddressIndex}
+          />
 
           <button
             type="button"
@@ -152,7 +164,17 @@ function Checkout() {
   );
 }
 
-function SavedAdressesModal({ addresses }) {
+function SavedAdressesModal({ addresses, onSelectedIndex }) {
+  const [selectedIndex, setSelectedIndex] = useState(null);
+
+  function handleRadioChange(event) {
+    setSelectedIndex(event.target.value);
+  }
+
+  function handleOkClick() {
+    onSelectedIndex(selectedIndex);
+  }
+
   return (
     <>
       {/* Vertically centered scrollable modal */}
@@ -183,7 +205,7 @@ function SavedAdressesModal({ addresses }) {
             <div className="modal-body">
               <div className="form-check">
                 {addresses && addresses.length > 0 ? (
-                  addresses.map((address) => {
+                  addresses.map((address, index) => {
                     return (
                       <>
                         <input
@@ -191,6 +213,8 @@ function SavedAdressesModal({ addresses }) {
                           type="radio"
                           name="flexRadioDefault"
                           id={address.address_id}
+                          value={index}
+                          onChange={handleRadioChange}
                         />
                         <label
                           className="form-check-label"
@@ -217,6 +241,23 @@ function SavedAdressesModal({ addresses }) {
                   <h1>No items in address</h1>
                 )}
               </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-success"
+                data-bs-dismiss="modal"
+                onClick={handleOkClick}
+              >
+                Ok
+              </button>
             </div>
           </div>
         </div>

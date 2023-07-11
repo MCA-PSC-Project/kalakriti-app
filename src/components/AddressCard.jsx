@@ -145,13 +145,17 @@ function AddressCard({
             {landmarkf}
           </p>
           <hr />
-          <button type="button" class="btn btn-warning" onClick={handleClick}>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={handleClick}
+          >
             Edit
           </button>{" "}
           &nbsp;&nbsp;
           <button
             type="button"
-            class="btn btn-danger"
+            className="btn btn-danger"
             id="Remove"
             data-bs-toggle="modal"
             data-bs-target="#modal"
@@ -315,7 +319,7 @@ function AddressCard({
           </div>
           <button
             type="button"
-            class="btn btn-success"
+            className="btn btn-success"
             data-bs-toggle="modal"
             data-bs-target="#modal"
             onClick={() => {
@@ -329,7 +333,7 @@ function AddressCard({
           &nbsp; &nbsp;
           <button
             type="button"
-            class="btn btn-danger"
+            className="btn btn-danger"
             onClick={() => {
               setDisable(true);
               setCardDisable(false);
