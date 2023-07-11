@@ -23,11 +23,22 @@ function Cart() {
   }, [showToast]);
 
   const [cartItemsList, setCartItemsList] = useState([]);
+  const [totalOfferPrice, setTotalOfferPrice] = useState(0);
+
+  function calculateTotalOfferPrice(data) {
+    let total = 0;
+    data.forEach((item) => {
+      total += parseFloat(item.product_item.offer_price);
+    });
+    return total;
+  }
+
   useEffect(() => {
     api
       .get(`/carts`)
       .then((response) => {
         setCartItemsList(response.data === null ? [] : response.data);
+        setTotalOfferPrice(calculateTotalOfferPrice(response.data));
         console.log(response.data);
         // console.log("cartItemsList= ", cartItemsList);
       })
@@ -102,7 +113,10 @@ function Cart() {
       </div>
       <Footer />
       <div className="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
-        <CartFooter itemsQuantity={cartItemsList.length} subtotal={500} />
+        <CartFooter
+          itemsQuantity={cartItemsList.length}
+          subtotal={totalOfferPrice}
+        />
       </div>
     </>
   );
@@ -193,16 +207,13 @@ function CartFooter({ itemsQuantity, subtotal }) {
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div className="col-md-4 d-flex align-items-center">
           <span className="mb-3 mb-md-0 text-muted">
-            <b>Subtotal</b>({itemsQuantity} items): &nbsp;
-          </span>
-          <span className="mb-3 mb-md-0 text-muted">
-            <span>&#8377;</span>
+            <b>Subtotal</b>({itemsQuantity} items): <span>&#8377;</span>
             {subtotal}
           </span>
           <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
             <li className="ms-3">
               <Link to="/checkout">
-                <button type="button" className="w-100 btn btn-success">
+                <button type="button" className="btn btn-large btn-success">
                   Proceed To Checkout
                 </button>
               </Link>
