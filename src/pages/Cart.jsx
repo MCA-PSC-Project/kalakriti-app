@@ -98,41 +98,11 @@ function Cart() {
           ) : (
             <h1>Cart Empty</h1>
           )}
-          {/* <CartHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            minOrderQuantity={1}
-            maxOrderQuantity={5}
-            stockStatus={false}
-          />
-          <CartHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            minOrderQuantity={5}
-            maxOrderQuantity={10}
-            stockStatus={true}
-          />
-          <CartHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            minOrderQuantity={2}
-            maxOrderQuantity={6}
-            stockStatus={true}
-          /> */}
         </div>
       </div>
       <Footer />
       <div className="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
-        <CartFooter itemsQuantity={3} subtotal={500} />
+        <CartFooter itemsQuantity={cartItemsList.length} subtotal={500} />
       </div>
     </>
   );
