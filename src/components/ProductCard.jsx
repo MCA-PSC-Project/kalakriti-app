@@ -115,7 +115,17 @@ function ProductCard({
                 className="btn btn-success me-2"
                 onClick={(event) => {
                   event.stopPropagation();
-                  
+                  const productObject = {
+                    productId,
+                    productItemId,
+                    imgSrc,
+                    cardTitle,
+                    originalPrice,
+                    offerPrice,
+                  };
+                  navigate("/checkout", {
+                    state: [productObject],
+                  });
                 }}
               >
                 Buy Now

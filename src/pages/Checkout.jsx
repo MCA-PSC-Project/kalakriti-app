@@ -3,8 +3,12 @@ import Logo from "../assets/logo.jpeg";
 import Footer from "../components/Footer";
 import AddressCard from "../components/AddressCard";
 import api from "../utils/api";
+import { useLocation } from "react-router-dom";
 
 function Checkout() {
+  const { state } = useLocation();
+  const products = [...state];
+
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
 
@@ -47,57 +51,91 @@ function Checkout() {
             />
             <h2>Checkout Form</h2>
             {/* <p className="lead">
-            Below is an example form built entirely with Bootstrap’s form
-            controls. Each required form group has a validation state that can
-            be triggered by attempting to submit the form without completing it.
-          </p> */}
+              Below is an example form built entirely with Bootstrap’s form
+              controls. Each required form group has a validation state that can
+              be triggered by attempting to submit the form without completing
+              it.
+            </p> */}
           </div>
-          <h2>Shipping Address</h2>
-          <h5>Saved addresses:</h5>
-          <div className="form-check">
-            {selectedAddress ? (
-              <AddressCard
-                addressId={selectedAddress.address_id}
-                fullNamef={selectedAddress.full_name}
-                mobilef={selectedAddress.mobile_no}
-                addressLine1={selectedAddress.address_line1}
-                addressLine2={selectedAddress.address_line2}
-                districtf={selectedAddress.district}
-                cityf={selectedAddress.city}
-                statef={selectedAddress.state}
-                countryf={selectedAddress.country}
-                pincodef={selectedAddress.pincode}
-                landmarkf={selectedAddress.landmark}
+
+          <div className="row">
+            <div className="col-md-12">
+              <h3>Selected Products</h3>
+              {products &&
+                products.length > 0 &&
+                products.map((product) => {
+                  return (
+                    <CheckoutProductHorizontalCard
+                      key={product.productId}
+                      imgSrc={product.imgSrc}
+                      cardTitle={product.cardTitle}
+                      sellerName={product.sellerName}
+                      originalPrice={product.originalPrice}
+                      offerPrice={product.offerPrice}
+                      // minOrderQuantity={product.minOrderQuantity}
+                      // maxOrderQuantity={product.maxOrderQuantity}
+                      //  quantity={}
+                      //  stockStatus={
+                      //    cartItem.product_item.quantity_in_stock >=
+                      //    cartItem.min_order_quantity
+                      //      ? true
+                      //      : false
+                      //  }
+                    />
+                  );
+                })}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-md-12">
+              <h2>Shipping Address</h2>
+              <h5>Saved addresses:</h5>
+              <div className="form-check">
+                {selectedAddress ? (
+                  <AddressCard
+                    addressId={selectedAddress.address_id}
+                    fullNamef={selectedAddress.full_name}
+                    mobilef={selectedAddress.mobile_no}
+                    addressLine1={selectedAddress.address_line1}
+                    addressLine2={selectedAddress.address_line2}
+                    districtf={selectedAddress.district}
+                    cityf={selectedAddress.city}
+                    statef={selectedAddress.state}
+                    countryf={selectedAddress.country}
+                    pincodef={selectedAddress.pincode}
+                    landmarkf={selectedAddress.landmark}
+                  />
+                ) : (
+                  <h1>No saved address</h1>
+                )}
+              </div>
+              {addresses && addresses.length > 0 && (
+                <button
+                  type="button"
+                  className="btn btn-large btn-outline-warning me-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#saved-addresses-modal"
+                >
+                  Select another from saved addresses
+                </button>
+              )}
+              <SavedAdressesModal
+                addresses={addresses}
+                onSelectedIndex={handleSelectedAddressIndex}
               />
-            ) : (
-              <h1>No saved address</h1>
-            )}
+
+              <button
+                type="button"
+                className="btn btn-large btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#add-address-modal"
+              >
+                Add new address
+              </button>
+              <AddAddressModal onSelectedAddress={handleSelectedAddress} />
+            </div>
           </div>
-
-          {addresses && addresses.length > 0 && (
-            <button
-              type="button"
-              className="btn btn-large btn-outline-warning me-2"
-              data-bs-toggle="modal"
-              data-bs-target="#saved-addresses-modal"
-            >
-              Select another from saved addresses
-            </button>
-          )}
-          <SavedAdressesModal
-            addresses={addresses}
-            onSelectedIndex={handleSelectedAddressIndex}
-          />
-
-          <button
-            type="button"
-            className="btn btn-large btn-outline-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#add-address-modal"
-          >
-            Add new address
-          </button>
-          <AddAddressModal onSelectedAddress={handleSelectedAddress} />
 
           <div className="row g-5">
             <div className="col-md-5 col-lg-4 order-md-last">
@@ -165,6 +203,77 @@ function Checkout() {
       </div>
       <Footer />
     </>
+  );
+}
+
+function CheckoutProductHorizontalCard({
+  imgSrc,
+  cardTitle,
+  sellerName,
+  originalPrice,
+  offerPrice,
+  minOrderQuantity,
+  maxOrderQuantity,
+  quantity,
+  stockStatus,
+}) {
+  const [quantitySelected, setQuantitySelected] = useState(
+    quantity ? quantity : minOrderQuantity
+  );
+
+  // const elements = [];
+  // for (let i = minOrderQuantity; i <= maxOrderQuantity; i++) {
+  //   elements.push(
+  //     <li>
+  //       <a className="dropdown-item" onClick={(e) => setQuantitySelected(i)}>
+  //         {i}
+  //       </a>
+  //     </li>
+  //   );
+  // }
+
+  return (
+    <div className="card mb-3" style={{ maxWidth: 750 }}>
+      <div className="row g-0">
+        <div className="col-md-4">
+          <img src={imgSrc} className="img-fluid rounded-start" alt="..." />
+        </div>
+        <div className="col-md-8">
+          <div className="card-body">
+            <h2 className="card-title">{cardTitle}</h2>
+            <h6>sold by {sellerName}</h6>
+            {stockStatus ? (
+              <h5 className="text-success">In Stock</h5>
+            ) : (
+              <h5 className="text-danger">Out Of Stock</h5>
+            )}
+            <p
+              className="card-text"
+              style={{ display: stockStatus ? null : "none" }}
+            >
+              <span>&#8377;</span>
+              <del>{originalPrice}</del>&nbsp;
+              <span>&#8377;</span>
+              {offerPrice}
+            </p>
+            <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
+              Quantity: {quantitySelected}
+              {/* <div className="dropdown">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  disabled={!stockStatus}
+                >
+                  Quantity: {quantitySelected}
+                </button>
+                <ul className="dropdown-menu">{elements}</ul>
+              </div> */}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

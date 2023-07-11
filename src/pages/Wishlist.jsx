@@ -3,7 +3,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import Toast from "../components/Toast";
 
@@ -103,6 +103,8 @@ function Wishlist() {
               return (
                 <WishlistHorizontalCard
                   key={wish.product_id}
+                  productId={wish.product_id}
+                  productItemId={wish.product_item.id}
                   imgSrc={wish.product_item.media.path}
                   cardTitle={wish.product_name}
                   sellerName={wish.seller.seller_name}
@@ -157,6 +159,8 @@ function Wishlist() {
 }
 
 function WishlistHorizontalCard({
+  productId,
+  productItemId,
   imgSrc,
   cardTitle,
   sellerName,
@@ -168,6 +172,8 @@ function WishlistHorizontalCard({
   onDelete,
   onAddToCart,
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="card mb-3" style={{ maxWidth: 1000 }}>
       <div className="row g-0">
@@ -204,7 +210,24 @@ function WishlistHorizontalCard({
                 Add To Cart
               </button>
 
-              <button type="button" className="btn btn-outline-success me-2">
+              <button
+                type="button"
+                className="btn btn-outline-success me-2"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  const productObject = {
+                    productId,
+                    productItemId,
+                    imgSrc,
+                    cardTitle,
+                    originalPrice,
+                    offerPrice,
+                  };
+                  navigate("/checkout", {
+                    state: [productObject],
+                  });
+                }}
+              >
                 Buy Now
               </button>
 
