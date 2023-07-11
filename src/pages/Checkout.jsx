@@ -72,6 +72,7 @@ function Checkout() {
                       sellerName={product.sellerName}
                       originalPrice={product.originalPrice}
                       offerPrice={product.offerPrice}
+                      stockStatus={product.stockStatus}
                       // minOrderQuantity={product.minOrderQuantity}
                       // maxOrderQuantity={product.maxOrderQuantity}
                       //  quantity={}

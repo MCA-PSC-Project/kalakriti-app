@@ -11,13 +11,16 @@ function ProductCard({
   productItemId,
   imgSrc,
   cardTitle,
+  sellerName,
   originalPrice,
   offerPrice,
   average_rating,
   ratingCount,
   minOrderQuantity,
+  quantityInStock,
 }) {
   const navigate = useNavigate();
+  const stockStatus = quantityInStock >= minOrderQuantity ? true : false;
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
@@ -66,21 +69,28 @@ function ProductCard({
           />
           <div className="card-body d-flex flex-column">
             <h5 className="card-title">{cardTitle}</h5>
+            <h6>sold by {sellerName}</h6>
+            {stockStatus ? (
+              <h5 className="text-success">In Stock</h5>
+            ) : (
+              <h5 className="text-danger">Out Of Stock</h5>
+            )}
             <Rating ratingValue={average_rating} ratingCount={ratingCount} />
-            <p className="card-text">
-              <span>
-                <del>&#8377;{originalPrice}</del>
-              </span>
-              &nbsp;
-              <span>
-                <b>&#8377;{offerPrice}</b>
-              </span>
+            <p
+              className="card-text"
+              style={{ display: stockStatus ? null : "none" }}
+            >
+              <span>&#8377;</span>
+              <del>{originalPrice}</del>&nbsp;
+              <span>&#8377;</span>
+              {offerPrice}
             </p>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
               {/* Add to cart */}
               <button
                 type="button"
                 className="btn btn-warning me-2"
+                disabled={!stockStatus}
                 onClick={() => {
                   api
                     .post("/carts", {
@@ -113,6 +123,7 @@ function ProductCard({
               <button
                 type="button"
                 className="btn btn-success me-2"
+                disabled={!stockStatus}
                 onClick={(event) => {
                   event.stopPropagation();
                   const productObject = {

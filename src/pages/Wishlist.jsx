@@ -222,6 +222,7 @@ function WishlistHorizontalCard({
                     cardTitle,
                     originalPrice,
                     offerPrice,
+                    stockStatus,
                   };
                   navigate("/checkout", {
                     state: [productObject],

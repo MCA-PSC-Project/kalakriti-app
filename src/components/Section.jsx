@@ -34,6 +34,7 @@ function Section({ sectionTitle, linkPath, endpoint }) {
                 productItemId={product.base_product_item.id}
                 imgSrc={product.base_product_item.media.path}
                 cardTitle={product.product_name}
+                sellerName={product.seller.seller_name}
                 originalPrice={parseFloat(
                   product.base_product_item.original_price
                 )}
@@ -41,6 +42,7 @@ function Section({ sectionTitle, linkPath, endpoint }) {
                 average_rating={parseFloat(product.average_rating)}
                 ratingCount={parseInt(product.rating_count)}
                 minOrderQuantity={product.min_order_quantity}
+                quantityInStock={product.base_product_item.quantity_in_stock}
               />
             );
           })}
