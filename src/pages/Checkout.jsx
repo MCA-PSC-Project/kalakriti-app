@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Logo from "../assets/logo.jpeg";
 import Footer from "../components/Footer";
 import AddressCard from "../components/AddressCard";
@@ -274,7 +274,7 @@ function AddAddressModal() {
         className="modal fade"
         id="add-address-modal"
         tabIndex={-1}
-        aria-labelledby="saved-addresses-modal-scrollable-title"
+        aria-labelledby="add-address-modal-scrollable-title"
         style={{ display: "none" }}
         aria-hidden="true"
       >
@@ -283,7 +283,7 @@ function AddAddressModal() {
             <div className="modal-header">
               <h5
                 className="modal-title"
-                id="saved-addresses-modal-scrollable-title"
+                id="add-address-modal-scrollable-title"
               >
                 Add New Address
               </h5>
@@ -304,7 +304,7 @@ function AddAddressModal() {
   );
 }
 
-function AddressForm() {
+function OldAddressForm() {
   return (
     <form className="needs-validation" noValidate="">
       <div className="row g-3">
@@ -485,7 +485,289 @@ function AddressForm() {
         >
           Close
         </button>
-        <button type="button" className="btn btn-success">
+        <button
+          type="button"
+          className="btn btn-success"
+          data-bs-dismiss="modal"
+          onClick={() => {
+            api
+              .post(`/addresses`, {
+                full_name: fullName,
+                mobile_no: mobile,
+                address_line1: addL1,
+                address_line2: addL2,
+                district: district,
+                city: city,
+                state: state,
+                country: country,
+                pincode: pincode,
+                landmark: landmark,
+              })
+              .then((response) => {
+                if (response.status === 201) {
+                  console.log("Address added successfully");
+                  // setShowModal(true);
+                  // setModalProperties({
+                  //   title: "Message",
+                  //   body: "Address added successfully",
+                  //   cancelButtonPresent: false,
+                  // });
+                }
+              })
+              .catch((error) => {
+                console.error("Some error occured in adding address");
+                console.error(error);
+                // setShowModal(true);
+                // setModalProperties({
+                //   title: "Message",
+                //   body: "Some error occured in adding address",
+                //   cancelButtonPresent: false,
+                // });
+              });
+          }}
+        >
+          Save changes
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function AddressForm() {
+  const fullNameRef = useRef();
+  const mobileRef = useRef();
+  const addressLine1Ref = useRef();
+  const addressLine2Ref = useRef();
+  const districtRef = useRef();
+  const cityRef = useRef();
+  const stateRef = useRef();
+  const countryRef = useRef();
+  const pincodeRef = useRef();
+  const landmarkRef = useRef();
+
+  return (
+    <form className="needs-validation" noValidate="">
+      <div className="row g-3">
+        <div className="col-12">
+          <label htmlFor="firstName" className="form-label">
+            Full name
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="fullName"
+            placeholder="Full name"
+            defaultValue=""
+            required=""
+            ref={fullNameRef}
+          />
+          <div className="invalid-feedback">Valid full name is required.</div>
+        </div>
+        <div className="col-12">
+          <label htmlFor="mobile_no" className="form-label">
+            Mobile No.
+          </label>
+          <input
+            type="tel"
+            className="form-control"
+            id="mobile_no"
+            placeholder="Mobile number"
+            defaultValue=""
+            required=""
+            pattern=""
+            ref={mobileRef}
+          />
+          <div className="invalid-feedback">
+            Valid mobile number is required.
+          </div>
+        </div>
+        <div className="col-12">
+          <label htmlFor="address-line-1" className="form-label">
+            Address line 1
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="address-line-1"
+            placeholder="Flat, House no., Building, Company, Apartment"
+            required=""
+            ref={addressLine1Ref}
+          />
+          <div className="invalid-feedback">
+            Please enter your address line 1.
+          </div>
+        </div>
+        <div className="col-12">
+          <label htmlFor="address-line-2" className="form-label">
+            Address Line 2
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="address-line-2"
+            placeholder="Area, Street, Sector, Village"
+            ref={addressLine2Ref}
+          />
+          <div className="invalid-feedback">
+            Please enter your address line 2.
+          </div>
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="country" className="form-label">
+            Country
+          </label>
+          <input
+            className="form-control"
+            list="countries-data-list-options"
+            id="country"
+            required=""
+            ref={countryRef}
+          />
+          <datalist id="countries-data-list-options">
+            <option value="India"></option>
+          </datalist>
+          <div className="invalid-feedback">Please select a valid country.</div>
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="state" className="form-label">
+            State
+          </label>
+          <input
+            className="form-control"
+            list="states-data-list-options"
+            id="state"
+            required=""
+            ref={stateRef}
+          />
+          <datalist id="states-data-list-options">
+            <option value="Bihar"></option>
+            <option value="Jharkhand"></option>
+          </datalist>
+          <div className="invalid-feedback">Please provide a valid state.</div>
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="district" className="form-label">
+            District
+          </label>
+          <input
+            className="form-control"
+            list="districts-data-list-options"
+            id="district"
+            required=""
+            ref={districtRef}
+          />
+          <datalist id="districts-data-list-options">
+            <option value="Patna"></option>
+          </datalist>
+          <div className="invalid-feedback">
+            Please provide a valid District.
+          </div>
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="city" className="form-label">
+            City
+          </label>
+          <input
+            className="form-control"
+            list="cities-data-list-options"
+            id="city"
+            required=""
+            ref={cityRef}
+          />
+          <datalist id="cities-data-list-options">
+            <option value="Patna"></option>
+          </datalist>
+          <div className="invalid-feedback">Please provide a valid City.</div>
+        </div>
+        <div className="col-md-3">
+          <label htmlFor="pincode" className="form-label">
+            Pincode
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="pincode"
+            placeholder="6-digit [0-9] pincode"
+            required=""
+            ref={pincodeRef}
+          />
+          <div className="invalid-feedback">Pincode required.</div>
+        </div>
+        <div className="col-12">
+          <label htmlFor="landmark" className="form-label">
+            Landmark
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="landmark"
+            placeholder="E.g. Near Shiv Temple"
+            ref={landmarkRef}
+          />
+        </div>
+      </div>
+      <hr className="my-4" />
+      <div className="form-check">
+        <input type="checkbox" className="form-check-input" id="same-address" />
+        <label className="form-check-label" htmlFor="same-address">
+          Shipping address is the same as my billing address
+        </label>
+      </div>
+      <div className="form-check">
+        <input type="checkbox" className="form-check-input" id="save-info" />
+        <label className="form-check-label" htmlFor="save-info">
+          Save this information for next time
+        </label>
+      </div>
+      <div className="modal-footer">
+        <button
+          type="button"
+          className="btn btn-danger"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          className="btn btn-success"
+          data-bs-dismiss="modal"
+          onClick={() => {
+            api
+              .post(`/addresses`, {
+                full_name: fullNameRef.current.value,
+                mobile_no: mobileRef.current.value,
+                address_line1: addressLine1Ref.current.value,
+                address_line2: addressLine2Ref.current.value,
+                district: districtRef.current.value,
+                city: cityRef.current.value,
+                state: stateRef.current.value,
+                country: countryRef.current.value,
+                pincode: pincodeRef.current.value,
+                landmark: landmarkRef.current.value,
+              })
+              .then((response) => {
+                if (response.status === 201) {
+                  console.log("Address added successfully");
+                  // setShowModal(true);
+                  // setModalProperties({
+                  //   title: "Message",
+                  //   body: "Address added successfully",
+                  //   cancelButtonPresent: false,
+                  // });
+                }
+              })
+              .catch((error) => {
+                console.error("Some error occured in adding address");
+                console.error(error);
+                // setShowModal(true);
+                // setModalProperties({
+                //   title: "Message",
+                //   body: "Some error occured in adding address",
+                //   cancelButtonPresent: false,
+                // });
+              });
+          }}
+        >
           Save changes
         </button>
       </div>
