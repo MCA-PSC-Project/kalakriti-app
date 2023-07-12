@@ -158,7 +158,21 @@ function WishlistHorizontalCard({
   const stockStatus = quantityInStock >= minOrderQuantity ? true : false;
 
   return (
-    <div className="card mb-3" style={{ maxWidth: 1000 }}>
+    <div
+      className="card mb-3"
+      style={{ maxWidth: 1000, cursor: "pointer" }}
+      onClick={(event) => {
+        // Check if clicked element is button like "Add to cart"
+        if (event.target.closest(".btn")) {
+          // Do not navigate if clicked element is button like "Add to cart"
+          // console.log("button click event");
+          return;
+        }
+
+        // Navigate to product page
+        navigate(`/products/${productId}`);
+      }}
+    >
       <div className="row g-0">
         <div className="col-md-4">
           <img src={imgSrc} className="img-fluid rounded-start" alt="..." />
@@ -210,7 +224,10 @@ function WishlistHorizontalCard({
               <button
                 type="button"
                 className="btn btn-outline-danger me-2"
-                onClick={onDelete}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onDelete();
+                }}
               >
                 Remove From Wishlist
               </button>
