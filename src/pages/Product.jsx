@@ -57,8 +57,21 @@ function Product() {
     api
       .get(`/products/${productId}`)
       .then((response) => {
-        setProduct(response.data === null ? {} : response.data);
-        console.log(response.data);
+        if (response.status === 200) {
+          console.log(response.data);
+          setProduct(response.data === null ? {} : response.data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    api
+      .put(`/viewed-products/${productId}`)
+      .then((response) => {
+        if (response.status === 201) {
+          console.log(response.data);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -92,18 +105,18 @@ function Product() {
         }
       }
       setMediaSrcList(localMediaSrcList);
-    }
 
-    api
-      .get(`/check-wishlists/${selectedProductItem?.id}`)
-      .then((response) => {
-        setIsItemInWishlist(response.data === null ? false : response.data);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        setIsItemInWishlist(false);
-        console.error(err);
-      });
+      api
+        .get(`/check-wishlists/${selectedProductItem?.id}`)
+        .then((response) => {
+          setIsItemInWishlist(response.data === null ? false : response.data);
+          console.log(response.data);
+        })
+        .catch((err) => {
+          setIsItemInWishlist(false);
+          console.error(err);
+        });
+    }
   }, [selectedProductItem]);
 
   useEffect(() => {
