@@ -37,10 +37,12 @@ function Cart() {
     api
       .get(`/carts`)
       .then((response) => {
-        setCartItemsList(response.data === null ? [] : response.data);
-        setTotalOfferPrice(calculateTotalOfferPrice(response.data));
-        console.log(response.data);
-        // console.log("cartItemsList= ", cartItemsList);
+        if (response.status === 200) {
+          setCartItemsList(response.data === null ? [] : response.data);
+          setTotalOfferPrice(calculateTotalOfferPrice(response.data));
+          console.log(response.data);
+          // console.log("cartItemsList= ", cartItemsList);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -51,14 +53,18 @@ function Cart() {
     api
       .delete(`/carts/${productItemId}`)
       .then((response) => {
-        setCartItemsList(
-          cartItemsList.filter((item) => item.product_item.id !== productItemId)
-        );
-        setShowToast(true);
-        setToastProperties({
-          toastType: "success",
-          toastMessage: "Item successfully removed from cart",
-        });
+        if (response.status === 200) {
+          setCartItemsList(
+            cartItemsList.filter(
+              (item) => item.product_item.id !== productItemId
+            )
+          );
+          setShowToast(true);
+          setToastProperties({
+            toastType: "success",
+            toastMessage: "Item successfully removed from cart",
+          });
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -68,6 +74,11 @@ function Cart() {
           toastMessage: "some error occured in removing item from cart",
         });
       });
+  };
+
+  const handleShowToast = (toastType, toastMessage) => {
+    setShowToast(true);
+    setToastProperties({ toastType, toastMessage });
   };
 
   return (
@@ -88,6 +99,7 @@ function Cart() {
               return (
                 <CartHorizontalCard
                   key={cartItem.product_id}
+                  cartId={cartItem.cart_id}
                   productId={cartItem.product_id}
                   productItemId={cartItem.product_item.id}
                   imgSrc={cartItem.product_item.media.path}
@@ -109,6 +121,7 @@ function Cart() {
                     cartItem.product_item.product_variant_name
                   }
                   onDelete={() => handleDelete(cartItem.product_item.id)}
+                  onShowToast={handleShowToast}
                 />
               );
             })
@@ -129,6 +142,7 @@ function Cart() {
 }
 
 function CartHorizontalCard({
+  cartId,
   productId,
   productItemId,
   imgSrc,
@@ -142,6 +156,7 @@ function CartHorizontalCard({
   stockStatus,
   productVariantName,
   onDelete,
+  onShowToast,
 }) {
   const [quantitySelected, setQuantitySelected] = useState(
     quantity ? quantity : minOrderQuantity
@@ -151,7 +166,25 @@ function CartHorizontalCard({
   for (let i = minOrderQuantity; i <= maxOrderQuantity; i++) {
     elements.push(
       <li>
-        <a className="dropdown-item" onClick={(e) => setQuantitySelected(i)}>
+        <a
+          className="dropdown-item"
+          onClick={() => {
+            api
+              .patch(`/carts/${productItemId}`, {
+                quantity: i,
+              })
+              .then((response) => {
+                if (response.status === 200) {
+                  onShowToast("success", "Item quantity successfully updated");
+                  setQuantitySelected(i);
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+                onShowToast("error", "Some error occured in updating quantity");
+              });
+          }}
+        >
           {i}
         </a>
       </li>
