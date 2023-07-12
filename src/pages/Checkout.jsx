@@ -23,6 +23,7 @@ function Checkout() {
           if (response.status === 200) {
             console.log(response.data);
             setProductsList(response.data === null ? [] : response.data);
+            setTotalOfferPrice(calculateTotalOfferPrice(response.data));
           }
         })
         .catch((err) => {
@@ -70,6 +71,15 @@ function Checkout() {
 
   function handleSelectedAddress(addressObject) {
     setSelectedAddress(addressObject);
+  }
+
+  const [totalOfferPrice, setTotalOfferPrice] = useState(0);
+  function calculateTotalOfferPrice(data) {
+    let total = 0;
+    data.forEach((item) => {
+      total += parseFloat(item.product_item.offer_price);
+    });
+    return total;
   }
 
   return (
@@ -186,7 +196,7 @@ function Checkout() {
                   </div>
                   <span className="text-body-secondary">
                     <span>&#8377;</span>
-                    500
+                    {totalOfferPrice}
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between lh-sm">

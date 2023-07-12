@@ -28,7 +28,7 @@ function Cart() {
   function calculateTotalOfferPrice(data) {
     let total = 0;
     data.forEach((item) => {
-      total += parseFloat(item.product_item.offer_price);
+      total += parseFloat(item.product_item.offer_price) * item.quantity;
     });
     return total;
   }
@@ -48,6 +48,10 @@ function Cart() {
         console.error(err);
       });
   }, []);
+
+  useEffect(() => {
+    setTotalOfferPrice(calculateTotalOfferPrice(cartItemsList));
+  }, [cartItemsList]);
 
   const handleDelete = (productItemId) => {
     api
@@ -74,6 +78,18 @@ function Cart() {
           toastMessage: "some error occured in removing item from cart",
         });
       });
+  };
+
+  const handleQuantityChange = (productItemId, selectedQuantity) => {
+    setCartItemsList(
+      cartItemsList.map((item) => {
+        if (item.product_item.id === productItemId) {
+          console.log("replaced");
+          return { ...item, quantity: selectedQuantity };
+        }
+        return item;
+      })
+    );
   };
 
   const handleShowToast = (toastType, toastMessage) => {
@@ -121,6 +137,9 @@ function Cart() {
                     cartItem.product_item.product_variant_name
                   }
                   onDelete={() => handleDelete(cartItem.product_item.id)}
+                  onQuantityChange={(productItemId, selectedQuantity) =>
+                    handleQuantityChange(productItemId, selectedQuantity)
+                  }
                   onShowToast={handleShowToast}
                 />
               );
@@ -156,6 +175,7 @@ function CartItemHorizontalCard({
   stockStatus,
   productVariantName,
   onDelete,
+  onQuantityChange,
   onShowToast,
 }) {
   const navigate = useNavigate();
@@ -179,6 +199,7 @@ function CartItemHorizontalCard({
                 if (response.status === 200) {
                   onShowToast("success", "Item quantity successfully updated");
                   setQuantitySelected(i);
+                  onQuantityChange(productItemId, i);
                 }
               })
               .catch((err) => {
