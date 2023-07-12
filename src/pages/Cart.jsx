@@ -88,6 +88,8 @@ function Cart() {
               return (
                 <CartHorizontalCard
                   key={cartItem.product_id}
+                  productId={cartItem.product_id}
+                  productItemId={cartItem.product_item.id}
                   imgSrc={cartItem.product_item.media.path}
                   cardTitle={cartItem.product_name}
                   sellerName={cartItem.seller.seller_name}
@@ -95,12 +97,16 @@ function Cart() {
                   offerPrice={cartItem.product_item.offer_price}
                   minOrderQuantity={cartItem.min_order_quantity}
                   maxOrderQuantity={cartItem.max_order_quantity}
+                  // quantity previously selected
                   quantity={cartItem.quantity}
                   stockStatus={
                     cartItem.product_item.quantity_in_stock >=
                     cartItem.min_order_quantity
                       ? true
                       : false
+                  }
+                  productVariantName={
+                    cartItem.product_item.product_variant_name
                   }
                   onDelete={() => handleDelete(cartItem.product_item.id)}
                 />
@@ -123,6 +129,8 @@ function Cart() {
 }
 
 function CartHorizontalCard({
+  productId,
+  productItemId,
   imgSrc,
   cardTitle,
   sellerName,
@@ -132,6 +140,7 @@ function CartHorizontalCard({
   maxOrderQuantity,
   quantity,
   stockStatus,
+  productVariantName,
   onDelete,
 }) {
   const [quantitySelected, setQuantitySelected] = useState(
@@ -159,6 +168,7 @@ function CartHorizontalCard({
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
             <h6>sold by {sellerName}</h6>
+            <h6>Variant name:- {productVariantName}</h6>
             {stockStatus ? (
               <h5 className="text-success">In Stock</h5>
             ) : (
