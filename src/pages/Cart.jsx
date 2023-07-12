@@ -280,9 +280,6 @@ function CartFooter({ itemsQuantity, subtotal }) {
                   className="btn btn-large btn-success"
                   onClick={(event) => {
                     event.stopPropagation();
-                    navigate("/checkout", {
-                      state: [productItemId],
-                    });
                   }}
                 >
                   Proceed To Checkout

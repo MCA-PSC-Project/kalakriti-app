@@ -7,42 +7,58 @@ import { useLocation } from "react-router-dom";
 
 function Checkout() {
   const { state } = useLocation();
-  const productItemIds = [...state];
-
+  let productItemIds = null;
+  if (state) {
+    productItemIds = [...state];
+  }
   const [productsList, setProductsList] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
-    const productStatus = "published";
-    api
-      .get(
-        `/product-items/basic-info?product_status=${productStatus}&product_item_ids=${productItemIds}`
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-          setProductsList(response.data);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    api
-      .get(`/addresses`)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-          setAddresses(response.data === null ? [] : response.data);
-          if (response.data && response.data.length > 0) {
-            setSelectedAddress(response.data[0]);
+    if (!productItemIds) {
+      api
+        .get(`/carts`)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            setProductsList(response.data === null ? [] : response.data);
           }
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else if (productItemIds) {
+      const productStatus = "published";
+      api
+        .get(
+          `/product-items/basic-info?product_status=${productStatus}&product_item_ids=${productItemIds}`
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            setProductsList(response.data);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+
+      api
+        .get(`/addresses`)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            setAddresses(response.data === null ? [] : response.data);
+            if (response.data && response.data.length > 0) {
+              setSelectedAddress(response.data[0]);
+            }
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }, []);
 
   function handleSelectedAddressIndex(index) {
@@ -93,7 +109,7 @@ function Checkout() {
                       minOrderQuantity={product.min_order_quantity}
                       maxOrderQuantity={product.max_order_quantity}
                       quantityInStock={product.product_item.quantity_in_stock}
-                      //  quantity={}
+                      quantity={product?.quantity}
                       //  stockStatus={
                       //    cartItem.product_item.quantity_in_stock >=
                       //    cartItem.min_order_quantity
