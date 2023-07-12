@@ -39,6 +39,7 @@ function Checkout() {
           if (response.status === 200) {
             console.log(response.data);
             setProductsList(response.data);
+            setTotalOfferPrice(calculateTotalOfferPrice(response.data));
           }
         })
         .catch((err) => {
@@ -77,7 +78,9 @@ function Checkout() {
   function calculateTotalOfferPrice(data) {
     let total = 0;
     data.forEach((item) => {
-      total += parseFloat(item.product_item.offer_price);
+      const quantity = item.quantity ? item.quantity : item.min_order_quantity;
+      // console.log("quantity=", quantity);
+      total += parseFloat(item.product_item.offer_price) * quantity;
     });
     return total;
   }
