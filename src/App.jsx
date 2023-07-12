@@ -24,6 +24,7 @@ import ResetPassword from "./pages/reset/ResetPassword";
 import LoginMobile from "./pages/auth/LoginMobile";
 import { useState } from "react";
 import LoginMotp from "./pages/auth/LoginMotp";
+import ViewedProducts from "./pages/ViewedProducts";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -120,6 +121,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <Checkout />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/viewed-products"
+            element={
+              <RequireAuth>
+                <ViewedProducts />
               </RequireAuth>
             }
           />

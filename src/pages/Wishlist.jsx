@@ -202,7 +202,7 @@ function WishlistHorizontalCard({
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
               <button
                 type="button"
-                className="btn btn-outline-primary me-2"
+                className="btn btn-primary me-2"
                 onClick={onAddToCart}
               >
                 Add To Cart
@@ -210,7 +210,7 @@ function WishlistHorizontalCard({
 
               <button
                 type="button"
-                className="btn btn-outline-success me-2"
+                className="btn btn-success me-2"
                 onClick={(event) => {
                   event.stopPropagation();
                   navigate("/checkout", {
@@ -223,7 +223,7 @@ function WishlistHorizontalCard({
 
               <button
                 type="button"
-                className="btn btn-outline-danger me-2"
+                className="btn btn-danger me-2"
                 onClick={(event) => {
                   event.stopPropagation();
                   onDelete();

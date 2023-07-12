@@ -239,7 +239,7 @@ function NavBar() {
                   </Link>
                   <ul className="dropdown-menu dropdown-menu-end">
                     <li>
-                      <Link className="dropdown-item" to="/viewed-history">
+                      <Link className="dropdown-item" to="/viewed-products">
                         <FontAwesomeIcon
                           icon={faClockRotateLeft}
                           style={{ color: "#a45f41" }}

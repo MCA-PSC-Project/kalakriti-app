@@ -257,7 +257,7 @@ function CartItemHorizontalCard({
               <div className="dropdown">
                 <button
                   type="button"
-                  className="btn btn-outline-primary dropdown-toggle"
+                  className="btn btn-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
                   disabled={!stockStatus}
                 >
@@ -268,7 +268,7 @@ function CartItemHorizontalCard({
               &nbsp;
               <button
                 type="button"
-                className="btn btn-outline-danger"
+                className="btn btn-danger"
                 onClick={(event) => {
                   event.stopPropagation();
                   onDelete();
