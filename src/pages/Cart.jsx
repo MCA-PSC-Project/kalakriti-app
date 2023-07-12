@@ -3,7 +3,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import Toast from "../components/Toast";
 
@@ -97,7 +97,7 @@ function Cart() {
           {cartItemsList && cartItemsList.length > 0 ? (
             cartItemsList.map((cartItem) => {
               return (
-                <CartHorizontalCard
+                <CartItemHorizontalCard
                   key={cartItem.product_id}
                   cartId={cartItem.cart_id}
                   productId={cartItem.product_id}
@@ -141,7 +141,7 @@ function Cart() {
   );
 }
 
-function CartHorizontalCard({
+function CartItemHorizontalCard({
   cartId,
   productId,
   productItemId,
@@ -158,6 +158,7 @@ function CartHorizontalCard({
   onDelete,
   onShowToast,
 }) {
+  const navigate = useNavigate();
   const [quantitySelected, setQuantitySelected] = useState(
     quantity ? quantity : minOrderQuantity
   );
@@ -168,7 +169,8 @@ function CartHorizontalCard({
       <li>
         <a
           className="dropdown-item"
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
             api
               .patch(`/carts/${productItemId}`, {
                 quantity: i,
@@ -192,7 +194,21 @@ function CartHorizontalCard({
   }
 
   return (
-    <div className="card mb-3" style={{ maxWidth: 1000 }}>
+    <div
+      className="card mb-3"
+      style={{ maxWidth: 1000, cursor: "pointer" }}
+      onClick={(event) => {
+        // Check if clicked element is button like "Add to cart"
+        if (event.target.closest(".btn")) {
+          // Do not navigate if clicked element is button like "Add to cart"
+          // console.log("button click event");
+          return;
+        }
+
+        // Navigate to product page
+        navigate(`/products/${productId}`);
+      }}
+    >
       <div className="row g-0">
         <div className="col-md-4">
           <img src={imgSrc} className="img-fluid rounded-start" alt="..." />
@@ -232,7 +248,10 @@ function CartHorizontalCard({
               <button
                 type="button"
                 className="btn btn-outline-danger"
-                onClick={onDelete}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onDelete();
+                }}
               >
                 Remove From Cart
               </button>
