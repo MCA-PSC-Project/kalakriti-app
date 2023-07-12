@@ -99,58 +99,35 @@ function Wishlist() {
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
           {wishlist && wishlist.length > 0 ? (
-            wishlist.map((wish) => {
+            wishlist.map((product) => {
               return (
                 <WishlistHorizontalCard
-                  key={wish.product_id}
-                  productId={wish.product_id}
-                  productItemId={wish.product_item.id}
-                  imgSrc={wish.product_item.media.path}
-                  cardTitle={wish.product_name}
-                  sellerName={wish.seller.seller_name}
-                  originalPrice={wish.product_item.original_price}
-                  offerPrice={wish.product_item.offer_price}
-                  average_rating={wish.average_rating}
-                  ratingCount={wish.rating_count}
-                  stockStatus={true}
-                  onDelete={() => handleDelete(wish.product_item.id)}
-                  onAddToCart={() => handleAddToCart(wish.product_item.id, 1)}
+                  key={product.product_id}
+                  productId={product.product_id}
+                  productItemId={product.product_item.id}
+                  imgSrc={product.product_item.media.path}
+                  cardTitle={product.product_name}
+                  sellerName={product.seller.seller_name}
+                  originalPrice={product.product_item.original_price}
+                  offerPrice={product.product_item.offer_price}
+                  average_rating={product.average_rating}
+                  ratingCount={product.rating_count}
+                  minOrderQuantity={product.min_order_quantity}
+                  maxOrderQuantity={product.max_order_quantity}
+                  quantityInStock={product.product_item.quantity_in_stock}
+                  productVariantName={product.product_item.product_variant_name}
+                  variant={product.product_item.variant}
+                  variantValue={product.product_item.variant_value}
+                  onDelete={() => handleDelete(product.product_item.id)}
+                  onAddToCart={() =>
+                    handleAddToCart(product.product_item.id, 1)
+                  }
                 />
               );
             })
           ) : (
             <h1>No item in wishlist</h1>
           )}
-          {/* <WishlistHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            average_rating={4.5}
-            ratingCount={5}
-            stockStatus={false}
-          />
-          <WishlistHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            average_rating={4.5}
-            ratingCount={5}
-            stockStatus={true}
-          />
-          <WishlistHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            originalPrice="1000"
-            offerPrice="500"
-            average_rating={4.5}
-            ratingCount={5}
-            stockStatus={true}
-          /> */}
         </div>
       </div>
       <Footer />
@@ -168,11 +145,17 @@ function WishlistHorizontalCard({
   offerPrice,
   average_rating,
   ratingCount,
-  stockStatus,
+  minOrderQuantity,
+  maxOrderQuantity,
+  quantityInStock,
+  productVariantName,
+  variant,
+  variantValue,
   onDelete,
   onAddToCart,
 }) {
   const navigate = useNavigate();
+  const stockStatus = quantityInStock >= minOrderQuantity ? true : false;
 
   return (
     <div className="card mb-3" style={{ maxWidth: 1000 }}>
@@ -184,6 +167,7 @@ function WishlistHorizontalCard({
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
             <h6>sold by {sellerName}</h6>
+            <h6>Variant name:- {productVariantName}</h6>
             {stockStatus ? (
               <h5 className="text-success">In Stock</h5>
             ) : (
@@ -215,17 +199,8 @@ function WishlistHorizontalCard({
                 className="btn btn-outline-success me-2"
                 onClick={(event) => {
                   event.stopPropagation();
-                  const productObject = {
-                    productId,
-                    productItemId,
-                    imgSrc,
-                    cardTitle,
-                    originalPrice,
-                    offerPrice,
-                    stockStatus,
-                  };
                   navigate("/checkout", {
-                    state: [productObject],
+                    state: [productItemId],
                   });
                 }}
               >

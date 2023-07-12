@@ -126,16 +126,8 @@ function ProductCard({
                 disabled={!stockStatus}
                 onClick={(event) => {
                   event.stopPropagation();
-                  const productObject = {
-                    productId,
-                    productItemId,
-                    imgSrc,
-                    cardTitle,
-                    originalPrice,
-                    offerPrice,
-                  };
                   navigate("/checkout", {
-                    state: [productObject],
+                    state: [productItemId],
                   });
                 }}
               >

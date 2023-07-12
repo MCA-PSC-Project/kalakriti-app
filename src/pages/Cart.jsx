@@ -213,7 +213,16 @@ function CartFooter({ itemsQuantity, subtotal }) {
           <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
             <li className="ms-3">
               <Link to="/checkout">
-                <button type="button" className="btn btn-large btn-success">
+                <button
+                  type="button"
+                  className="btn btn-large btn-success"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    navigate("/checkout", {
+                      state: [productItemId],
+                    });
+                  }}
+                >
                   Proceed To Checkout
                 </button>
               </Link>

@@ -7,20 +7,38 @@ import { useLocation } from "react-router-dom";
 
 function Checkout() {
   const { state } = useLocation();
-  const products = [...state];
+  const productItemIds = [...state];
 
+  const [productsList, setProductsList] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
+    const productStatus = "published";
+    api
+      .get(
+        `/product-items/basic-info?product_status=${productStatus}&product_item_ids=${productItemIds}`
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          setProductsList(response.data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
     api
       .get(`/addresses`)
       .then((response) => {
-        setAddresses(response.data === null ? [] : response.data);
-        if (response.data && response.data.length > 0) {
-          setSelectedAddress(response.data[0]);
+        if (response.status === 200) {
+          console.log(response.data);
+          setAddresses(response.data === null ? [] : response.data);
+          if (response.data && response.data.length > 0) {
+            setSelectedAddress(response.data[0]);
+          }
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.error(err);
@@ -61,20 +79,20 @@ function Checkout() {
           <div className="row">
             <div className="col-md-12">
               <h3>Selected Products</h3>
-              {products &&
-                products.length > 0 &&
-                products.map((product) => {
+              {productsList &&
+                productsList.length > 0 &&
+                productsList.map((product) => {
                   return (
                     <CheckoutProductHorizontalCard
-                      key={product.productId}
-                      imgSrc={product.imgSrc}
-                      cardTitle={product.cardTitle}
-                      sellerName={product.sellerName}
-                      originalPrice={product.originalPrice}
-                      offerPrice={product.offerPrice}
-                      stockStatus={product.stockStatus}
-                      // minOrderQuantity={product.minOrderQuantity}
-                      // maxOrderQuantity={product.maxOrderQuantity}
+                      key={product.id}
+                      imgSrc={product.product_item.media.path}
+                      cardTitle={product.product_name}
+                      sellerName={product.seller.seller_name}
+                      originalPrice={product.product_item.original_price}
+                      offerPrice={product.product_item.offer_price}
+                      minOrderQuantity={product.min_order_quantity}
+                      maxOrderQuantity={product.max_order_quantity}
+                      quantityInStock={product.product_item.quantity_in_stock}
                       //  quantity={}
                       //  stockStatus={
                       //    cartItem.product_item.quantity_in_stock >=
@@ -215,23 +233,11 @@ function CheckoutProductHorizontalCard({
   offerPrice,
   minOrderQuantity,
   maxOrderQuantity,
+  quantityInStock,
   quantity,
-  stockStatus,
 }) {
-  const [quantitySelected, setQuantitySelected] = useState(
-    quantity ? quantity : minOrderQuantity
-  );
-
-  // const elements = [];
-  // for (let i = minOrderQuantity; i <= maxOrderQuantity; i++) {
-  //   elements.push(
-  //     <li>
-  //       <a className="dropdown-item" onClick={(e) => setQuantitySelected(i)}>
-  //         {i}
-  //       </a>
-  //     </li>
-  //   );
-  // }
+  const stockStatus = quantityInStock >= minOrderQuantity ? true : false;
+  quantity = quantity ?? minOrderQuantity;
 
   return (
     <div className="card mb-3" style={{ maxWidth: 750 }}>
@@ -258,7 +264,7 @@ function CheckoutProductHorizontalCard({
               {offerPrice}
             </p>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              Quantity: {quantitySelected}
+              Quantity: {quantity}
               {/* <div className="dropdown">
                 <button
                   type="button"
