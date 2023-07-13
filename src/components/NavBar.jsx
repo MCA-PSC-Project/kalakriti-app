@@ -156,6 +156,7 @@ function NavBar() {
 
               <Select
                 className="me-2"
+                placeholder="Search"
                 options={topSearchesList.map((item) => ({
                   value: item,
                   label: item,
