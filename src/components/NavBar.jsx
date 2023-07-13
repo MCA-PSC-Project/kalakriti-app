@@ -68,7 +68,10 @@ function NavBar() {
   }, []);
 
   const [topSearchesList, setTopSearchesList] = useState([]);
+  const [hasFetchedTopSearchesList, setHasFetchedTopSearchesList] =
+    useState(false);
   const [showSearchList, setShowSearchList] = useState(false);
+  const [searchValue, setSearchValue] = useState(null);
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -175,6 +178,7 @@ function NavBar() {
                     </components.SingleValue>
                   ),
                 }}
+                isSearchable={true}
                 styles={{
                   control: (provided) => ({
                     ...provided,
@@ -182,24 +186,40 @@ function NavBar() {
                   }),
                 }}
                 onMenuOpen={() => {
-                  api
-                    .get(`/top-searches`)
-                    .then((response) => {
-                      if (response.status === 200) {
-                        console.log(response.data);
-                        setTopSearchesList(
-                          response.data === null ? {} : response.data
-                        );
-                        setShowSearchList(true);
-                      }
-                    })
-                    .catch((err) => {
-                      console.error(err);
-                    });
+                  if (!hasFetchedTopSearchesList) {
+                    api
+                      .get(`/top-searches`)
+                      .then((response) => {
+                        if (response.status === 200) {
+                          console.log(response.data);
+                          setTopSearchesList(
+                            response.data === null ? {} : response.data
+                          );
+                          setShowSearchList(true);
+                          console.log("setHasFetchedTopSearchesList(true)");
+                          setHasFetchedTopSearchesList(true);
+                        }
+                      })
+                      .catch((err) => {
+                        console.error(err);
+                      });
+                  }
+                }}
+                onInputChange={(value) => setSearchValue(value)} // for user input
+                // for dropdown selection
+                onChange={(option) => {
+                  // console.log("option value= ", option.value);
+                  setSearchValue(option.value);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    console.log("search term= ", searchValue);
+                  }
                 }}
               />
 
-              <button className="btn border px-2" type="submit" title="search">
+              <button className="btn border px-2" type="button" title="search">
                 {/* Search */}
                 <FontAwesomeIcon
                   icon={faMagnifyingGlass}
