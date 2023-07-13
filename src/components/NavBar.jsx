@@ -1,3 +1,4 @@
+import Select, { components } from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpeg";
 import CartSvg from "../assets/cart.svg";
@@ -16,6 +17,7 @@ import {
   faRightFromBracket,
   faHeadset,
   faClockRotateLeft,
+  faArrowTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { appName } from "../App";
 import { useEffect, useState } from "react";
@@ -114,8 +116,7 @@ function NavBar() {
             </li>
             {/* search */}
             <form className="d-flex" role="search">
-              <div>
-                <input
+              {/* <input
                   className="form-control me-2"
                   type="search"
                   id="search"
@@ -138,8 +139,9 @@ function NavBar() {
                         console.error(err);
                       });
                   }}
-                />
-                {showSearchList && topSearchesList && (
+                /> */}
+
+              {/* {showSearchList && topSearchesList && (
                   <datalist id="searchListOptions">
                     {topSearchesList &&
                       topSearchesList.length > 0 &&
@@ -147,8 +149,55 @@ function NavBar() {
                         return <option value={item}></option>;
                       })}
                   </datalist>
+                )} */}
+
+              <Select
+                className="me-2"
+                options={topSearchesList.map((item) => ({
+                  value: item,
+                  label: item,
+                }))}
+                formatOptionLabel={({ value, label }) => (
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faArrowTrendUp}
+                      size="sm"
+                      style={{ color: "#56dd31" }}
+                    />
+                    {label}
+                  </div>
                 )}
-              </div>
+                components={{
+                  DropdownIndicator: () => null,
+                  SingleValue: (props) => (
+                    <components.SingleValue {...props}>
+                      {props.data.label}
+                    </components.SingleValue>
+                  ),
+                }}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    width: 200,
+                  }),
+                }}
+                onMenuOpen={() => {
+                  api
+                    .get(`/top-searches`)
+                    .then((response) => {
+                      if (response.status === 200) {
+                        console.log(response.data);
+                        setTopSearchesList(
+                          response.data === null ? {} : response.data
+                        );
+                        setShowSearchList(true);
+                      }
+                    })
+                    .catch((err) => {
+                      console.error(err);
+                    });
+                }}
+              />
 
               <button className="btn border px-2" type="submit" title="search">
                 {/* Search */}
