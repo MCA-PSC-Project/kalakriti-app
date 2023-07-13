@@ -65,6 +65,9 @@ function NavBar() {
     }
   }, []);
 
+  const [topSearchesList, setTopSearchesList] = useState([]);
+  const [showSearchList, setShowSearchList] = useState(false);
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -109,14 +112,44 @@ function NavBar() {
                 Categories
               </Link>
             </li>
-
+            {/* search */}
             <form className="d-flex" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
+              <div>
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  id="search"
+                  list="searchListOptions"
+                  placeholder="Search"
+                  aria-label="Search"
+                  onClick={() => {
+                    api
+                      .get(`/top-searches`)
+                      .then((response) => {
+                        if (response.status === 200) {
+                          console.log(response.data);
+                          setTopSearchesList(
+                            response.data === null ? {} : response.data
+                          );
+                          setShowSearchList(true);
+                        }
+                      })
+                      .catch((err) => {
+                        console.error(err);
+                      });
+                  }}
+                />
+                {showSearchList && topSearchesList && (
+                  <datalist id="searchListOptions">
+                    {topSearchesList &&
+                      topSearchesList.length > 0 &&
+                      topSearchesList.map((item) => {
+                        return <option value={item}></option>;
+                      })}
+                  </datalist>
+                )}
+              </div>
+
               <button className="btn border px-2" type="submit" title="search">
                 {/* Search */}
                 <FontAwesomeIcon
@@ -126,6 +159,7 @@ function NavBar() {
                   onMouseEnter={() => setSearchIconHovered(true)}
                   onMouseLeave={() => setSearchIconHovered(false)}
                   fade={searchIconHovered ? "fade" : undefined}
+                  onClick={() => {}}
                 />
               </button>
             </form>
