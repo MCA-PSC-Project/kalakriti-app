@@ -205,10 +205,16 @@ function NavBar() {
                       });
                   }
                 }}
-                onInputChange={(value) => setSearchValue(value)} // for user input
+                // for user input
+                onInputChange={(value) => {
+                  if (value) {
+                    // console.log("onInputChange", value);
+                    setSearchValue(value);
+                  }
+                }}
                 // for dropdown selection
                 onChange={(option) => {
-                  // console.log("option value= ", option.value);
+                  // console.log("onChange", option.value);
                   setSearchValue(option.value);
                 }}
                 onKeyDown={(event) => {
@@ -222,7 +228,18 @@ function NavBar() {
                 }}
               />
 
-              <button className="btn border px-2" type="button" title="search">
+              <button
+                className="btn border px-2"
+                type="submit"
+                title="search"
+                onClick={(event) => {
+                  event.preventDefault();
+                  console.log("button click search term= ", searchValue);
+                  navigate("/search-results", {
+                    state: { searchValue: searchValue },
+                  });
+                }}
+              >
                 {/* Search */}
                 <FontAwesomeIcon
                   icon={faMagnifyingGlass}
@@ -231,7 +248,6 @@ function NavBar() {
                   onMouseEnter={() => setSearchIconHovered(true)}
                   onMouseLeave={() => setSearchIconHovered(false)}
                   fade={searchIconHovered ? "fade" : undefined}
-                  onClick={() => {}}
                 />
               </button>
             </form>

@@ -37,7 +37,7 @@ function SearchResultsPage() {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [searchValue]);
 
   const handleAddToCart = (productItemId, minOrderQuantity) => {
     api
@@ -76,7 +76,7 @@ function SearchResultsPage() {
         />
       )}
       <NavBar />
-      <h1>Search Results</h1>
+      <h1>Search Results for "{searchValue}"</h1>
       <div className="d-flex justify-content-center align-items-center">
         <div className="text-left">
           {products && products.length > 0 ? (
