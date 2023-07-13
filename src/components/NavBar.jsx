@@ -215,6 +215,9 @@ function NavBar() {
                   if (event.key === "Enter") {
                     event.preventDefault();
                     console.log("search term= ", searchValue);
+                    navigate("/search-results", {
+                      state: { searchValue: searchValue },
+                    });
                   }
                 }}
               />

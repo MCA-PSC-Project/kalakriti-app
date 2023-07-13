@@ -25,6 +25,7 @@ import LoginMobile from "./pages/auth/LoginMobile";
 import { useState } from "react";
 import LoginMotp from "./pages/auth/LoginMotp";
 import ViewedProducts from "./pages/ViewedProducts";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -124,6 +125,7 @@ const App = () => {
               </RequireAuth>
             }
           />
+          <Route path="/search-results" element={<SearchResultsPage />} />
           <Route
             path="/viewed-products"
             element={
