@@ -123,12 +123,6 @@ function Checkout() {
                       maxOrderQuantity={product.max_order_quantity}
                       quantityInStock={product.product_item.quantity_in_stock}
                       quantity={product?.quantity}
-                      //  stockStatus={
-                      //    cartItem.product_item.quantity_in_stock >=
-                      //    cartItem.min_order_quantity
-                      //      ? true
-                      //      : false
-                      //  }
                     />
                   );
                 })}

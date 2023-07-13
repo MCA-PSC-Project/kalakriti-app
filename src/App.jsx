@@ -26,6 +26,7 @@ import { useState } from "react";
 import LoginMotp from "./pages/auth/LoginMotp";
 import ViewedProducts from "./pages/ViewedProducts";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import ErrorPage from "./pages/ErrorPage";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -134,6 +135,7 @@ const App = () => {
               </RequireAuth>
             }
           />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </div>
