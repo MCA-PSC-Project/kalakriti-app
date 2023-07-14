@@ -6,6 +6,7 @@ import AuthService from "../../services/auth-service";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/useAuth";
 import AuthConsumer from "../../hooks/useAuth";
+import Alert from "../../components/Alert";
 
 function Login() {
   const [email, setEmail] = useState(null);
@@ -68,9 +69,10 @@ function Login() {
           <h3 className="h3 mb-3 fw-normal">KalaKriti</h3>
           <h2 className="h2 mb-2 fw-normal">Please login</h2>
           {loginUnsuccessful && (
-            <div className="alert alert-danger" role="alert">
-              Login unsuccessful!!
-            </div>
+            // <div className="alert alert-danger" role="alert">
+            //   Login unsuccessful!!
+            // </div>
+            <Alert alertType="danger" message="Login unsuccessful!!" />
           )}
           <div className="form-floating">
             <input
