@@ -13,7 +13,7 @@ function Review({
 }) {
   added_at = formatDateTime(convertToDateTime(added_at));
   if (updated_at) {
-    updated_at = new Date(new Date(updated_at).getTime()).toISOString();
+    updated_at = formatDateTime(convertToDateTime(updated_at));
   }
   return (
     <>
