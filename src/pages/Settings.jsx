@@ -10,6 +10,7 @@ import AddressCard from "../components/AddressCard";
 import AuthConsumer from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import { compressImage } from "../utils/common";
 
 function Settings() {
   const [isActiveGeneral, setActiveGeneral] = useState(true);
@@ -80,62 +81,74 @@ function Settings() {
     }
   };
 
-  const handleImageUpload = () => {
-    const formData = new FormData();
-    formData.append("file", selectedImage);
-    console.log("formdata= ", formData);
-    api
-      .post(`/uploads/image`, formData, config)
-      .then((response) => {
-        if (response.status === 201) {
-          // console.log("image selected");
-          console.log("response=", response.data);
-          const mediaId = response.data.id;
-          api
-            .patch(`/customers/profile`, {
-              dp_id: mediaId,
-            })
-            .then((response) => {
-              if (response.status === 200) {
-                console.log("dp successfully updated");
+  const handleImageUpload = async () => {
+    try {
+      const compressedImage = await compressImage(selectedImage, 0.6);
+      // console.log(`Original image filename: ${selectedImage.name}`);
+      console.log(`Original image size: ${selectedImage.size} bytes`);
+      console.log(`Compressed image filename: ${compressedImage.name}`);
+      console.log(`Compressed image size: ${compressedImage.size} bytes`);
+
+      // Upload the compressed image file to the server
+      const formData = new FormData();
+      // formData.append("file", selectedImage);
+      formData.append("file", compressedImage);
+      console.log("formdata= ", formData);
+      api
+        .post(`/uploads/image`, formData, config)
+        .then((response) => {
+          if (response.status === 201) {
+            // console.log("image selected");
+            console.log("response=", response.data);
+            const mediaId = response.data.id;
+            api
+              .patch(`/customers/profile`, {
+                dp_id: mediaId,
+              })
+              .then((response) => {
+                if (response.status === 200) {
+                  console.log("dp successfully updated");
+                  setShowModal(true);
+                  setModalProperties({
+                    title: "Message",
+                    body: "dp successfully updated",
+                    cancelButtonPresent: false,
+                    onClose: () => {
+                      setShowModal(false);
+                      window.location.reload();
+                    },
+                  });
+                }
+              })
+              .catch((error) => {
+                console.error("Some error occured ");
+                console.error(error);
                 setShowModal(true);
                 setModalProperties({
                   title: "Message",
-                  body: "dp successfully updated",
+                  body: "Some error occured in updating dp",
                   cancelButtonPresent: false,
                   onClose: () => {
                     setShowModal(false);
                     window.location.reload();
                   },
                 });
-              }
-            })
-            .catch((error) => {
-              console.error("Some error occured ");
-              console.error(error);
-              setShowModal(true);
-              setModalProperties({
-                title: "Message",
-                body: "Some error occured in updating dp",
-                cancelButtonPresent: false,
-                onClose: () => {
-                  setShowModal(false);
-                  window.location.reload();
-                },
               });
-            });
-        }
-      })
-      .catch((error) => {
-        console.error("Some error occured ");
-        console.error(error);
-        setShowModal(true);
-        setModalProperties({
-          title: "Message",
-          body: "Some error occured in updating dp",
-          cancelButtonPresent: false,
+          }
+        })
+        .catch((error) => {
+          console.error("Some error occured ");
+          console.error(error);
+          setShowModal(true);
+          setModalProperties({
+            title: "Message",
+            body: "Some error occured in updating dp",
+            cancelButtonPresent: false,
+          });
         });
-      });
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const handleInputChangeAddress = (event) => {
@@ -1053,7 +1066,8 @@ function Settings() {
                     )}
                     <br />
                     <input
-                      accept="image/*"
+                      accept="image/*,capture=camera"
+                      capture="camera"
                       type="file"
                       id="select-image"
                       onChange={handleImageChange}
