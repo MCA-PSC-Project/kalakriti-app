@@ -26,7 +26,7 @@ import { useState } from "react";
 import LoginMotp from "./pages/auth/LoginMotp";
 import ViewedProducts from "./pages/ViewedProducts";
 import SearchResultsPage from "./pages/SearchResultsPage";
-import ErrorPage from "./pages/ErrorPage";
+import ErrorPage from "./pages/error_page/ErrorPage";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
