@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import api from "../utils/api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Loading from "../components/loading/Loading"; // import the Loading component
 
 function Categories() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const [categoriesList, setCategoriesList] = useState([]);
   useEffect(() => {
     api
@@ -11,37 +13,45 @@ function Categories() {
       .then((response) => {
         setCategoriesList(response.data === null ? [] : response.data);
         console.log(response.data);
+        setIsLoading(false); // set isLoading to false when the data has been fetched
       })
       .catch((err) => {
         console.error(err);
+        setIsLoading(false); // set isLoading to false even if there is an error
       });
   }, []);
   return (
-    <div>
-      <NavBar />
-      <h1 style={{ textAlign: "center" }}>Categories</h1>
-      <div className="album py-5 bg-body-tertiary">
-        <div className="container">
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-            {/* change ..md-n to display n items in a row */}
-            {categoriesList && categoriesList.length > 0 ? (
-              categoriesList.map((category) => {
-                return (
-                  <CategoryCard
-                    key={category.id}
-                    imgSrc={category.cover.path}
-                    cardTitle={category.name}
-                    subCategories={category.subcategories}
-                  />
-                );
-              })
-            ) : (
-              <h1>No categories</h1>
-            )}
+    <>
+      {isLoading ? ( // display the Loading component while the data is being fetched
+        <Loading />
+      ) : (
+        <>
+          <NavBar />
+          <h1 style={{ textAlign: "center" }}>Categories</h1>
+          <div className="album py-5 bg-body-tertiary">
+            <div className="container">
+              <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+                {/* change ..md-n to display n items in a row */}
+                {categoriesList && categoriesList.length > 0 ? (
+                  categoriesList.map((category) => {
+                    return (
+                      <CategoryCard
+                        key={category.id}
+                        imgSrc={category.cover.path}
+                        cardTitle={category.name}
+                        subCategories={category.subcategories}
+                      />
+                    );
+                  })
+                ) : (
+                  <h1>No categories</h1>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    </>
   );
 }
 

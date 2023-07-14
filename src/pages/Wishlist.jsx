@@ -6,8 +6,10 @@ import Rating from "../components/Rating";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import Toast from "../components/Toast";
+import Loading from "../components/loading/Loading"; // import the Loading component
 
 function Wishlist() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
@@ -29,9 +31,11 @@ function Wishlist() {
       .then((response) => {
         setWishlist(response.data === null ? [] : response.data);
         console.log(response.data);
+        setIsLoading(false); // set isLoading to false when the data has been fetched
       })
       .catch((err) => {
         console.error(err);
+        setIsLoading(false); // set isLoading to false even if there is an error
       });
   }, []);
 
@@ -94,43 +98,51 @@ function Wishlist() {
           onClose={() => setShowToast(false)}
         />
       )}
-      <NavBar />
-      <h1>Wishlist</h1>
-      <div className="d-flex justify-content-center align-items-center">
-        <div className="text-left">
-          {wishlist && wishlist.length > 0 ? (
-            wishlist.map((product) => {
-              return (
-                <WishlistHorizontalCard
-                  key={product.product_id}
-                  productId={product.product_id}
-                  productItemId={product.product_item.id}
-                  imgSrc={product.product_item.media.path}
-                  cardTitle={product.product_name}
-                  sellerName={product.seller.seller_name}
-                  originalPrice={product.product_item.original_price}
-                  offerPrice={product.product_item.offer_price}
-                  average_rating={product.average_rating}
-                  ratingCount={product.rating_count}
-                  minOrderQuantity={product.min_order_quantity}
-                  maxOrderQuantity={product.max_order_quantity}
-                  quantityInStock={product.product_item.quantity_in_stock}
-                  productVariantName={product.product_item.product_variant_name}
-                  variant={product.product_item.variant}
-                  variantValue={product.product_item.variant_value}
-                  onDelete={() => handleDelete(product.product_item.id)}
-                  onAddToCart={() =>
-                    handleAddToCart(product.product_item.id, 1)
-                  }
-                />
-              );
-            })
-          ) : (
-            <h1>No item in wishlist</h1>
-          )}
-        </div>
-      </div>
-      <Footer />
+      {isLoading ? ( // display the Loading component while the data is being fetched
+        <Loading />
+      ) : (
+        <>
+          <NavBar />
+          <h1>Wishlist</h1>
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="text-left">
+              {wishlist && wishlist.length > 0 ? (
+                wishlist.map((product) => {
+                  return (
+                    <WishlistHorizontalCard
+                      key={product.product_id}
+                      productId={product.product_id}
+                      productItemId={product.product_item.id}
+                      imgSrc={product.product_item.media.path}
+                      cardTitle={product.product_name}
+                      sellerName={product.seller.seller_name}
+                      originalPrice={product.product_item.original_price}
+                      offerPrice={product.product_item.offer_price}
+                      average_rating={product.average_rating}
+                      ratingCount={product.rating_count}
+                      minOrderQuantity={product.min_order_quantity}
+                      maxOrderQuantity={product.max_order_quantity}
+                      quantityInStock={product.product_item.quantity_in_stock}
+                      productVariantName={
+                        product.product_item.product_variant_name
+                      }
+                      variant={product.product_item.variant}
+                      variantValue={product.product_item.variant_value}
+                      onDelete={() => handleDelete(product.product_item.id)}
+                      onAddToCart={() =>
+                        handleAddToCart(product.product_item.id, 1)
+                      }
+                    />
+                  );
+                })
+              ) : (
+                <h1>No item in wishlist</h1>
+              )}
+            </div>
+          </div>
+          <Footer />
+        </>
+      )}
     </>
   );
 }

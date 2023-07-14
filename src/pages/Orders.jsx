@@ -5,8 +5,10 @@ import Logo from "../assets/logo.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { convertToDateTime, formatDateTime } from "../utils/common";
+import Loading from "../components/loading/Loading"; // import the Loading component
 
 function Orders() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const [ordersList, setOrdersList] = useState([]);
   useEffect(() => {
     api
@@ -14,67 +16,51 @@ function Orders() {
       .then((response) => {
         setOrdersList(response.data === null ? [] : response.data);
         console.log(response.data);
+        setIsLoading(false); // set isLoading to false when the data has been fetched
       })
       .catch((err) => {
         console.error(err);
+        setIsLoading(false); // set isLoading to false when the data has been fetched
       });
   }, []);
 
   return (
     <>
-      <NavBar />
-      <h1>Orders</h1>
-      <div className="d-flex justify-content-center align-items-center">
-        <div className="text-left">
-          {ordersList && ordersList.length > 0 ? (
-            ordersList.map((order) => {
-              const orderedAt = formatDateTime(
-                convertToDateTime(order.added_at)
-              );
-              return (
-                <OrdersHorizontalCard
-                  key={order.order_id + "-" + order.order_item_id}
-                  orderId={order.order_id + "-" + order.order_item_id}
-                  orderItemId={order.order_item_id}
-                  productId={order.product_id}
-                  imgSrc={order.media.path}
-                  cardTitle={order.product_name}
-                  sellerName={order.seller.seller_name}
-                  orderedAt={orderedAt}
-                  orderStatus={order.order_item_status}
-                />
-              );
-            })
-          ) : (
-            <h1>No item in orders</h1>
-          )}
-          {/* <OrdersHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            orderId="1"
-            orderedAt="30 May 2023"
-            orderStatus="Delivered"
-          />
-          <OrdersHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            orderId="1"
-            orderedAt="30 May 2023"
-            orderStatus="Delivered"
-          />
-          <OrdersHorizontalCard
-            imgSrc={Logo}
-            cardTitle="product"
-            sellerName="seller_name"
-            orderId="1"
-            orderedAt="30 May 2023"
-            orderStatus="Delivered"
-          /> */}
-        </div>
-      </div>
-      <Footer />
+      {isLoading ? ( // display the Loading component while the data is being fetched
+        <Loading />
+      ) : (
+        <>
+          <NavBar />
+          <h1>Orders</h1>
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="text-left">
+              {ordersList && ordersList.length > 0 ? (
+                ordersList.map((order) => {
+                  const orderedAt = formatDateTime(
+                    convertToDateTime(order.added_at)
+                  );
+                  return (
+                    <OrdersHorizontalCard
+                      key={order.order_id + "-" + order.order_item_id}
+                      orderId={order.order_id + "-" + order.order_item_id}
+                      orderItemId={order.order_item_id}
+                      productId={order.product_id}
+                      imgSrc={order.media.path}
+                      cardTitle={order.product_name}
+                      sellerName={order.seller.seller_name}
+                      orderedAt={orderedAt}
+                      orderStatus={order.order_item_status}
+                    />
+                  );
+                })
+              ) : (
+                <h1>No item in orders</h1>
+              )}
+            </div>
+          </div>
+          <Footer />
+        </>
+      )}
     </>
   );
 }

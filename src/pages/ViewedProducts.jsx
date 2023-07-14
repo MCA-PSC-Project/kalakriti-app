@@ -10,6 +10,7 @@ import ProductHorizontalCard from "../components/ProductHorizontalCard";
 import Loading from "../components/loading/Loading"; // import the Loading component
 
 function ViewedProducts() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
@@ -25,7 +26,6 @@ function ViewedProducts() {
   }, [showToast]);
 
   const [viewedProducts, setViewedProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
 
   useEffect(() => {
     api

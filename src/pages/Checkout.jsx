@@ -4,8 +4,10 @@ import Footer from "../components/Footer";
 import AddressCard from "../components/AddressCard";
 import api from "../utils/api";
 import { useLocation } from "react-router-dom";
+import Loading from "../components/loading/Loading"; // import the Loading component
 
 function Checkout() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const { state } = useLocation();
   let productItemIds = null;
   if (state) {
@@ -24,10 +26,12 @@ function Checkout() {
             console.log(response.data);
             setProductsList(response.data === null ? [] : response.data);
             setTotalOfferPrice(calculateTotalOfferPrice(response.data));
+            setIsLoading(false); // set isLoading to false when the data has been fetched
           }
         })
         .catch((err) => {
           console.error(err);
+          setIsLoading(false); // set isLoading to false even if there is an error
         });
     } else if (productItemIds) {
       const productStatus = "published";
@@ -40,27 +44,28 @@ function Checkout() {
             console.log(response.data);
             setProductsList(response.data);
             setTotalOfferPrice(calculateTotalOfferPrice(response.data));
+            setIsLoading(false); // set isLoading to false when the data has been fetched
           }
         })
         .catch((err) => {
           console.error(err);
-        });
-
-      api
-        .get(`/addresses`)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data);
-            setAddresses(response.data === null ? [] : response.data);
-            if (response.data && response.data.length > 0) {
-              setSelectedAddress(response.data[0]);
-            }
-          }
-        })
-        .catch((err) => {
-          console.error(err);
+          setIsLoading(false); // set isLoading to false even if there is an error
         });
     }
+    api
+      .get(`/addresses`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          setAddresses(response.data === null ? [] : response.data);
+          if (response.data && response.data.length > 0) {
+            setSelectedAddress(response.data[0]);
+          }
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   function handleSelectedAddressIndex(index) {
@@ -87,142 +92,148 @@ function Checkout() {
 
   return (
     <>
-      <div className="container">
-        <main>
-          <div className="py-5 text-center">
-            <img
-              className="d-block mx-auto mb-4"
-              src={Logo}
-              alt="KalaKriti logo"
-              style={{ width: 150, height: 150 }}
-            />
-            <h2>Checkout Form</h2>
-            {/* <p className="lead">
+      {isLoading ? ( // display the Loading component while the data is being fetched
+        <Loading />
+      ) : (
+        <>
+          <div className="container">
+            <main>
+              <div className="py-5 text-center">
+                <img
+                  className="d-block mx-auto mb-4"
+                  src={Logo}
+                  alt="KalaKriti logo"
+                  style={{ width: 150, height: 150 }}
+                />
+                <h2>Checkout Form</h2>
+                {/* <p className="lead">
               Below is an example form built entirely with Bootstrap’s form
               controls. Each required form group has a validation state that can
               be triggered by attempting to submit the form without completing
               it.
             </p> */}
-          </div>
-
-          <div className="row">
-            <div className="col-md-12">
-              <h3>Selected Products</h3>
-              {productsList &&
-                productsList.length > 0 &&
-                productsList.map((product) => {
-                  return (
-                    <CheckoutProductHorizontalCard
-                      key={product.id}
-                      imgSrc={product.product_item.media.path}
-                      cardTitle={product.product_name}
-                      sellerName={product.seller.seller_name}
-                      originalPrice={product.product_item.original_price}
-                      offerPrice={product.product_item.offer_price}
-                      minOrderQuantity={product.min_order_quantity}
-                      maxOrderQuantity={product.max_order_quantity}
-                      quantityInStock={product.product_item.quantity_in_stock}
-                      quantity={product?.quantity}
-                    />
-                  );
-                })}
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-12">
-              <h2>Shipping Address</h2>
-              <h5>Saved addresses:</h5>
-              <div className="form-check">
-                {selectedAddress ? (
-                  <AddressCard
-                    addressId={selectedAddress.address_id}
-                    fullNamef={selectedAddress.full_name}
-                    mobilef={selectedAddress.mobile_no}
-                    addressLine1={selectedAddress.address_line1}
-                    addressLine2={selectedAddress.address_line2}
-                    districtf={selectedAddress.district}
-                    cityf={selectedAddress.city}
-                    statef={selectedAddress.state}
-                    countryf={selectedAddress.country}
-                    pincodef={selectedAddress.pincode}
-                    landmarkf={selectedAddress.landmark}
-                  />
-                ) : (
-                  <h1>No saved address</h1>
-                )}
               </div>
-              {addresses && addresses.length > 0 && (
-                <button
-                  type="button"
-                  className="btn btn-large btn-outline-warning me-2"
-                  data-bs-toggle="modal"
-                  data-bs-target="#saved-addresses-modal"
-                >
-                  Select another from saved addresses
-                </button>
-              )}
-              <SavedAdressesModal
-                addresses={addresses}
-                onSelectedIndex={handleSelectedAddressIndex}
-              />
 
-              <button
-                type="button"
-                className="btn btn-large btn-outline-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#add-address-modal"
-              >
-                Add new address
-              </button>
-              <AddAddressModal onSelectedAddress={handleSelectedAddress} />
-            </div>
-          </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <h3>Selected Products</h3>
+                  {productsList &&
+                    productsList.length > 0 &&
+                    productsList.map((product) => {
+                      return (
+                        <CheckoutProductHorizontalCard
+                          key={product.id}
+                          imgSrc={product.product_item.media.path}
+                          cardTitle={product.product_name}
+                          sellerName={product.seller.seller_name}
+                          originalPrice={product.product_item.original_price}
+                          offerPrice={product.product_item.offer_price}
+                          minOrderQuantity={product.min_order_quantity}
+                          maxOrderQuantity={product.max_order_quantity}
+                          quantityInStock={
+                            product.product_item.quantity_in_stock
+                          }
+                          quantity={product?.quantity}
+                        />
+                      );
+                    })}
+                </div>
+              </div>
 
-          <div className="row g-5">
-            <div className="col-md-5 col-lg-4 order-md-last">
-              <h4 className="d-flex justify-content-between align-items-center mb-3">
-                <span className="text-primary">Order Summary</span>
-                {/* <span className="badge bg-primary rounded-pill">3</span> */}
-              </h4>
-              <ul className="list-group mb-3">
-                <li className="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 className="my-0">Product items</h6>
-                    <small className="text-body-secondary">Subtotal</small>
+              <div className="row">
+                <div className="col-md-12">
+                  <h2>Shipping Address</h2>
+                  <h5>Saved addresses:</h5>
+                  <div className="form-check">
+                    {selectedAddress ? (
+                      <AddressCard
+                        addressId={selectedAddress.address_id}
+                        fullNamef={selectedAddress.full_name}
+                        mobilef={selectedAddress.mobile_no}
+                        addressLine1={selectedAddress.address_line1}
+                        addressLine2={selectedAddress.address_line2}
+                        districtf={selectedAddress.district}
+                        cityf={selectedAddress.city}
+                        statef={selectedAddress.state}
+                        countryf={selectedAddress.country}
+                        pincodef={selectedAddress.pincode}
+                        landmarkf={selectedAddress.landmark}
+                      />
+                    ) : (
+                      <h1>No saved address</h1>
+                    )}
                   </div>
-                  <span className="text-body-secondary">
-                    <span>&#8377;</span>
-                    {totalOfferPrice}
-                  </span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 className="my-0">Delivery</h6>
-                    <small className="text-body-secondary">Subtotal</small>
-                  </div>
-                  <span className="text-body-secondary">
-                    <span>&#8377;</span>
-                    40
-                  </span>
-                </li>
+                  {addresses && addresses.length > 0 && (
+                    <button
+                      type="button"
+                      className="btn btn-large btn-outline-warning me-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#saved-addresses-modal"
+                    >
+                      Select another from saved addresses
+                    </button>
+                  )}
+                  <SavedAdressesModal
+                    addresses={addresses}
+                    onSelectedIndex={handleSelectedAddressIndex}
+                  />
 
-                {/* <li className="list-group-item d-flex justify-content-between bg-body-tertiary">
+                  <button
+                    type="button"
+                    className="btn btn-large btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#add-address-modal"
+                  >
+                    Add new address
+                  </button>
+                  <AddAddressModal onSelectedAddress={handleSelectedAddress} />
+                </div>
+              </div>
+
+              <div className="row g-5">
+                <div className="col-md-5 col-lg-4 order-md-last">
+                  <h4 className="d-flex justify-content-between align-items-center mb-3">
+                    <span className="text-primary">Order Summary</span>
+                    {/* <span className="badge bg-primary rounded-pill">3</span> */}
+                  </h4>
+                  <ul className="list-group mb-3">
+                    <li className="list-group-item d-flex justify-content-between lh-sm">
+                      <div>
+                        <h6 className="my-0">Product items</h6>
+                        <small className="text-body-secondary">Subtotal</small>
+                      </div>
+                      <span className="text-body-secondary">
+                        <span>&#8377;</span>
+                        {totalOfferPrice}
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between lh-sm">
+                      <div>
+                        <h6 className="my-0">Delivery</h6>
+                        <small className="text-body-secondary">Subtotal</small>
+                      </div>
+                      <span className="text-body-secondary">
+                        <span>&#8377;</span>
+                        40
+                      </span>
+                    </li>
+
+                    {/* <li className="list-group-item d-flex justify-content-between bg-body-tertiary">
                   <div className="text-success">
                     <h6 className="my-0">Promo code</h6>
                     <small>EXAMPLECODE</small>
                   </div>
                   <span className="text-success">−$5</span>
                 </li> */}
-                <li className="list-group-item d-flex justify-content-between">
-                  <span>Total (INR)</span>
-                  <strong>
-                    <span>&#8377;</span>
-                    540
-                  </strong>
-                </li>
-              </ul>
-              {/* <form className="card p-2">
+                    <li className="list-group-item d-flex justify-content-between">
+                      <span>Total (INR)</span>
+                      <strong>
+                        <span>&#8377;</span>
+                        540
+                      </strong>
+                    </li>
+                  </ul>
+                  {/* <form className="card p-2">
                 <div className="input-group">
                   <input
                     type="text"
@@ -234,16 +245,18 @@ function Checkout() {
                   </button>
                 </div>
               </form> */}
-            </div>
-            <div className="col-md-7 col-lg-8">
-              {/* <h4 className="mb-3">Billing address</h4> */}
-              {/* <AddressFormOld/> */}
-              <PaymentForm />
-            </div>
+                </div>
+                <div className="col-md-7 col-lg-8">
+                  {/* <h4 className="mb-3">Billing address</h4> */}
+                  {/* <AddressFormOld/> */}
+                  <PaymentForm />
+                </div>
+              </div>
+            </main>
           </div>
-        </main>
-      </div>
-      <Footer />
+          <Footer />
+        </>
+      )}
     </>
   );
 }

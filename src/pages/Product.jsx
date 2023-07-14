@@ -20,8 +20,10 @@ import "./Product.css";
 import api from "../utils/api";
 import AuthConsumer from "../hooks/useAuth";
 import Toast from "../components/Toast";
+import Loading from "../components/loading/Loading"; // import the Loading component
 
 function Product() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
@@ -60,10 +62,12 @@ function Product() {
         if (response.status === 200) {
           console.log(response.data);
           setProduct(response.data === null ? {} : response.data);
+          setIsLoading(false); // set isLoading to false when the data has been fetched
         }
       })
       .catch((err) => {
         console.error(err);
+        setIsLoading(false); // set isLoading to false even if there is an error
       });
 
     api
@@ -190,6 +194,10 @@ function Product() {
           onClose={() => setShowToast(false)}
         />
       )}
+      {isLoading ? ( // display the Loading component while the data is being fetched
+        <Loading />
+      ) : (
+        <>
       <NavBar />
       {/* content */}
       <section className="py-5">
@@ -546,6 +554,8 @@ function Product() {
         </div>
       </section>
       <Footer />
+    </>
+    )}
     </>
   );
 }

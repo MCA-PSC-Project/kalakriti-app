@@ -6,8 +6,10 @@ import Rating from "../components/Rating";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import Toast from "../components/Toast";
+import Loading from "../components/loading/Loading"; // import the Loading component
 
 function Cart() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
 
@@ -42,10 +44,12 @@ function Cart() {
           setTotalOfferPrice(calculateTotalOfferPrice(response.data));
           console.log(response.data);
           // console.log("cartItemsList= ", cartItemsList);
+          setIsLoading(false); // set isLoading to false when the data has been fetched
         }
       })
       .catch((err) => {
         console.error(err);
+        setIsLoading(false); // set isLoading to false even if there is an error
       });
   }, []);
 
@@ -106,56 +110,62 @@ function Cart() {
           onClose={() => setShowToast(false)}
         />
       )}
-      <NavBar />
-      <h1>Cart</h1>
-      <div className="d-flex justify-content-center align-items-center">
-        <div className="text-left">
-          {cartItemsList && cartItemsList.length > 0 ? (
-            cartItemsList.map((cartItem) => {
-              return (
-                <CartItemHorizontalCard
-                  key={cartItem.product_id}
-                  cartId={cartItem.cart_id}
-                  productId={cartItem.product_id}
-                  productItemId={cartItem.product_item.id}
-                  imgSrc={cartItem.product_item.media.path}
-                  cardTitle={cartItem.product_name}
-                  sellerName={cartItem.seller.seller_name}
-                  originalPrice={cartItem.product_item.original_price}
-                  offerPrice={cartItem.product_item.offer_price}
-                  minOrderQuantity={cartItem.min_order_quantity}
-                  maxOrderQuantity={cartItem.max_order_quantity}
-                  // quantity previously selected
-                  quantity={cartItem.quantity}
-                  stockStatus={
-                    cartItem.product_item.quantity_in_stock >=
-                    cartItem.min_order_quantity
-                      ? true
-                      : false
-                  }
-                  productVariantName={
-                    cartItem.product_item.product_variant_name
-                  }
-                  onDelete={() => handleDelete(cartItem.product_item.id)}
-                  onQuantityChange={(productItemId, selectedQuantity) =>
-                    handleQuantityChange(productItemId, selectedQuantity)
-                  }
-                  onShowToast={handleShowToast}
-                />
-              );
-            })
-          ) : (
-            <h1>Cart Empty</h1>
-          )}
-        </div>
-      </div>
-      <Footer />
-      <div className="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
-        <CartFooter
-          itemsQuantity={cartItemsList.length}
-          subtotal={totalOfferPrice}
-        />
-      </div>
+      {isLoading ? ( // display the Loading component while the data is being fetched
+        <Loading />
+      ) : (
+        <>
+          <NavBar />
+          <h1>Cart</h1>
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="text-left">
+              {cartItemsList && cartItemsList.length > 0 ? (
+                cartItemsList.map((cartItem) => {
+                  return (
+                    <CartItemHorizontalCard
+                      key={cartItem.product_id}
+                      cartId={cartItem.cart_id}
+                      productId={cartItem.product_id}
+                      productItemId={cartItem.product_item.id}
+                      imgSrc={cartItem.product_item.media.path}
+                      cardTitle={cartItem.product_name}
+                      sellerName={cartItem.seller.seller_name}
+                      originalPrice={cartItem.product_item.original_price}
+                      offerPrice={cartItem.product_item.offer_price}
+                      minOrderQuantity={cartItem.min_order_quantity}
+                      maxOrderQuantity={cartItem.max_order_quantity}
+                      // quantity previously selected
+                      quantity={cartItem.quantity}
+                      stockStatus={
+                        cartItem.product_item.quantity_in_stock >=
+                        cartItem.min_order_quantity
+                          ? true
+                          : false
+                      }
+                      productVariantName={
+                        cartItem.product_item.product_variant_name
+                      }
+                      onDelete={() => handleDelete(cartItem.product_item.id)}
+                      onQuantityChange={(productItemId, selectedQuantity) =>
+                        handleQuantityChange(productItemId, selectedQuantity)
+                      }
+                      onShowToast={handleShowToast}
+                    />
+                  );
+                })
+              ) : (
+                <h1>Cart Empty</h1>
+              )}
+            </div>
+          </div>
+          <Footer />
+          <div className="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
+            <CartFooter
+              itemsQuantity={cartItemsList.length}
+              subtotal={totalOfferPrice}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 }
