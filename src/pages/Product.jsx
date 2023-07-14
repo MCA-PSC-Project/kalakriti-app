@@ -48,6 +48,7 @@ function Product() {
   const [isProductReviewsShown, setIsProductReviewsShown] = useState(false);
   const [mediaSrcList, setMediaSrcList] = useState([]);
   const [isItemInWishlist, setIsItemInWishlist] = useState(false);
+  const [stockStatus, setStockStatus] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -120,6 +121,11 @@ function Product() {
           setIsItemInWishlist(false);
           console.error(err);
         });
+      setStockStatus(
+        selectedProductItem.quantity_in_stock >= product.min_order_quantity
+          ? true
+          : false
+      );
     }
   }, [selectedProductItem]);
 
@@ -198,364 +204,422 @@ function Product() {
         <Loading />
       ) : (
         <>
-      <NavBar />
-      {/* content */}
-      <section className="py-5">
-        <div className="container">
-          <div className="row gx-5">
-            <aside className="col-lg-6">
-              <MediaCarousel mediaSrcList={mediaSrcList} />
-              <div className="d-flex justify-content-center mb-3"></div>
-              {/* thumbs-wrap.// */}
-              {/* gallery-wrap .end// */}
-            </aside>
-            <main className="col-lg-6">
-              <div className="ps-lg-3">
-                <h4 className="title text-dark">{product?.product_name}</h4>
-                <h6 className="title text-dark">
-                  sold by &nbsp;
-                  <b className="text text-info">
-                    <Link to="" title="view seller details">
-                      {product?.seller?.seller_name}
-                    </Link>
-                  </b>
-                </h6>
-                <div className="d-flex flex-row my-3">
-                  <div className="text-warning mb-1 me-2">
-                    <span className="ms-1">
-                      {parseFloat(product?.average_rating).toFixed(1)}
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size="xl"
-                        style={{ color: "#ffff00" }}
-                      />
-                    </span>
-                    |<span>&nbsp;{product?.rating_count} Ratings</span>
-                  </div>
-                  {/* <span className="text-muted">
+          <NavBar />
+          {/* content */}
+          <section className="py-5">
+            <div className="container">
+              <div className="row gx-5">
+                <aside className="col-lg-6">
+                  <MediaCarousel mediaSrcList={mediaSrcList} />
+                  <div className="d-flex justify-content-center mb-3"></div>
+                  {/* thumbs-wrap.// */}
+                  {/* gallery-wrap .end// */}
+                </aside>
+                <main className="col-lg-6">
+                  <div className="ps-lg-3">
+                    <h4 className="title text-dark">{product?.product_name}</h4>
+                    <h6 className="title text-dark">
+                      sold by &nbsp;
+                      <b className="text text-info">
+                        <Link to="" title="view seller details">
+                          {product?.seller?.seller_name}
+                        </Link>
+                      </b>
+                    </h6>
+                    <div className="d-flex flex-row my-3">
+                      <div className="text-warning mb-1 me-2">
+                        <span className="ms-1">
+                          {parseFloat(product?.average_rating).toFixed(1)}
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            size="xl"
+                            style={{ color: "#ffff00" }}
+                          />
+                        </span>
+                        |<span>&nbsp;{product?.rating_count} Ratings</span>
+                      </div>
+                      {/* <span className="text-muted">
                     <i className="fas fa-shopping-basket fa-sm mx-1" />
                     154 orders
                   </span> */}
-                  {/* <span className="text-success ms-2">In stock</span> */}
-                </div>
-                <div className="mb-3">
-                  <button
-                    type="button"
-                    className="btn border px-2 me-2"
-                    title={
-                      isItemInWishlist
-                        ? "Remove From wishlist"
-                        : "Add To wishlist"
-                    }
-                    onClick={() => handleWishlistClick()}
-                  >
-                    {isItemInWishlist ? (
-                      <FontAwesomeIcon
-                        icon={faHeartFilled}
-                        size="xl"
-                        style={{ color: "#ff0000" }}
-                        // beatFade
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faHeart}
-                        size="xl"
-                        style={{ color: "#ff0000" }}
-                        // beatFade
-                      />
-                    )}
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn border px-2 me-2"
-                    title="share"
-                    // onClick=""
-                  >
-                    <FontAwesomeIcon
-                      icon={faShare}
-                      size="xl"
-                      style={{ color: "#20511f" }}
-                    />
-                  </button>
-                </div>
-                <div className="text-success mb-1">In stock</div>
-                <div className="mb-3">
-                  <span>
-                    <del>
-                      &#8377;
-                      {selectedProductItem?.original_price}
-                    </del>
-                  </span>
-                  &nbsp;
-                  <span>
-                    <b>
-                      &#8377;
-                      {selectedProductItem?.offer_price}
-                    </b>
-                  </span>
-                </div>
-                <hr />
-
-                <div className="row mb-4">
-                  <div className="col-md-4 col-6">
-                    {product?.product_items?.map((product_item) => {
-                      return (
-                        <button
-                          type="button"
-                          className="btn btn-outline-secondary shadow-0 me-2"
-                          key={product_item.id}
-                          disabled={
-                            product_item === selectedProductItem
-                              ? "true"
-                              : undefined
-                          }
-                          onClick={() => setSelectedProductItem(product_item)}
-                        >
-                          {product_item.product_variant_name}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="row mb-4">
-                  {/* col.// */}
-                  <div className="col-md-4 col-6 mb-3">
-                    <label className="mb-2 d-block">Quantity</label>
-                    <div className="input-group mb-3" style={{ width: 170 }}>
+                      {/* <span className="text-success ms-2">In stock</span> */}
+                    </div>
+                    <div className="mb-3">
                       <button
-                        className="btn btn-white border border-secondary px-3"
                         type="button"
-                        id="button-decrement-quantity"
-                        data-mdb-ripple-color="dark"
-                        onClick={(event) =>
-                          quantity > product.min_order_quantity
-                            ? setQuantity(quantity - 1)
-                            : null
+                        className="btn border px-2 me-2"
+                        title={
+                          isItemInWishlist
+                            ? "Remove From wishlist"
+                            : "Add To wishlist"
                         }
+                        onClick={() => handleWishlistClick()}
                       >
-                        <FontAwesomeIcon
-                          icon={faMinus}
-                          size="lg"
-                          style={{ color: "#000000" }}
-                        />
+                        {isItemInWishlist ? (
+                          <FontAwesomeIcon
+                            icon={faHeartFilled}
+                            size="xl"
+                            style={{ color: "#ff0000" }}
+                            // beatFade
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faHeart}
+                            size="xl"
+                            style={{ color: "#ff0000" }}
+                            // beatFade
+                          />
+                        )}
                       </button>
-                      <input
-                        type="text"
-                        className="form-control text-center border border-secondary"
-                        placeholder={quantity}
-                        aria-label="Example text with button addon"
-                        aria-describedby="button-addon1"
-                      />
+
                       <button
-                        className="btn btn-white border border-secondary px-3"
-                        type="button-increment-quantity"
-                        id="button-addon2"
-                        data-mdb-ripple-color="dark"
-                        onClick={(event) =>
-                          quantity < product.max_order_quantity
-                            ? setQuantity(quantity + 1)
-                            : null
-                        }
+                        type="button"
+                        className="btn border px-2 me-2"
+                        title="share"
+                        // onClick=""
                       >
                         <FontAwesomeIcon
-                          icon={faPlus}
-                          size="lg"
-                          style={{ color: "#000000" }}
+                          icon={faShare}
+                          size="xl"
+                          style={{ color: "#20511f" }}
                         />
                       </button>
                     </div>
-                  </div>
-                </div>
-                <div className="mb-4">
-                  {isLoggedIn ? (
-                    <>
-                      <span className="text text-success">Delivery: </span>
-                      <span>between 7-10 June</span>
-                    </>
-                  ) : (
-                    <>
-                      <form>
-                        <div className="input-group">
+                    {/* <div className="text-success mb-1">In stock</div> */}
+                    {stockStatus ? (
+                      <h5 className="text-success">In Stock</h5>
+                    ) : (
+                      <h5 className="text-danger">Out Of Stock</h5>
+                    )}
+                    <div
+                      className="mb-3"
+                      style={{ display: stockStatus ? null : "none" }}
+                    >
+                      <span>
+                        <del>
+                          &#8377;
+                          {selectedProductItem?.original_price}
+                        </del>
+                      </span>
+                      &nbsp;
+                      <span>
+                        <b>
+                          &#8377;
+                          {selectedProductItem?.offer_price}
+                        </b>
+                      </span>
+                    </div>
+                    <hr />
+
+                    <div className="row mb-4">
+                      <div className="col-md-4 col-6">
+                        {product?.product_items?.map((product_item) => {
+                          return (
+                            <button
+                              type="button"
+                              className="btn btn-outline-secondary shadow-0 me-2"
+                              key={product_item.id}
+                              disabled={
+                                product_item === selectedProductItem
+                                  ? "true"
+                                  : undefined
+                              }
+                              onClick={() =>
+                                setSelectedProductItem(product_item)
+                              }
+                            >
+                              {product_item.product_variant_name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="row mb-4">
+                      {/* col.// */}
+                      <div className="col-md-4 col-6 mb-3">
+                        <label className="mb-2 d-block">Quantity</label>
+                        <div
+                          className="input-group mb-3"
+                          style={{ width: 170 }}
+                        >
+                          <button
+                            className="btn btn-white border border-secondary px-3"
+                            type="button"
+                            id="button-decrement-quantity"
+                            data-mdb-ripple-color="dark"
+                            onClick={(event) =>
+                              quantity > product.min_order_quantity
+                                ? setQuantity(quantity - 1)
+                                : null
+                            }
+                          >
+                            <FontAwesomeIcon
+                              icon={faMinus}
+                              size="lg"
+                              style={{ color: "#000000" }}
+                            />
+                          </button>
                           <input
                             type="text"
-                            className="form-control-sm"
-                            placeholder="Enter Pincode here"
+                            className="form-control text-center border border-secondary"
+                            placeholder={quantity}
+                            aria-label="Example text with button addon"
+                            aria-describedby="button-addon1"
                           />
-                          <button className="btn btn-info input-group-text shadow-0">
-                            Check Delivery
+                          <button
+                            className="btn btn-white border border-secondary px-3"
+                            type="button-increment-quantity"
+                            id="button-addon2"
+                            data-mdb-ripple-color="dark"
+                            onClick={(event) =>
+                              quantity < product.max_order_quantity
+                                ? setQuantity(quantity + 1)
+                                : null
+                            }
+                          >
+                            <FontAwesomeIcon
+                              icon={faPlus}
+                              size="lg"
+                              style={{ color: "#000000" }}
+                            />
                           </button>
                         </div>
-                      </form>
-                    </>
-                  )}
-                </div>
-                <button className="btn btn-success shadow-0 me-2">
-                  Buy now
-                </button>
-                <button className="btn btn-warning shadow-0 me-2">
-                  Add to cart
-                </button>
-              </div>
-            </main>
-          </div>
-        </div>
-      </section>
-      {/* content */}
-      <section className="bg-light border-top py-4">
-        <div className="container">
-          <div className="row gx-4">
-            <div className="col-lg-8 mb-4">
-              <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li className="nav-item" role="presentation">
-                  <button
-                    className="nav-link active"
-                    id="pills-description-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-description"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-description"
-                    aria-selected="true"
-                  >
-                    Description
-                  </button>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <button
-                    className="nav-link"
-                    id="pills-reviews-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-reviews"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-reviews"
-                    aria-selected="false"
-                    onClick={() => setIsProductReviewsShown(true)}
-                  >
-                    Product Reviews
-                  </button>
-                </li>
-              </ul>
-              <div className="tab-content" id="pills-tabContent">
-                {/* for Description */}
-                <div
-                  className="tab-pane fade show active"
-                  id="pills-description"
-                  role="tabpanel"
-                  aria-labelledby="pills-description-tab"
-                >
-                  {product?.product_description}
-                  {/* lorem*10 */}
-                </div>
-                {/* for product reviews */}
-                <div
-                  className="tab-pane fade"
-                  id="pills-reviews"
-                  role="tabpanel"
-                  aria-labelledby="pills-reviews-tab"
-                >
-                  {productReviewsList.map((productReview) => {
-                    return (
-                      <Review
-                        key={productReview.id}
-                        profilePicSrc={productReview.dp.path}
-                        userName={
-                          productReview.first_name +
-                          " " +
-                          productReview.last_name
-                        }
-                        rating={productReview.rating}
-                        review={productReview.review}
-                        added_at={productReview.added_at}
-                        updated_at={productReview.updated_at}
-                      />
-                    );
-                  })}
-                </div>
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      {isLoggedIn ? (
+                        <>
+                          <span className="text text-success">Delivery: </span>
+                          <span>between 7-10 June</span>
+                        </>
+                      ) : (
+                        <>
+                          <form>
+                            <div className="input-group">
+                              <input
+                                type="text"
+                                className="form-control-sm"
+                                placeholder="Enter Pincode here"
+                              />
+                              <button className="btn btn-info input-group-text shadow-0">
+                                Check Delivery
+                              </button>
+                            </div>
+                          </form>
+                        </>
+                      )}
+                    </div>
+                    <button
+                      className="btn btn-success shadow-0 me-2"
+                      disabled={!stockStatus}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        navigate("/checkout", {
+                          state: [productItemId],
+                        });
+                      }}
+                    >
+                      Buy now
+                    </button>
+                    <button
+                      className="btn btn-warning shadow-0 me-2"
+                      disabled={!stockStatus}
+                      onClick={() => {
+                        api
+                          .post("/carts", {
+                            product_item_id: selectedProductItem.id,
+                            quantity: quantity,
+                          })
+                          .then((response) => {
+                            if (response.data) {
+                              console.log("item added to cart successfully");
+                              setShowToast(true);
+                              setToastProperties({
+                                toastType: "success",
+                                toastMessage: "Item added to Cart successfully",
+                              });
+                            }
+                          })
+                          .catch((error) => {
+                            console.error(
+                              "some error occured in adding to cart"
+                            );
+                            console.error(error);
+                            setShowToast(true);
+                            setToastProperties({
+                              toastType: "error",
+                              toastMessage:
+                                "some error occured in adding to cart",
+                            });
+                          });
+                      }}
+                    >
+                      Add to cart
+                    </button>
+                  </div>
+                </main>
               </div>
             </div>
-            {/* for similar items */}
-            <div className="col-lg-4">
-              <div className="px-0 border rounded-2 shadow-0">
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="card-title">Similar items</h5>
-                    <div className="d-flex mb-3">
-                      <a href="#" className="me-3">
-                        <img
-                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp"
-                          style={{ minWidth: 96, height: 96 }}
-                          className="img-md img-thumbnail"
-                        />
-                      </a>
-                      <div className="info">
-                        <a href="#" className="nav-link mb-1">
-                          Rucksack Backpack Large <br />
-                          Line Mounts
-                        </a>
-                        <strong className="text-dark"> $38.90</strong>
-                      </div>
+          </section>
+          {/* content */}
+          <section className="bg-light border-top py-4">
+            <div className="container">
+              <div className="row gx-4">
+                <div className="col-lg-8 mb-4">
+                  <ul
+                    className="nav nav-pills mb-3"
+                    id="pills-tab"
+                    role="tablist"
+                  >
+                    <li className="nav-item" role="presentation">
+                      <button
+                        className="nav-link active"
+                        id="pills-description-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-description"
+                        type="button"
+                        role="tab"
+                        aria-controls="pills-description"
+                        aria-selected="true"
+                      >
+                        Description
+                      </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                      <button
+                        className="nav-link"
+                        id="pills-reviews-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-reviews"
+                        type="button"
+                        role="tab"
+                        aria-controls="pills-reviews"
+                        aria-selected="false"
+                        onClick={() => setIsProductReviewsShown(true)}
+                      >
+                        Product Reviews
+                      </button>
+                    </li>
+                  </ul>
+                  <div className="tab-content" id="pills-tabContent">
+                    {/* for Description */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="pills-description"
+                      role="tabpanel"
+                      aria-labelledby="pills-description-tab"
+                    >
+                      {product?.product_description}
+                      {/* lorem*10 */}
                     </div>
-                    <div className="d-flex mb-3">
-                      <a href="#" className="me-3">
-                        <img
-                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp"
-                          style={{ minWidth: 96, height: 96 }}
-                          className="img-md img-thumbnail"
-                        />
-                      </a>
-                      <div className="info">
-                        <a href="#" className="nav-link mb-1">
-                          Summer New Men's Denim <br />
-                          Jeans Shorts
-                        </a>
-                        <strong className="text-dark"> $29.50</strong>
-                      </div>
+                    {/* for product reviews */}
+                    <div
+                      className="tab-pane fade"
+                      id="pills-reviews"
+                      role="tabpanel"
+                      aria-labelledby="pills-reviews-tab"
+                    >
+                      {productReviewsList.map((productReview) => {
+                        return (
+                          <Review
+                            key={productReview.id}
+                            profilePicSrc={productReview.dp.path}
+                            userName={
+                              productReview.first_name +
+                              " " +
+                              productReview.last_name
+                            }
+                            rating={productReview.rating}
+                            review={productReview.review}
+                            added_at={productReview.added_at}
+                            updated_at={productReview.updated_at}
+                          />
+                        );
+                      })}
                     </div>
-                    <div className="d-flex mb-3">
-                      <a href="#" className="me-3">
-                        <img
-                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp"
-                          style={{ minWidth: 96, height: 96 }}
-                          className="img-md img-thumbnail"
-                        />
-                      </a>
-                      <div className="info">
-                        <a href="#" className="nav-link mb-1">
-                          {" "}
-                          T-shirts with multiple colors, for men and lady{" "}
-                        </a>
-                        <strong className="text-dark"> $120.00</strong>
-                      </div>
-                    </div>
-                    <div className="d-flex">
-                      <a href="#" className="me-3">
-                        <img
-                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp"
-                          style={{ minWidth: 96, height: 96 }}
-                          className="img-md img-thumbnail"
-                        />
-                      </a>
-                      <div className="info">
-                        <a href="#" className="nav-link mb-1">
-                          {" "}
-                          Blazer Suit Dress Jacket for Men, Blue color{" "}
-                        </a>
-                        <strong className="text-dark"> $339.90</strong>
+                  </div>
+                </div>
+                {/* for similar items */}
+                <div className="col-lg-4">
+                  <div className="px-0 border rounded-2 shadow-0">
+                    <div className="card">
+                      <div className="card-body">
+                        <h5 className="card-title">Similar items</h5>
+                        <div className="d-flex mb-3">
+                          <a href="#" className="me-3">
+                            <img
+                              src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp"
+                              style={{ minWidth: 96, height: 96 }}
+                              className="img-md img-thumbnail"
+                            />
+                          </a>
+                          <div className="info">
+                            <a href="#" className="nav-link mb-1">
+                              Rucksack Backpack Large <br />
+                              Line Mounts
+                            </a>
+                            <strong className="text-dark"> $38.90</strong>
+                          </div>
+                        </div>
+                        <div className="d-flex mb-3">
+                          <a href="#" className="me-3">
+                            <img
+                              src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp"
+                              style={{ minWidth: 96, height: 96 }}
+                              className="img-md img-thumbnail"
+                            />
+                          </a>
+                          <div className="info">
+                            <a href="#" className="nav-link mb-1">
+                              Summer New Men's Denim <br />
+                              Jeans Shorts
+                            </a>
+                            <strong className="text-dark"> $29.50</strong>
+                          </div>
+                        </div>
+                        <div className="d-flex mb-3">
+                          <a href="#" className="me-3">
+                            <img
+                              src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp"
+                              style={{ minWidth: 96, height: 96 }}
+                              className="img-md img-thumbnail"
+                            />
+                          </a>
+                          <div className="info">
+                            <a href="#" className="nav-link mb-1">
+                              {" "}
+                              T-shirts with multiple colors, for men and lady{" "}
+                            </a>
+                            <strong className="text-dark"> $120.00</strong>
+                          </div>
+                        </div>
+                        <div className="d-flex">
+                          <a href="#" className="me-3">
+                            <img
+                              src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp"
+                              style={{ minWidth: 96, height: 96 }}
+                              className="img-md img-thumbnail"
+                            />
+                          </a>
+                          <div className="info">
+                            <a href="#" className="nav-link mb-1">
+                              {" "}
+                              Blazer Suit Dress Jacket for Men, Blue color{" "}
+                            </a>
+                            <strong className="text-dark"> $339.90</strong>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <Footer />
-    </>
-    )}
+          </section>
+          <Footer />
+        </>
+      )}
     </>
   );
 }
