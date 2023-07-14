@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
 import { Link } from "react-router-dom";
+import Loading from "./loading/Loading"; // import the Loading component
 
 function BannerCarousel() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const [bannersList, setBannersList] = useState([]);
   useEffect(() => {
     api
@@ -10,9 +12,11 @@ function BannerCarousel() {
       .then((response) => {
         setBannersList(response.data === null ? [] : response.data);
         console.log(response.data);
+        setIsLoading(false); // set isLoading to false when the data has been fetched
       })
       .catch((err) => {
         console.error(err);
+        setIsLoading(false); // set isLoading to false even if there is an error
       });
   }, []);
   const elements = [];
@@ -30,23 +34,29 @@ function BannerCarousel() {
     );
   }
   return (
-    <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
-      <div className="carousel-indicators">{elements}</div>
-      <div className="carousel-inner">
-        {bannersList.map((banner, index) => {
-          return (
-            <div
-              className={index === 0 ? "carousel-item active" : "carousel-item"}
-            >
-              <a href={banner.redirect_url} title="">
-                <img
-                  src={banner.media.path}
-                  className="d-block w-100"
-                  alt="banner"
-                  style={{ width: "100%", height: "400px" }}
-                />
-              </a>
-              {/* <div className="container">
+    <>
+      {isLoading ? ( // display the Loading component while the data is being fetched
+        <Loading />
+      ) : (
+        <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
+          <div className="carousel-indicators">{elements}</div>
+          <div className="carousel-inner">
+            {bannersList.map((banner, index) => {
+              return (
+                <div
+                  className={
+                    index === 0 ? "carousel-item active" : "carousel-item"
+                  }
+                >
+                  <a href={banner.redirect_url} title="">
+                    <img
+                      src={banner.media.path}
+                      className="d-block w-100"
+                      alt="banner"
+                      style={{ width: "100%", height: "400px" }}
+                    />
+                  </a>
+                  {/* <div className="container">
             <div className="carousel-caption text-start">
               <h1>Example headline.</h1>
               <p>
@@ -60,29 +70,37 @@ function BannerCarousel() {
               </p>
             </div>
           </div> */}
-            </div>
-          );
-        })}
-      </div>
-      <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="prev"
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="next"
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div>
+                </div>
+              );
+            })}
+          </div>
+          <button
+            className="carousel-control-prev"
+            type="button"
+            data-bs-target="#myCarousel"
+            data-bs-slide="prev"
+          >
+            <span
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#myCarousel"
+            data-bs-slide="next"
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Next</span>
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 
