@@ -45,6 +45,7 @@ function Orders() {
                       orderId={order.order_id + "-" + order.order_item_id}
                       orderItemId={order.order_item_id}
                       productId={order.product_id}
+                      productItemId={order.product_item_id}
                       imgSrc={order.media.path}
                       cardTitle={order.product_name}
                       sellerName={order.seller.seller_name}
@@ -72,6 +73,7 @@ function OrdersHorizontalCard({
   orderId,
   orderItemId,
   productId,
+  productItemId,
   orderedAt,
   orderStatus,
 }) {
@@ -115,7 +117,16 @@ function OrdersHorizontalCard({
               Order Status: <span className="text-info">{orderStatus}</span>
             </p>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <button type="button" className="btn btn-success me-2">
+              <button
+                type="button"
+                className="btn btn-success me-2"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  navigate("/checkout", {
+                    state: [productItemId],
+                  });
+                }}
+              >
                 Buy Again
               </button>
 

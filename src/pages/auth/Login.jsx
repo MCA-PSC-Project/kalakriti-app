@@ -72,7 +72,7 @@ function Login() {
             // <div className="alert alert-danger" role="alert">
             //   Login unsuccessful!!
             // </div>
-            <Alert alertType="danger" message="Login unsuccessful!!" />
+            <Alert alertType="danger" message="Login Unsuccessful!!" />
           )}
           <div className="form-floating">
             <input
