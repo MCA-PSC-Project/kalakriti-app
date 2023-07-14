@@ -38,7 +38,7 @@ function NavBar() {
   // const { authed, logout } = useAuth();
   const { authed, logout } = AuthConsumer();
   const isLoggedIn = authed ? true : false;
-  console.log("isLogedIn=", authed);
+  // console.log("isLogedIn=", authed);
   // useEffect(() => {
   //   console.log(authed);
   // }, [authed]);

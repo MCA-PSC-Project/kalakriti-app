@@ -16,6 +16,7 @@ function Checkout() {
   const [productsList, setProductsList] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [addressSelectionDone, setAddressSelectionDone] = useState(false);
 
   useEffect(() => {
     if (!productItemIds) {
@@ -60,6 +61,7 @@ function Checkout() {
           setAddresses(response.data === null ? [] : response.data);
           if (response.data && response.data.length > 0) {
             setSelectedAddress(response.data[0]);
+            setAddressSelectionDone(true);
           }
         }
       })
@@ -72,11 +74,13 @@ function Checkout() {
     if (index >= 0 && index < addresses.length) {
       // console.log("addresses[index]=", addresses[index]);
       setSelectedAddress(addresses[index]);
+      addressSelectionDone(true);
     }
   }
 
   function handleSelectedAddress(addressObject) {
     setSelectedAddress(addressObject);
+    addressSelectionDone(true);
   }
 
   const [totalOfferPrice, setTotalOfferPrice] = useState(0);
@@ -142,8 +146,11 @@ function Checkout() {
 
               <div className="row">
                 <div className="col-md-12">
-                  <h2>Shipping Address</h2>
-                  <h5>Saved addresses:</h5>
+                  <h4 className="d-flex justify-content-between align-items-center mb-3">
+                    <span className="text-primary">Shipping Address</span>
+                  </h4>
+                  {/* <h2>Shipping Address</h2> */}
+                  {/* <h5>Saved addresses:</h5> */}
                   <div className="form-check">
                     {selectedAddress ? (
                       <AddressCard
@@ -190,8 +197,8 @@ function Checkout() {
                 </div>
               </div>
 
-              <div className="row g-5">
-                <div className="col-md-5 col-lg-4 order-md-last">
+              <div className="row">
+                <div className="col-md-6 col-lg-6">
                   <h4 className="d-flex justify-content-between align-items-center mb-3">
                     <span className="text-primary">Order Summary</span>
                     {/* <span className="badge bg-primary rounded-pill">3</span> */}
@@ -229,7 +236,7 @@ function Checkout() {
                       <span>Total (INR)</span>
                       <strong>
                         <span>&#8377;</span>
-                        540
+                        {totalOfferPrice}
                       </strong>
                     </li>
                   </ul>
@@ -246,10 +253,19 @@ function Checkout() {
                 </div>
               </form> */}
                 </div>
+              </div>
+              <div className="row">
+                {/* <h4 className="mb-3">Billing address</h4> */}
+                {/* <AddressFormOld/> */}
                 <div className="col-md-7 col-lg-8">
-                  {/* <h4 className="mb-3">Billing address</h4> */}
-                  {/* <AddressFormOld/> */}
-                  <PaymentForm />
+                  <button
+                    className="w-100 btn btn-success btn-lg"
+                    type="submit"
+                    disabled={!addressSelectionDone}
+                  >
+                    Continue to checkout
+                  </button>
+                  {/* <PaymentForm /> */}
                 </div>
               </div>
             </main>
@@ -1054,9 +1070,13 @@ function PaymentForm() {
           </div>
         </div>
         <hr className="my-4" />
-        <button className="w-100 btn btn-primary btn-lg" type="submit">
+        {/* <button
+          className="w-100 btn btn-primary btn-lg"
+          type="submit"
+          disabled={!addressSelectionDone}
+        >
           Continue to checkout
-        </button>
+        </button> */}
       </form>
     </>
   );
