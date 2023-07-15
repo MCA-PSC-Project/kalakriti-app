@@ -3,10 +3,14 @@ import Logo from "../assets/logo.jpeg";
 import Footer from "../components/Footer";
 import AddressCard from "../components/AddressCard";
 import api from "../utils/api";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../components/loading/Loading"; // import the Loading component
 
-function Checkout() {
+function Checkout({ setHasVisitedCheckout }) {
+  useEffect(() => {
+    setHasVisitedCheckout(true);
+  }, [setHasVisitedCheckout]);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const { state } = useLocation();
   let productItemIds = null;
@@ -84,6 +88,10 @@ function Checkout() {
   }
 
   const [totalOfferPrice, setTotalOfferPrice] = useState(0);
+  const [totalDeliveryCharge, setTotalDeliveryCharge] = useState(0);
+  const [totalTaxCharge, setTotalTaxCharge] = useState(0);
+  const [totalDiscount, setTotalDiscount] = useState(0);
+
   function calculateTotalOfferPrice(data) {
     let total = 0;
     data.forEach((item) => {
@@ -220,11 +228,32 @@ function Checkout() {
                         <small className="text-body-secondary">Subtotal</small>
                       </div>
                       <span className="text-body-secondary">
-                        <span>&#8377;</span>
-                        40
+                        <span>+&#8377;</span>
+                        {totalDeliveryCharge}
                       </span>
                     </li>
 
+                    <li className="list-group-item d-flex justify-content-between lh-sm">
+                      <div>
+                        <h6 className="my-0">Tax</h6>
+                        <small className="text-body-secondary">Subtotal</small>
+                      </div>
+                      <span className="text-body-secondary">
+                        <span>+&#8377;</span>
+                        {totalTaxCharge}
+                      </span>
+                    </li>
+
+                    <li className="list-group-item d-flex justify-content-between lh-sm">
+                      <div>
+                        <h6 className="my-0">Discount applied</h6>
+                        <small className="text-body-secondary">Subtotal</small>
+                      </div>
+                      <span className="text-body-secondary">
+                        <span>-&#8377;</span>
+                        {totalDiscount}
+                      </span>
+                    </li>
                     {/* <li className="list-group-item d-flex justify-content-between bg-body-tertiary">
                   <div className="text-success">
                     <h6 className="my-0">Promo code</h6>
@@ -236,7 +265,10 @@ function Checkout() {
                       <span>Total (INR)</span>
                       <strong>
                         <span>&#8377;</span>
-                        {totalOfferPrice}
+                        {totalOfferPrice +
+                          totalDeliveryCharge +
+                          totalTaxCharge -
+                          totalDiscount}
                       </strong>
                     </li>
                   </ul>
@@ -262,6 +294,10 @@ function Checkout() {
                     className="w-100 btn btn-success btn-lg"
                     type="submit"
                     disabled={!addressSelectionDone}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigate("/payment");
+                    }}
                   >
                     Continue to checkout
                   </button>
@@ -953,134 +989,6 @@ function AddressForm({ onSelectedAddress }) {
   );
 }
 
-function PaymentForm() {
-  return (
-    <>
-      <hr className="my-4" />
-      <form className="needs-validation" noValidate="">
-        <h4 className="mb-3">Payment</h4>
-        <div className="my-3">
-          <div className="form-check">
-            <input
-              id="POD"
-              name="paymentMethod"
-              type="radio"
-              className="form-check-input"
-              defaultChecked=""
-              required=""
-            />
-            <label className="form-check-label" htmlFor="POD">
-              Pay On Delivery
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              id="credit"
-              name="paymentMethod"
-              type="radio"
-              className="form-check-input"
-              required=""
-            />
-            <label className="form-check-label" htmlFor="credit">
-              Credit card
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              id="debit"
-              name="paymentMethod"
-              type="radio"
-              className="form-check-input"
-              required=""
-            />
-            <label className="form-check-label" htmlFor="debit">
-              Debit card
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              id="paypal"
-              name="paymentMethod"
-              type="radio"
-              className="form-check-input"
-              required=""
-            />
-            <label className="form-check-label" htmlFor="paypal">
-              PayPal
-            </label>
-          </div>
-        </div>
-        <div className="row gy-3">
-          <div className="col-md-6">
-            <label htmlFor="cc-name" className="form-label">
-              Name on card
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="cc-name"
-              placeholder=""
-              required=""
-            />
-            <small className="text-body-secondary">
-              Full name as displayed on card
-            </small>
-            <div className="invalid-feedback">Name on card is required</div>
-          </div>
-          <div className="col-md-6">
-            <label htmlFor="cc-number" className="form-label">
-              Credit card number
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="cc-number"
-              placeholder=""
-              required=""
-            />
-            <div className="invalid-feedback">
-              Credit card number is required
-            </div>
-          </div>
-          <div className="col-md-3">
-            <label htmlFor="cc-expiration" className="form-label">
-              Expiration
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="cc-expiration"
-              placeholder=""
-              required=""
-            />
-            <div className="invalid-feedback">Expiration date required</div>
-          </div>
-          <div className="col-md-3">
-            <label htmlFor="cc-cvv" className="form-label">
-              CVV
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="cc-cvv"
-              placeholder=""
-              required=""
-            />
-            <div className="invalid-feedback">Security code required</div>
-          </div>
-        </div>
-        <hr className="my-4" />
-        {/* <button
-          className="w-100 btn btn-primary btn-lg"
-          type="submit"
-          disabled={!addressSelectionDone}
-        >
-          Continue to checkout
-        </button> */}
-      </form>
-    </>
-  );
-}
 // function AddressFormOld() {
 //   return (
 //     <form className="needs-validation" noValidate="">

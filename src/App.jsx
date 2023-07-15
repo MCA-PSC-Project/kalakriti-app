@@ -27,6 +27,7 @@ import LoginMotp from "./pages/auth/LoginMotp";
 import ViewedProducts from "./pages/ViewedProducts";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import ErrorPage from "./pages/error_page/ErrorPage";
+import PaymentForm from "./pages/PaymentForm";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -43,6 +44,8 @@ function RequireAuth({ children }) {
 
 const App = () => {
   const [hasVisitedMobile, setHasVisitedMobile] = useState(false);
+  const [hasVisitedCheckout, setHasVisitedCheckout] = useState(false);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -122,7 +125,19 @@ const App = () => {
             path="/checkout"
             element={
               <RequireAuth>
-                <Checkout />
+                <Checkout setHasVisitedCheckout={setHasVisitedCheckout} />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <RequireAuth>
+                {hasVisitedCheckout ? (
+                  <PaymentForm />
+                ) : (
+                  <Navigate to="/checkout" />
+                )}
               </RequireAuth>
             }
           />
