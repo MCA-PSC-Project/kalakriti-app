@@ -29,9 +29,11 @@ function Cart() {
 
   function calculateTotalOfferPrice(data) {
     let total = 0;
-    data.forEach((item) => {
-      total += parseFloat(item.product_item.offer_price) * item.quantity;
-    });
+    if (data && data.length > 0) {
+      data.forEach((item) => {
+        total += parseFloat(item.product_item.offer_price) * item.quantity;
+      });
+    }
     return total;
   }
 

@@ -94,11 +94,15 @@ function Checkout({ setHasVisitedCheckout }) {
 
   function calculateTotalOfferPrice(data) {
     let total = 0;
-    data.forEach((item) => {
-      const quantity = item.quantity ? item.quantity : item.min_order_quantity;
-      // console.log("quantity=", quantity);
-      total += parseFloat(item.product_item.offer_price) * quantity;
-    });
+    if (data && data.length > 0) {
+      data.forEach((item) => {
+        const quantity = item.quantity
+          ? item.quantity
+          : item.min_order_quantity;
+        // console.log("quantity=", quantity);
+        total += parseFloat(item.product_item.offer_price) * quantity;
+      });
+    }
     return total;
   }
 
