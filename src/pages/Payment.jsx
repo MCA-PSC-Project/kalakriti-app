@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../assets/logo.jpeg";
 import { useLocation } from "react-router-dom";
 import api from "../utils/api";
@@ -11,6 +11,8 @@ function Payment() {
     totalTaxCharge,
     totalDiscount,
   } = state; // Read values passed on state
+
+  const [podEnabled, setPodEnabled] = useState(false);
 
   function loadScript(src) {
     return new Promise((resolve) => {
@@ -81,6 +83,7 @@ function Payment() {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
+
   return (
     <>
       <div className="container">
@@ -92,76 +95,75 @@ function Payment() {
             style={{ width: 150, height: 150 }}
           />
           <h5>KalaKriti</h5>
-        </div>
-        {/* <h4 className="mb-3">Payment</h4> */}
-        <div className="row">
-          <div className="col-md-6 col-lg-6 mx-auto">
-            <h4 className="d-flex justify-content-between align-items-center mb-3">
-              <span className="text-primary">Order Summary</span>
-              {/* <span className="badge bg-primary rounded-pill">3</span> */}
-            </h4>
-            <ul className="list-group mb-3">
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Product items</h6>
-                  <small className="text-body-secondary">Subtotal</small>
-                </div>
-                <span className="text-body-secondary">
-                  <span>&#8377;</span>
-                  {totalOfferPrice}
-                </span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Delivery</h6>
-                  <small className="text-body-secondary">Subtotal</small>
-                </div>
-                <span className="text-body-secondary">
-                  <span>+&#8377;</span>
-                  {totalDeliveryCharge}
-                </span>
-              </li>
+          {/* <h4 className="mb-3">Payment</h4> */}
+          <div className="row">
+            <div className="col-md-6 col-lg-6 mx-auto">
+              <h4 className="d-flex justify-content-between align-items-center mb-3">
+                <span className="text-primary">Order Summary</span>
+                {/* <span className="badge bg-primary rounded-pill">3</span> */}
+              </h4>
+              <ul className="list-group mb-3">
+                <li className="list-group-item d-flex justify-content-between lh-sm">
+                  <div>
+                    <h6 className="my-0">Product items</h6>
+                    <small className="text-body-secondary">Subtotal</small>
+                  </div>
+                  <span className="text-body-secondary">
+                    <span>&#8377;</span>
+                    {totalOfferPrice}
+                  </span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between lh-sm">
+                  <div>
+                    <h6 className="my-0">Delivery</h6>
+                    <small className="text-body-secondary">Subtotal</small>
+                  </div>
+                  <span className="text-body-secondary">
+                    <span>+&#8377;</span>
+                    {totalDeliveryCharge}
+                  </span>
+                </li>
 
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Tax</h6>
-                  <small className="text-body-secondary">Subtotal</small>
-                </div>
-                <span className="text-body-secondary">
-                  <span>+&#8377;</span>
-                  {totalTaxCharge}
-                </span>
-              </li>
+                <li className="list-group-item d-flex justify-content-between lh-sm">
+                  <div>
+                    <h6 className="my-0">Tax</h6>
+                    <small className="text-body-secondary">Subtotal</small>
+                  </div>
+                  <span className="text-body-secondary">
+                    <span>+&#8377;</span>
+                    {totalTaxCharge}
+                  </span>
+                </li>
 
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Discount applied</h6>
-                  <small className="text-body-secondary">Subtotal</small>
-                </div>
-                <span className="text-body-secondary">
-                  <span>-&#8377;</span>
-                  {totalDiscount}
-                </span>
-              </li>
-              {/* <li className="list-group-item d-flex justify-content-between bg-body-tertiary">
+                <li className="list-group-item d-flex justify-content-between lh-sm">
+                  <div>
+                    <h6 className="my-0">Discount applied</h6>
+                    <small className="text-body-secondary">Subtotal</small>
+                  </div>
+                  <span className="text-body-secondary">
+                    <span>-&#8377;</span>
+                    {totalDiscount}
+                  </span>
+                </li>
+                {/* <li className="list-group-item d-flex justify-content-between bg-body-tertiary">
                   <div className="text-success">
                     <h6 className="my-0">Promo code</h6>
                     <small>EXAMPLECODE</small>
                   </div>
                   <span className="text-success">−$5</span>
                 </li> */}
-              <li className="list-group-item d-flex justify-content-between">
-                <span>Total (INR)</span>
-                <strong>
-                  <span>&#8377;</span>
-                  {totalOfferPrice +
-                    totalDeliveryCharge +
-                    totalTaxCharge -
-                    totalDiscount}
-                </strong>
-              </li>
-            </ul>
-            {/* <form className="card p-2">
+                <li className="list-group-item d-flex justify-content-between">
+                  <span>Total (INR)</span>
+                  <strong>
+                    <span>&#8377;</span>
+                    {totalOfferPrice +
+                      totalDeliveryCharge +
+                      totalTaxCharge -
+                      totalDiscount}
+                  </strong>
+                </li>
+              </ul>
+              {/* <form className="card p-2">
                 <div className="input-group">
                   <input
                     type="text"
@@ -173,19 +175,39 @@ function Payment() {
                   </button>
                 </div>
               </form> */}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-7 col-lg-8 mt-4">
-            <button
-              className="w-100 btn btn-success btn-lg"
-              type="button"
-              onClick={() => {
-                displayRazorpay();
-              }}
-            >
-              Pay
-            </button>
+            </div>
+            <div className="row justify-content-center">
+              <div className="col-auto">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="POD"
+                    onChange={(event) => {
+                      // console.log("Checkbox selected:", event.target.checked);
+                      if (event.target.checked) setPodEnabled(true);
+                      else setPodEnabled(false);
+                    }}
+                  />
+                  <label className="form-check-label" htmlFor="POD">
+                    Use POD(Pay On Delivery)
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-12 text-center mt-4">
+                <button
+                  className="w-50 btn btn-success btn-lg"
+                  type="button"
+                  onClick={() => {
+                    displayRazorpay();
+                  }}
+                >
+                  {podEnabled ? "Place Order" : "Pay"}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

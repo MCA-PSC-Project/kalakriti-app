@@ -228,7 +228,7 @@ function Register() {
                   )}
                 </div>
 
-                <div className="col-12">
+                {/* <div className="col-12">
                   <label htmlFor="dp" className="form-label">
                     UPLOAD YOUR PROFILE PICTURE (optional)
                   </label>
@@ -243,7 +243,7 @@ function Register() {
                   {errors.dp && (
                     <span style={{ color: "red" }}>{errors.dp.message}</span>
                   )}
-                </div>
+                </div> */}
 
                 <div className="col-12">
                   <button
