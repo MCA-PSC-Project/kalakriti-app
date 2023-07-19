@@ -27,7 +27,7 @@ import LoginMotp from "./pages/auth/LoginMotp";
 import ViewedProducts from "./pages/ViewedProducts";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import ErrorPage from "./pages/error_page/ErrorPage";
-import PaymentForm from "./pages/PaymentForm";
+import Payment from "./pages/Payment";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -133,11 +133,7 @@ const App = () => {
             path="/payment"
             element={
               <RequireAuth>
-                {hasVisitedCheckout ? (
-                  <PaymentForm />
-                ) : (
-                  <Navigate to="/checkout" />
-                )}
+                {hasVisitedCheckout ? <Payment /> : <Navigate to="/checkout" />}
               </RequireAuth>
             }
           />

@@ -210,97 +210,23 @@ function Checkout({ setHasVisitedCheckout }) {
               </div>
 
               <div className="row">
-                <div className="col-md-6 col-lg-6">
-                  <h4 className="d-flex justify-content-between align-items-center mb-3">
-                    <span className="text-primary">Order Summary</span>
-                    {/* <span className="badge bg-primary rounded-pill">3</span> */}
-                  </h4>
-                  <ul className="list-group mb-3">
-                    <li className="list-group-item d-flex justify-content-between lh-sm">
-                      <div>
-                        <h6 className="my-0">Product items</h6>
-                        <small className="text-body-secondary">Subtotal</small>
-                      </div>
-                      <span className="text-body-secondary">
-                        <span>&#8377;</span>
-                        {totalOfferPrice}
-                      </span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between lh-sm">
-                      <div>
-                        <h6 className="my-0">Delivery</h6>
-                        <small className="text-body-secondary">Subtotal</small>
-                      </div>
-                      <span className="text-body-secondary">
-                        <span>+&#8377;</span>
-                        {totalDeliveryCharge}
-                      </span>
-                    </li>
-
-                    <li className="list-group-item d-flex justify-content-between lh-sm">
-                      <div>
-                        <h6 className="my-0">Tax</h6>
-                        <small className="text-body-secondary">Subtotal</small>
-                      </div>
-                      <span className="text-body-secondary">
-                        <span>+&#8377;</span>
-                        {totalTaxCharge}
-                      </span>
-                    </li>
-
-                    <li className="list-group-item d-flex justify-content-between lh-sm">
-                      <div>
-                        <h6 className="my-0">Discount applied</h6>
-                        <small className="text-body-secondary">Subtotal</small>
-                      </div>
-                      <span className="text-body-secondary">
-                        <span>-&#8377;</span>
-                        {totalDiscount}
-                      </span>
-                    </li>
-                    {/* <li className="list-group-item d-flex justify-content-between bg-body-tertiary">
-                  <div className="text-success">
-                    <h6 className="my-0">Promo code</h6>
-                    <small>EXAMPLECODE</small>
-                  </div>
-                  <span className="text-success">−$5</span>
-                </li> */}
-                    <li className="list-group-item d-flex justify-content-between">
-                      <span>Total (INR)</span>
-                      <strong>
-                        <span>&#8377;</span>
-                        {totalOfferPrice +
-                          totalDeliveryCharge +
-                          totalTaxCharge -
-                          totalDiscount}
-                      </strong>
-                    </li>
-                  </ul>
-                  {/* <form className="card p-2">
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Promo code"
-                  />
-                  <button type="submit" className="btn btn-secondary">
-                    Redeem
-                  </button>
-                </div>
-              </form> */}
-                </div>
-              </div>
-              <div className="row">
                 {/* <h4 className="mb-3">Billing address</h4> */}
                 {/* <AddressFormOld/> */}
-                <div className="col-md-7 col-lg-8">
+                <div className="col-md-7 col-lg-8 mt-4">
                   <button
                     className="w-100 btn btn-success btn-lg"
                     type="submit"
                     disabled={!addressSelectionDone}
                     onClick={(event) => {
                       event.preventDefault();
-                      navigate("/payment");
+                      navigate("/payment", {
+                        state: {
+                          totalOfferPrice,
+                          totalDeliveryCharge,
+                          totalTaxCharge,
+                          totalDiscount,
+                        },
+                      });
                     }}
                   >
                     Continue to checkout
