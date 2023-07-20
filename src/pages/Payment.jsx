@@ -6,6 +6,7 @@ import api from "../utils/api";
 function Payment() {
   const { state } = useLocation();
   const {
+    productsList,
     totalOfferPrice,
     totalDeliveryCharge,
     totalTaxCharge,
@@ -38,7 +39,19 @@ function Payment() {
       return;
     }
 
-    const result = await api.post(`/payment/order`);
+    let order_items = productsList.map((product) => {
+      return {
+        product_item_id: product.product_item.id,
+        quantity: product.quantity ?? product.min_order_quantity,
+        discount_percent: product.discount_percent ?? 0,
+        discount: product.discount ?? 0,
+        tax: product.tax ?? 0,
+      };
+    });
+
+    const result = await api.post(`/payment/order`, {
+      order_items: order_items,
+    });
 
     if (!result) {
       alert("Server error. Are you online?");

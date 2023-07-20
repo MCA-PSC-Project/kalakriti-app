@@ -221,6 +221,7 @@ function Checkout({ setHasVisitedCheckout }) {
                       event.preventDefault();
                       navigate("/payment", {
                         state: {
+                          productsList,
                           totalOfferPrice,
                           totalDeliveryCharge,
                           totalTaxCharge,
