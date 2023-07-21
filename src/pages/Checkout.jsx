@@ -222,6 +222,7 @@ function Checkout({ setHasVisitedCheckout }) {
                       navigate("/payment", {
                         state: {
                           productsList,
+                          selectedAddressId: selectedAddress.address_id,
                           totalOfferPrice,
                           totalDeliveryCharge,
                           totalTaxCharge,

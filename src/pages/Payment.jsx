@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo.jpeg";
 import { useLocation } from "react-router-dom";
 import api from "../utils/api";
@@ -7,11 +7,28 @@ function Payment() {
   const { state } = useLocation();
   const {
     productsList,
+    selectedAddressId,
     totalOfferPrice,
     totalDeliveryCharge,
     totalTaxCharge,
     totalDiscount,
   } = state; // Read values passed on state
+
+  const [orderItems, setOrderItems] = useState([]);
+
+  useEffect(() => {
+    setOrderItems(
+      productsList.map((product) => {
+        return {
+          product_item_id: product.product_item.id,
+          quantity: product.quantity ?? product.min_order_quantity,
+          discount_percent: product.discount_percent ?? 0,
+          discount: product.discount ?? 0,
+          tax: product.tax ?? 0,
+        };
+      })
+    );
+  }, []);
 
   const [podEnabled, setPodEnabled] = useState(false);
 
@@ -39,18 +56,8 @@ function Payment() {
       return;
     }
 
-    let order_items = productsList.map((product) => {
-      return {
-        product_item_id: product.product_item.id,
-        quantity: product.quantity ?? product.min_order_quantity,
-        discount_percent: product.discount_percent ?? 0,
-        discount: product.discount ?? 0,
-        tax: product.tax ?? 0,
-      };
-    });
-
     const result = await api.post(`/payment/order`, {
-      order_items: order_items,
+      order_items: orderItems,
     });
 
     if (!result) {
@@ -80,14 +87,14 @@ function Payment() {
 
         alert(result.data.msg);
       },
-      prefill: {
-        name: "Soumya Dey",
-        email: "SoumyaDey@example.com",
-        contact: "9999999999",
-      },
-      notes: {
-        address: "Soumya Dey Corporate Office",
-      },
+      // prefill: {
+      //   name: "Soumya Dey",
+      //   email: "SoumyaDey@example.com",
+      //   contact: "9999999999",
+      // },
+      // notes: {
+      //   address: "Soumya Dey Corporate Office",
+      // },
       theme: {
         color: "#61dafb",
       },
@@ -214,7 +221,26 @@ function Payment() {
                   className="w-50 btn btn-success btn-lg"
                   type="button"
                   onClick={() => {
-                    displayRazorpay();
+                    if (!podEnabled) {
+                      displayRazorpay();
+                    } else {
+                      api
+                        .post(`/orders`, {
+                          shipping_address_id: selectedAddressId,
+                          order_items: orderItems,
+                        })
+                        .then((response) => {
+                          if (response.status === 201) {
+                            console.log(response);
+                            if (response.data) {
+                              console.log("Order placed successfully");
+                            }
+                          }
+                        })
+                        .catch((error) => {
+                          console.error(error);
+                        });
+                    }
                   }}
                 >
                   {podEnabled ? "Place Order" : "Pay"}
