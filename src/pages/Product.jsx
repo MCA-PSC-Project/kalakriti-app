@@ -432,12 +432,22 @@ function Product() {
                             quantity: quantity,
                           })
                           .then((response) => {
-                            if (response.data) {
+                            if (response.status === 201) {
                               console.log("item added to cart successfully");
                               setShowToast(true);
                               setToastProperties({
                                 toastType: "success",
                                 toastMessage: "Item added to Cart successfully",
+                              });
+                            } else if (response.status === 200) {
+                              console.log(
+                                "item already exists. Quantity increased +1"
+                              );
+                              setShowToast(true);
+                              setToastProperties({
+                                toastType: "success",
+                                toastMessage:
+                                  "Item already exists. Quantity increased +1",
                               });
                             }
                           })
