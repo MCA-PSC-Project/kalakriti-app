@@ -226,6 +226,7 @@ function Payment() {
                     } else {
                       api
                         .post(`/orders`, {
+                          checkout_from_cart: checkoutFromCart,
                           shipping_address_id: selectedAddressId,
                           order_items: orderItems,
                         })
@@ -234,11 +235,13 @@ function Payment() {
                             console.log(response);
                             if (response.data) {
                               console.log("Order placed successfully");
+                              alert("Order placed successfully");
                             }
                           }
                         })
                         .catch((error) => {
                           console.error(error);
+                          alert(error);
                         });
                     }
                   }}
