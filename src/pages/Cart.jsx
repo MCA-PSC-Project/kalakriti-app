@@ -297,6 +297,8 @@ function CartItemHorizontalCard({
 }
 
 function CartFooter({ itemsQuantity, subtotal }) {
+  const navigate = useNavigate();
+
   return (
     <div className="container">
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -307,17 +309,18 @@ function CartFooter({ itemsQuantity, subtotal }) {
           </span>
           <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
             <li className="ms-3">
-              <Link to="/checkout">
-                <button
-                  type="button"
-                  className="btn btn-large btn-success"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  Proceed To Checkout
-                </button>
-              </Link>
+              <button
+                type="button"
+                className="btn btn-large btn-success"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  navigate("/checkout", {
+                    state: { checkoutFromCart: true },
+                  });
+                }}
+              >
+                Proceed To Checkout
+              </button>
             </li>
           </ul>
         </div>

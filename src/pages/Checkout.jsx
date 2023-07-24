@@ -13,8 +13,10 @@ function Checkout({ setHasVisitedCheckout }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const { state } = useLocation();
+  const checkoutFromCart =
+    state && state.checkoutFromCart ? true : false;
   let productItemIds = null;
-  if (state) {
+  if (state && !checkoutFromCart) {
     productItemIds = [...state];
   }
   const [productsList, setProductsList] = useState([]);
@@ -221,6 +223,7 @@ function Checkout({ setHasVisitedCheckout }) {
                       event.preventDefault();
                       navigate("/payment", {
                         state: {
+                          checkoutFromCart,
                           productsList,
                           selectedAddressId: selectedAddress.address_id,
                           totalOfferPrice,

@@ -6,6 +6,7 @@ import api from "../utils/api";
 function Payment() {
   const { state } = useLocation();
   const {
+    checkoutFromCart,
     productsList,
     selectedAddressId,
     totalOfferPrice,
@@ -22,9 +23,6 @@ function Payment() {
         return {
           product_item_id: product.product_item.id,
           quantity: product.quantity ?? product.min_order_quantity,
-          discount_percent: product.discount_percent ?? 0,
-          discount: product.discount ?? 0,
-          tax: product.tax ?? 0,
         };
       })
     );
@@ -57,6 +55,8 @@ function Payment() {
     }
 
     const result = await api.post(`/payment/order`, {
+      checkout_from_cart: checkoutFromCart,
+      shipping_address_id: selectedAddressId,
       order_items: orderItems,
     });
 
