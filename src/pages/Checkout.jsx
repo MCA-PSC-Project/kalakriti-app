@@ -13,8 +13,7 @@ function Checkout({ setHasVisitedCheckout }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const { state } = useLocation();
-  const checkoutFromCart =
-    state && state.checkoutFromCart ? true : false;
+  let checkoutFromCart = state && state.checkoutFromCart ? true : false;
   let productItemIds = null;
   if (state && !checkoutFromCart) {
     productItemIds = [...state];
@@ -26,6 +25,7 @@ function Checkout({ setHasVisitedCheckout }) {
 
   useEffect(() => {
     if (!productItemIds) {
+      checkoutFromCart = true;
       api
         .get(`/carts`)
         .then((response) => {
@@ -74,6 +74,7 @@ function Checkout({ setHasVisitedCheckout }) {
       .catch((err) => {
         console.error(err);
       });
+    console.log("checkoutFromCart= ", checkoutFromCart);
   }, []);
 
   function handleSelectedAddressIndex(index) {
