@@ -297,6 +297,13 @@ function CartItemHorizontalCard({
 }
 
 function CartFooter({ itemsQuantity, subtotal }) {
+  const [cartNotEmpty, setCartNotEmpty] = useState(
+    itemsQuantity > 0 ? true : false
+  );
+
+  useEffect(() => {
+    itemsQuantity > 0 ? setCartNotEmpty(true) : setCartNotEmpty(false);
+  }, [itemsQuantity]);
   const navigate = useNavigate();
 
   return (
@@ -312,6 +319,7 @@ function CartFooter({ itemsQuantity, subtotal }) {
               <button
                 type="button"
                 className="btn btn-large btn-success"
+                disabled={!cartNotEmpty}
                 onClick={(event) => {
                   event.stopPropagation();
                   navigate("/checkout", {
