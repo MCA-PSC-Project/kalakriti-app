@@ -14,9 +14,11 @@ function Orders() {
     api
       .get(`/customer-orders`)
       .then((response) => {
-        setOrdersList(response.data === null ? [] : response.data);
-        console.log(response.data);
-        setIsLoading(false); // set isLoading to false when the data has been fetched
+        if (response.status === 200) {
+          setOrdersList(response.data === null ? [] : response.data);
+          console.log(response.data);
+          setIsLoading(false); // set isLoading to false when the data has been fetched
+        }
       })
       .catch((err) => {
         console.error(err);
