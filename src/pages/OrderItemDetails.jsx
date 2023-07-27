@@ -6,6 +6,7 @@ import api from "../utils/api";
 // import "./OrderItemDetails.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTruckFast } from "@fortawesome/free-solid-svg-icons";
+import Footer from "../components/Footer";
 
 function OrderItemDetails() {
   const { orderItemId } = useParams();
@@ -76,6 +77,7 @@ function OrderItemDetails() {
               />
             </>
           )}
+          <Footer />
         </>
       )}
     </>

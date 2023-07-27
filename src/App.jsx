@@ -53,8 +53,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/login/mobile" element={<LoginMobile />} />
-          <Route path="/login/motp" element={<LoginMotp />} /> */}
+
           <Route
             path="/login/mobile"
             element={<LoginMobile setHasVisitedMobile={setHasVisitedMobile} />}
