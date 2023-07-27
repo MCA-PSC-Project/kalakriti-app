@@ -28,6 +28,7 @@ import ViewedProducts from "./pages/ViewedProducts";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import ErrorPage from "./pages/error_page/ErrorPage";
 import Payment from "./pages/Payment";
+import OrderItemDetails from "./pages/OrderItemDetails";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -75,6 +76,7 @@ const App = () => {
             }
           />
           <Route path="/cart" element={<Cart />} />
+
           <Route
             path="/orders"
             element={
@@ -83,6 +85,11 @@ const App = () => {
               </RequireAuth>
             }
           />
+          <Route
+            path="/order-items/:orderItemId/details"
+            element={<OrderItemDetails />}
+          />
+
           <Route
             path="/product-reviews"
             element={

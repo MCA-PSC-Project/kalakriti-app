@@ -146,8 +146,14 @@ function OrdersHorizontalCard({
                 Rate/Review Product
               </button>
 
-              <button type="button" className="btn btn-warning me-2">
-                View Order Detail
+              <button
+                type="button"
+                className="btn btn-warning me-2"
+                onClick={() => {
+                  navigate(`/order-items/${orderItemId}/details`);
+                }}
+              >
+                View Order Item Details
               </button>
             </div>
           </div>
