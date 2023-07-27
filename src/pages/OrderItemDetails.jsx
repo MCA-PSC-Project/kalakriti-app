@@ -45,6 +45,7 @@ function OrderItemDetails() {
                 offerPrice={orderItem.offer_price}
                 quantity={orderItem.quantity}
               />
+              <b>Order Item Status: {orderItem.order_item_status}</b>
               <OrderSummary
                 key={orderItem.id}
                 totalOfferPrice={
