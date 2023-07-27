@@ -45,7 +45,11 @@ function OrderItemDetails() {
                 offerPrice={orderItem.offer_price}
                 quantity={orderItem.quantity}
               />
-              <b>Order Item Status: {orderItem.order_item_status}</b>
+              <h2>Order Item Status: {orderItem.order_item_status}</h2>
+              <h2>Payment status: {orderItem.payment?.payment_status}</h2>
+              {orderItem.payment.payment_mode && (
+                <h2>Payment mode: {orderItem.payment.payment_mode}</h2>
+              )}
               <OrderSummary
                 key={orderItem.id}
                 totalOfferPrice={
