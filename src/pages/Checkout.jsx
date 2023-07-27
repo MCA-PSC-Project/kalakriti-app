@@ -21,6 +21,8 @@ function Checkout({ setHasVisitedCheckout }) {
   const [productsList, setProductsList] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [selectedProductItemPresent, setSelectedproductItemPresent] =
+    useState(false);
   const [addressSelectionDone, setAddressSelectionDone] = useState(false);
 
   useEffect(() => {
@@ -34,6 +36,9 @@ function Checkout({ setHasVisitedCheckout }) {
             setProductsList(response.data === null ? [] : response.data);
             setTotalOfferPrice(calculateTotalOfferPrice(response.data));
             setIsLoading(false); // set isLoading to false when the data has been fetched
+            if (response.data && response.data.length > 0) {
+              setSelectedproductItemPresent(true);
+            }
           }
         })
         .catch((err) => {
@@ -52,6 +57,10 @@ function Checkout({ setHasVisitedCheckout }) {
             setProductsList(response.data);
             setTotalOfferPrice(calculateTotalOfferPrice(response.data));
             setIsLoading(false); // set isLoading to false when the data has been fetched
+
+            if (response.data && response.data.length > 0) {
+              setSelectedproductItemPresent(true);
+            }
           }
         })
         .catch((err) => {
@@ -219,7 +228,9 @@ function Checkout({ setHasVisitedCheckout }) {
                   <button
                     className="w-100 btn btn-success btn-lg"
                     type="submit"
-                    disabled={!addressSelectionDone}
+                    disabled={
+                      !(addressSelectionDone && selectedProductItemPresent)
+                    }
                     onClick={(event) => {
                       event.preventDefault();
                       navigate("/payment", {
