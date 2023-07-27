@@ -11,9 +11,11 @@ function Categories() {
     api
       .get(`/categories`)
       .then((response) => {
-        setCategoriesList(response.data === null ? [] : response.data);
-        console.log(response.data);
-        setIsLoading(false); // set isLoading to false when the data has been fetched
+        if (response.status === 200) {
+          setCategoriesList(response.data === null ? [] : response.data);
+          console.log(response.data);
+          setIsLoading(false); // set isLoading to false when the data has been fetched
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -37,6 +39,7 @@ function Categories() {
                     return (
                       <CategoryCard
                         key={category.id}
+                        categoryId={category.id}
                         imgSrc={category.cover.path}
                         cardTitle={category.name}
                         subCategories={category.subcategories}
@@ -55,8 +58,8 @@ function Categories() {
   );
 }
 
-function CategoryCard({ imgSrc, cardTitle, subCategories }) {
-  let navigate = useNavigate();
+function CategoryCard({ categoryId, imgSrc, cardTitle, subCategories }) {
+  const navigate = useNavigate();
   // const routeChange = () => {
   //   let path = `/subcategories`;
   //   navigate(path);
@@ -77,6 +80,7 @@ function CategoryCard({ imgSrc, cardTitle, subCategories }) {
             });
           } else {
             console.log("subcategories does not exists");
+            navigate(`/categories/${categoryId}`);
           }
         }}
       >
@@ -118,6 +122,7 @@ export function SubCategories() {
                 return (
                   <SubCategoryCard
                     key={subCategory.id}
+                    subcategoryId={subCategory.id}
                     imgSrc={subCategory.cover.path}
                     cardTitle={subCategory.name}
                   />
@@ -133,13 +138,15 @@ export function SubCategories() {
   );
 }
 
-function SubCategoryCard({ imgSrc, cardTitle }) {
+function SubCategoryCard({ subcategoryId, imgSrc, cardTitle }) {
+  const navigate = useNavigate();
   return (
     <div className="col">
       <div
         className="card shadow-sm"
         onClick={() => {
           console.log("clicked");
+          navigate(`/subcategories/${subcategoryId}`);
         }}
       >
         <img

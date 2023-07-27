@@ -3,13 +3,25 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Logo from "../assets/logo.jpeg";
 import Rating from "../components/Rating";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import api from "../utils/api";
 import Toast from "../components/Toast";
 import ProductHorizontalCard from "../components/ProductHorizontalCard";
 import Loading from "../components/loading/Loading"; // import the Loading component
 
-function ViewedProducts() {
+function CategoryProducts({ type }) {
+  const navigate = useNavigate();
+  let endpoint = null;
+  if (type === "category") {
+    const { categoryId } = useParams();
+    endpoint = `/categories/products?category_id=${categoryId}`;
+  } else if (type === "subcategory") {
+    const { subcategoryId } = useParams();
+    endpoint = `/categories/products?subcategory_id=${subcategoryId}`;
+  } else {
+    navigate("error");
+  }
+
   const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const [showToast, setShowToast] = useState(false);
   const [toastProperties, setToastProperties] = useState({});
@@ -25,20 +37,22 @@ function ViewedProducts() {
     }
   }, [showToast]);
 
-  const [viewedProducts, setViewedProducts] = useState([]);
+  const [categoryProducts, setCategoryProducts] = useState([]);
 
   useEffect(() => {
-    api
-      .get(`/viewed-products`)
-      .then((response) => {
-        setViewedProducts(response.data === null ? [] : response.data);
-        console.log(response.data);
-        setIsLoading(false); // set isLoading to false when the data has been fetched
-      })
-      .catch((err) => {
-        console.error(err);
-        setIsLoading(false); // set isLoading to false even if there is an error
-      });
+    if (endpoint) {
+      api
+        .get(endpoint)
+        .then((response) => {
+          setCategoryProducts(response.data === null ? [] : response.data);
+          console.log(response.data);
+          setIsLoading(false); // set isLoading to false when the data has been fetched
+        })
+        .catch((err) => {
+          console.error(err);
+          setIsLoading(false); // set isLoading to false even if there is an error
+        });
+    }
   }, []);
 
   const handleAddToCart = (productItemId, minOrderQuantity) => {
@@ -89,11 +103,11 @@ function ViewedProducts() {
       ) : (
         <>
           <NavBar />
-          <h1>Viewed Products</h1>
+          <h1>Products</h1>
           <div className="d-flex justify-content-center align-items-center">
             <div className="text-left">
-              {viewedProducts && viewedProducts.length > 0 ? (
-                viewedProducts.map((product) => {
+              {categoryProducts && categoryProducts.length > 0 ? (
+                categoryProducts.map((product) => {
                   return (
                     <ProductHorizontalCard
                       key={product.id}
@@ -123,7 +137,7 @@ function ViewedProducts() {
                   );
                 })
               ) : (
-                <h1>No Viewed Products</h1>
+                <h1>No Products</h1>
               )}
             </div>
           </div>
@@ -134,4 +148,4 @@ function ViewedProducts() {
   );
 }
 
-export default ViewedProducts;
+export default CategoryProducts;

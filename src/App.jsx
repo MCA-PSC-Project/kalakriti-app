@@ -29,6 +29,7 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import ErrorPage from "./pages/error_page/ErrorPage";
 import Payment from "./pages/Payment";
 import OrderItemDetails from "./pages/OrderItemDetails";
+import CategoryProducts from "./pages/CategoryProducts";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -151,6 +152,14 @@ const App = () => {
                 <ViewedProducts />
               </RequireAuth>
             }
+          />
+          <Route
+            path="/categories/:categoryId"
+            element={<CategoryProducts type="category" />}
+          />
+          <Route
+            path="/subcategories/:subcategoryId"
+            element={<CategoryProducts type="subcategory" />}
           />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
