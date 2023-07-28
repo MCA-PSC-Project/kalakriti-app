@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import api from "../utils/api";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/loading/Loading"; // import the Loading component
 
 function Categories() {
@@ -75,7 +75,7 @@ function CategoryCard({ categoryId, imgSrc, cardTitle, subCategories }) {
             // <SubCategories subCategoriesList={subCategories} />;
             // <Link to="/subcategories" state={{ subCategories }} />;
             // routeChange();
-            navigate("/subcategories", {
+            navigate(`/categories/${categoryId}/subcategories`, {
               state: { subCategoriesList: subCategories },
             });
           } else {
@@ -107,34 +107,68 @@ function CategoryCard({ categoryId, imgSrc, cardTitle, subCategories }) {
 }
 
 export function SubCategories() {
+  const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
+  const { categoryId } = useParams();
+
   const { state } = useLocation();
-  const { subCategoriesList } = state; // Read values passed on state
+  // const { subCategoriesList } = state; // Read values passed on state
+  const [subCategoriesList, setSubCategoriesList] = useState([]);
+
+  useEffect(() => {
+    if (state) {
+      setSubCategoriesList(state.subCategoriesList);
+      setIsLoading(false); // set isLoading to false when the data has been fetched
+    } else {
+      api
+        .get(`/category/${categoryId}`)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            setSubCategoriesList(
+              response.data === null ? [] : response.data.subcategories
+            );
+            setIsLoading(false); // set isLoading to false when the data has been fetched
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setIsLoading(false); // set isLoading to false even if there is an error
+        });
+    }
+  }, []);
+
   return (
-    <div>
-      <NavBar />
-      <h1 style={{ textAlign: "center" }}>Subcategories</h1>
-      <div className="album py-5 bg-body-tertiary">
-        <div className="container">
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-            {/* change ..md-n to display n items in a row */}
-            {subCategoriesList && subCategoriesList.length > 0 ? (
-              subCategoriesList.map((subCategory) => {
-                return (
-                  <SubCategoryCard
-                    key={subCategory.id}
-                    subcategoryId={subCategory.id}
-                    imgSrc={subCategory.cover.path}
-                    cardTitle={subCategory.name}
-                  />
-                );
-              })
-            ) : (
-              <h1>No subcategories</h1>
-            )}
+    <>
+      {isLoading ? ( // display the Loading component while the data is being fetched
+        <Loading />
+      ) : (
+        <>
+          <NavBar />
+          <h1 style={{ textAlign: "center" }}>Subcategories</h1>
+          <div className="album py-5 bg-body-tertiary">
+            <div className="container">
+              <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+                {/* change ..md-n to display n items in a row */}
+                {subCategoriesList && subCategoriesList.length > 0 ? (
+                  subCategoriesList.map((subCategory) => {
+                    return (
+                      <SubCategoryCard
+                        key={subCategory.id}
+                        subcategoryId={subCategory.id}
+                        imgSrc={subCategory.cover.path}
+                        cardTitle={subCategory.name}
+                      />
+                    );
+                  })
+                ) : (
+                  <h1>No subcategories</h1>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    </>
   );
 }
 
@@ -145,7 +179,7 @@ function SubCategoryCard({ subcategoryId, imgSrc, cardTitle }) {
       <div
         className="card shadow-sm"
         onClick={() => {
-          console.log("clicked");
+          // console.log("clicked");
           navigate(`/subcategories/${subcategoryId}`);
         }}
       >

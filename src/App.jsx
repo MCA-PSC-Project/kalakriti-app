@@ -127,7 +127,7 @@ const App = () => {
           <Route path="/new-products" element={<Orders />} />
           <Route path="/products/:productId" element={<Product />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/subcategories" element={<SubCategories />} />
+          <Route path="/categories/:categoryId/subcategories" element={<SubCategories />} />
           <Route
             path="/checkout"
             element={
