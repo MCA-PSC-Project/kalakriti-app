@@ -41,38 +41,42 @@ function BannerCarousel() {
         <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-indicators">{elements}</div>
           <div className="carousel-inner">
-            {bannersList.map((banner, index) => {
-              return (
-                <div
-                  className={
-                    index === 0 ? "carousel-item active" : "carousel-item"
-                  }
-                >
-                  <a href={banner.redirect_url} title="">
-                    <img
-                      src={banner.media.path}
-                      className="d-block w-100"
-                      alt="banner"
-                      style={{ width: "100%", height: "400px" }}
-                    />
-                  </a>
-                  {/* <div className="container">
-            <div className="carousel-caption text-start">
-              <h1>Example headline.</h1>
-              <p>
-                Some representative placeholder content for the first slide of
-                the carousel.
-              </p>
-              <p>
-                <a className="btn btn-lg btn-primary" href="#">
-                  Sign up today
-                </a>
-              </p>
-            </div>
-          </div> */}
-                </div>
-              );
-            })}
+            {bannersList && bannersList.length > 0 ? (
+              bannersList.map((banner, index) => {
+                return (
+                  <div
+                    className={
+                      index === 0 ? "carousel-item active" : "carousel-item"
+                    }
+                  >
+                    <a href={banner.redirect_url} title="">
+                      <img
+                        src={banner.media.path}
+                        className="d-block w-100"
+                        alt="banner"
+                        style={{ width: "100%", height: "400px" }}
+                      />
+                    </a>
+                    {/* <div className="container">
+                      <div className="carousel-caption text-start">
+                        <h1>Example headline.</h1>
+                        <p>
+                          Some representative placeholder content for the first
+                          slide of the carousel.
+                        </p>
+                        <p>
+                          <a className="btn btn-lg btn-primary" href="#">
+                            Sign up today
+                          </a>
+                        </p>
+                      </div>
+                    </div> */}
+                  </div>
+                );
+              })
+            ) : (
+              <h2>No banners</h2>
+            )}
           </div>
           <button
             className="carousel-control-prev"
