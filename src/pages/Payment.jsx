@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo.jpeg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 
-function Payment() {
+function Payment({ setHasVisitedPayment }) {
+  useEffect(() => {
+    setHasVisitedPayment(true);
+  }, [setHasVisitedPayment]);
+
   const { state } = useLocation();
   const {
     checkoutFromCart,
@@ -15,6 +19,7 @@ function Payment() {
     totalDiscount,
   } = state; // Read values passed on state
 
+  const navigate = useNavigate();
   const [orderItems, setOrderItems] = useState([]);
 
   useEffect(() => {
@@ -85,7 +90,17 @@ function Payment() {
 
         const result = await api.post(`/payment/success`, data);
 
-        alert(result.data.msg);
+        // alert(result.data.msg);
+        if (result.status === 200) {
+          // alert(result.data.msg);
+          // alert("Order placed successfully");
+          console.log("Order placed successfully");
+          navigate("/checkout-result", {
+            state: {
+              result: "success",
+            },
+          });
+        }
       },
       // prefill: {
       //   name: "Soumya Dey",
@@ -235,7 +250,12 @@ function Payment() {
                             console.log(response);
                             if (response.data) {
                               console.log("Order placed successfully");
-                              alert("Order placed successfully");
+                              // alert("Order placed successfully");
+                              navigate("/checkout-result", {
+                                state: {
+                                  result: "success",
+                                },
+                              });
                             }
                           }
                         })

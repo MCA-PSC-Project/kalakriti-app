@@ -10,6 +10,7 @@ function Checkout({ setHasVisitedCheckout }) {
   useEffect(() => {
     setHasVisitedCheckout(true);
   }, [setHasVisitedCheckout]);
+  
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const { state } = useLocation();

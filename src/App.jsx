@@ -30,6 +30,7 @@ import ErrorPage from "./pages/error_page/ErrorPage";
 import Payment from "./pages/Payment";
 import OrderItemDetails from "./pages/OrderItemDetails";
 import CategoryProducts from "./pages/CategoryProducts";
+import CheckOutResult from "./pages/CheckOutResult";
 
 export const appName = import.meta.env.VITE_APP_NAME;
 
@@ -47,6 +48,7 @@ function RequireAuth({ children }) {
 const App = () => {
   const [hasVisitedMobile, setHasVisitedMobile] = useState(false);
   const [hasVisitedCheckout, setHasVisitedCheckout] = useState(false);
+  const [hasVisitedPayment, setHasVisitedPayment] = useState(false);
 
   return (
     <div className="App">
@@ -127,7 +129,11 @@ const App = () => {
           <Route path="/new-products" element={<Orders />} />
           <Route path="/products/:productId" element={<Product />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/categories/:categoryId/subcategories" element={<SubCategories />} />
+          <Route
+            path="/categories/:categoryId/subcategories"
+            element={<SubCategories />}
+          />
+
           <Route
             path="/checkout"
             element={
@@ -140,10 +146,27 @@ const App = () => {
             path="/payment"
             element={
               <RequireAuth>
-                {hasVisitedCheckout ? <Payment /> : <Navigate to="/checkout" />}
+                {hasVisitedCheckout ? (
+                  <Payment setHasVisitedPayment={setHasVisitedPayment} />
+                ) : (
+                  <Navigate to="/checkout" />
+                )}
               </RequireAuth>
             }
           />
+          <Route
+            path="/checkout-result"
+            element={
+              <RequireAuth>
+                {hasVisitedPayment ? (
+                  <CheckOutResult />
+                ) : (
+                  <Navigate to="/checkout" />
+                )}
+              </RequireAuth>
+            }
+          />
+
           <Route path="/search-results" element={<SearchResultsPage />} />
           <Route
             path="/viewed-products"
