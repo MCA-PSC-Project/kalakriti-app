@@ -10,7 +10,7 @@ function Checkout({ setHasVisitedCheckout }) {
   useEffect(() => {
     setHasVisitedCheckout(true);
   }, [setHasVisitedCheckout]);
-  
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true); // add a state variable to track the loading status
   const { state } = useLocation();
@@ -145,9 +145,8 @@ function Checkout({ setHasVisitedCheckout }) {
 
               <div className="row">
                 <div className="col-md-12">
-                  <h3>Selected Products</h3>
-                  {productsList &&
-                    productsList.length > 0 &&
+                  <h1>Selected Products</h1>
+                  {productsList && productsList.length > 0 ? (
                     productsList.map((product) => {
                       return (
                         <CheckoutProductHorizontalCard
@@ -165,7 +164,10 @@ function Checkout({ setHasVisitedCheckout }) {
                           quantity={product?.quantity}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <h2>No selected product(s)</h2>
+                  )}
                 </div>
               </div>
 
