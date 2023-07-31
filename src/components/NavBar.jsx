@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 // import useAuth from "../hooks/useAuth";
 import AuthConsumer from "../hooks/useAuth";
 import api from "../utils/api";
+import UserInfoService from "../services/user-info-service";
 
 function NavBar() {
   const [wishlistIconHovered, setWishlistIconHovered] = useState(false);
@@ -51,6 +52,8 @@ function NavBar() {
   };
 
   const [cartItemsQuantity, setCartItemsQuantity] = useState(0);
+  const [customerInfo, setCustomerInfo] = useState({});
+
   useEffect(() => {
     if (isLoggedIn) {
       api
@@ -62,6 +65,8 @@ function NavBar() {
         .catch((error) => {
           console.error(error);
         });
+      setCustomerInfo(UserInfoService.getUserInfo("customer_info"));
+      // console.log(customerInfo);
     } else {
       setCartItemsQuantity(0);
     }
@@ -342,23 +347,31 @@ function NavBar() {
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle"
-                    to="/profile"
+                    to=""
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                     title="profile"
                   >
-                    {/* <img src={ProfileSvg} alt="Profile" />
-                    Profile */}
-                    <FontAwesomeIcon
-                      icon={faUser}
-                      size="xl"
-                      style={{ color: "#964B00" }}
-                      onMouseEnter={() => setProfileIconHovered(true)}
-                      onMouseLeave={() => setProfileIconHovered(false)}
-                      bounce={profileIconHovered ? "bounce" : undefined}
-                    />
-                    Hello, <b>Username</b>
+                    {customerInfo?.dpPath ? (
+                      <img
+                        src={customerInfo?.dpPath}
+                        alt="Dp"
+                        width={32}
+                        height={32}
+                        className="rounded-circle"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faUser}
+                        size="xl"
+                        style={{ color: "#964B00" }}
+                        onMouseEnter={() => setProfileIconHovered(true)}
+                        onMouseLeave={() => setProfileIconHovered(false)}
+                        bounce={profileIconHovered ? "bounce" : undefined}
+                      />
+                    )}
+                    Hello, <b>{customerInfo?.firstName}</b>
                   </Link>
                   <ul className="dropdown-menu dropdown-menu-end">
                     <li>
