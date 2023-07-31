@@ -52,6 +52,24 @@ const loginMotp = (mobileNo, motp) => {
     .then((response) => {
       if (response.status === 202 && response.data.access_token) {
         TokenService.setUser(response.data);
+
+        // get customer's first_name & dp to store it in localStorage
+        api
+          .get(`/customers/profile`)
+          .then((response) => {
+            if (response.status === 200) {
+              // console.log(response.data);
+              const customerInfo = {
+                firstName: response.data?.first_name,
+                dpPath: response.data?.dp?.path,
+              };
+              console.log("customerInfo in auth_service.js = ", customerInfo);
+              UserInfoService.setUserInfo(customerInfo);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
       // // when the user is not verified
       // else if (response.status === 201) {
