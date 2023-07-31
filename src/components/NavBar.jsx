@@ -61,11 +61,13 @@ function NavBar() {
         .then((response) => {
           setCartItemsQuantity(response.data === null ? 0 : response.data);
           // console.log(response.data);
+          setCustomerInfo(UserInfoService.getUserInfo("customer_info"));
         })
         .catch((error) => {
+          setCustomerInfo(UserInfoService.getUserInfo("customer_info"));
           console.error(error);
         });
-      setCustomerInfo(UserInfoService.getUserInfo("customer_info"));
+      // setCustomerInfo(UserInfoService.getUserInfo("customer_info"));
       // console.log(customerInfo);
     } else {
       setCartItemsQuantity(0);

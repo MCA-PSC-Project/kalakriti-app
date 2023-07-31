@@ -26,7 +26,7 @@ const login = (email, password) => {
                 firstName: response.data?.first_name,
                 dpPath: response.data?.dp?.path,
               };
-              console.log("customerInfo= ", customerInfo);
+              console.log("customerInfo in auth_service.js = ", customerInfo);
               UserInfoService.setUserInfo(customerInfo);
             }
           })
