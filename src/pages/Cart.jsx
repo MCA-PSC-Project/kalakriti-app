@@ -243,7 +243,7 @@ function CartItemHorizontalCard({
       }}
     >
       <div className="row g-0">
-        <div className="col-md-4 col-sm-6">
+        <div className="col-md-4 col-sm-4">
           <img
             src={imgSrc}
             className="img-fluid rounded-start"

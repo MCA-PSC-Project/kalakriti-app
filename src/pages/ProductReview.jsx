@@ -298,7 +298,7 @@ function ProductMiniCard({ imgSrc, cardTitle, sellerName }) {
   return (
     <div className="card mb-3" style={{ maxWidth: 525 }}>
       <div className="row g-0">
-        <div className="col-md-3 col-sm-6">
+        <div className="col-md-3 col-sm-4">
           <img
             src={imgSrc}
             className="img-fluid rounded-start"
