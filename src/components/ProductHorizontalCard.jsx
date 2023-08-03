@@ -40,7 +40,7 @@ function ProductHorizontalCard({
       }}
     >
       <div className="row g-0">
-        <div className="col-md-4">
+        <div className="col-md-4 col-sm-6">
           <img
             src={imgSrc}
             className="img-fluid rounded-start"
@@ -48,7 +48,7 @@ function ProductHorizontalCard({
             style={{ aspectRatio: "1 / 1" }}
           />
         </div>
-        <div className="col-md-8">
+        <div className="col-md-8 col-sm-6">
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
             <h6>sold by {sellerName}</h6>

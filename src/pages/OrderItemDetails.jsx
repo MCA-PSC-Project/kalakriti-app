@@ -93,7 +93,7 @@ function OrderItemProductHorizontalCard({
   return (
     <div className="card mb-3" style={{ maxWidth: 750 }}>
       <div className="row g-0">
-        <div className="col-md-4">
+        <div className="col-md-4 col-sm-6">
           <img
             src={imgSrc}
             className="img-fluid rounded-start"
@@ -101,7 +101,7 @@ function OrderItemProductHorizontalCard({
             style={{ aspectRatio: "1 / 1" }}
           />
         </div>
-        <div className="col-md-8">
+        <div className="col-md-8 col-sm-6">
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
             <div className="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
