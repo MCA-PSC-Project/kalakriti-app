@@ -244,7 +244,12 @@ function CartItemHorizontalCard({
     >
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={imgSrc} className="img-fluid rounded-start" alt="..." />
+          <img
+            src={imgSrc}
+            className="img-fluid rounded-start"
+            alt="..."
+            style={{ aspectRatio: "1 / 1" }}
+          />
         </div>
         <div className="col-md-8">
           <div className="card-body">
