@@ -31,7 +31,9 @@ function Cart() {
     let total = 0;
     if (data && data.length > 0) {
       data.forEach((item) => {
-        total += parseFloat(item.product_item.offer_price) * item.quantity;
+        if (item.quantity <= item.product_item.quantity_in_stock) {
+          total += parseFloat(item.product_item.offer_price) * item.quantity;
+        }
       });
     }
     return total;
@@ -162,7 +164,11 @@ function Cart() {
           <Footer />
           <div className="fixed-bottom" style={{ backgroundColor: "#FFF0F0" }}>
             <CartFooter
-              itemsQuantity={cartItemsList.length}
+              itemsQuantity={
+                cartItemsList.filter(
+                  (item) => item.quantity <= item.product_item.quantity_in_stock
+                ).length
+              }
               subtotal={totalOfferPrice}
             />
           </div>
@@ -316,7 +322,7 @@ function CartFooter({ itemsQuantity, subtotal }) {
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div className="col-md-4 d-flex align-items-center">
           <span className="mb-3 mb-md-0 text-muted">
-            <b>Subtotal</b>({itemsQuantity} items): <span>&#8377;</span>
+            <b>Subtotal</b>({itemsQuantity} item(s)): <span>&#8377;</span>
             {subtotal}
           </span>
           <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
