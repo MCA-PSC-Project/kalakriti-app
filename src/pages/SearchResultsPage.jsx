@@ -46,7 +46,7 @@ function SearchResultsPage() {
   const handleAddToCart = (productItemId, minOrderQuantity) => {
     api
       .post("/carts", {
-        base_product_item_id: productItemId,
+        product_item_id: productItemId,
         quantity: minOrderQuantity,
       })
       .then((response) => {
