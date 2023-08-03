@@ -91,7 +91,7 @@ function OrdersHorizontalCard({
             style={{ aspectRatio: "1 / 1" }}
           />
         </div>
-        <div className="col-md-8 col-sm-6">
+        <div className="col-md-8 col-sm-8">
           <div className="card-header">
             <ul className="nav nav-tabs card-header-tabs">
               <li className="nav-item me-5">

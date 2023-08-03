@@ -48,7 +48,7 @@ function ProductHorizontalCard({
             style={{ aspectRatio: "1 / 1" }}
           />
         </div>
-        <div className="col-md-8 col-sm-6">
+        <div className="col-md-8 col-sm-8">
           <div className="card-body">
             <h2 className="card-title">{cardTitle}</h2>
             <h6>sold by {sellerName}</h6>
