@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import MediaCarousel from "../components/MediaCarousel";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
@@ -49,6 +49,8 @@ function Product() {
   const [mediaSrcList, setMediaSrcList] = useState([]);
   const [isItemInWishlist, setIsItemInWishlist] = useState(false);
   const [stockStatus, setStockStatus] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
