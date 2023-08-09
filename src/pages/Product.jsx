@@ -416,7 +416,7 @@ function Product() {
                       onClick={(event) => {
                         event.stopPropagation();
                         navigate("/checkout", {
-                          state: [productItemId],
+                          state: [selectedProductItem.id],
                         });
                       }}
                     >
@@ -551,7 +551,7 @@ function Product() {
                   </div>
                 </div>
                 {/* for similar items */}
-                <div className="col-lg-4">
+                {/* <div className="col-lg-4">
                   <div className="px-0 border rounded-2 shadow-0">
                     <div className="card">
                       <div className="card-body">
@@ -623,7 +623,7 @@ function Product() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </section>
