@@ -124,9 +124,9 @@ const App = () => {
               </RequireAuth>
             }
           />
-          <Route path="/recommended-products" element={<Orders />} />
+          {/* <Route path="/recommended-products" element={<Orders />} />
           <Route path="/popular-products" element={<Orders />} />
-          <Route path="/new-products" element={<Orders />} />
+          <Route path="/new-products" element={<Orders />} /> */}
           <Route path="/products/:productId" element={<Product />} />
           <Route path="/categories" element={<Categories />} />
           <Route

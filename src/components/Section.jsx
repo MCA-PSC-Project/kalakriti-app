@@ -21,7 +21,8 @@ function Section({ sectionTitle, linkPath, endpoint }) {
       <div className="container my-5">
         <header className="mb-4">
           <h3>
-            <Link to={linkPath}>{sectionTitle}</Link>
+            {sectionTitle}
+            {/* <Link to={linkPath}>{sectionTitle}</Link> */}
           </h3>
         </header>
 
